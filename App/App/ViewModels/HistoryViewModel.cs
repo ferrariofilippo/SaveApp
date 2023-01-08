@@ -39,7 +39,9 @@ namespace App.ViewModels
 
 		public ObservableCollection<MovementDisplay> Movements = new ObservableCollection<MovementDisplay>();
 
-		public bool ShowEmptyLabel => Movements.Count == 0;
+		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
+
+		public bool FirstLoad { get; set; } = true;
 
 		public HistoryViewModel()
 		{

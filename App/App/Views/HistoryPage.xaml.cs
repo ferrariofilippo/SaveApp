@@ -33,6 +33,7 @@ namespace App.Views
 			HistoryListView.ItemsSource = _viewModel.Movements;
 			CreateCalendar();
 			Refresh_ListView(MainView, EventArgs.Empty);
+			_viewModel.FirstLoad = false;
 		}
 
 		private void CreateCalendar()
@@ -74,7 +75,9 @@ namespace App.Views
 		{
 			_filterDepth = 1;
 			var btn = (Button)sender;
+			MainView.IsRefreshing = true;
 			FocusMonth(_monthButtons.IndexOf(btn.Id) + 1);
+			MainView.IsRefreshing = false;
 			MonthGrid.IsVisible = false;
 			DayGrid.IsVisible = true;
 			OnPropertyChanged(nameof(DayGrid));
@@ -84,27 +87,33 @@ namespace App.Views
 		{
 			_filterDepth = 2;
 			var btn = (Button)sender;
+			MainView.IsRefreshing = true;
 			FocusDay(int.Parse(btn.Text));
+			MainView.IsRefreshing = false;
 		}
 
 		private void BackClicked(object sender, EventArgs e)
 		{
+			MainView.IsRefreshing = true;
 			if (_filterDepth == 0)
 				FocusYear(_viewModel.Year - 1);
 			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] > 1)
 				FocusMonth(_viewModel.MonthAndDay[0] - 1);
 			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] > 1)
 				FocusDay(_viewModel.MonthAndDay[1] - 1);
+			MainView.IsRefreshing = false;
 		}
 
 		private void ForwardClicked(object sender, EventArgs e)
 		{
+			MainView.IsRefreshing = true;
 			if (_filterDepth == 0)
 				FocusYear(_viewModel.Year + 1);
 			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] < 12)
 				FocusMonth(_viewModel.MonthAndDay[0] + 1);
 			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] < _lastMonthLength)
 				FocusDay(_viewModel.MonthAndDay[1] + 1);
+			MainView.IsRefreshing = false;
 		}
 
 		private void LatterClicked(object sender, EventArgs e)
@@ -115,14 +124,19 @@ namespace App.Views
 			{
 				_filterDepth--;
 				_viewModel.CalendarTitle = _viewModel.Year.ToString();
+				MainView.IsRefreshing = true;
 				FocusYear(_viewModel.Year);
+				MainView.IsRefreshing = false;
 				DayGrid.IsVisible = false;
 				MonthGrid.IsVisible = true;
 				OnPropertyChanged(nameof(MonthGrid));
 				return;
 			}
+
 			_filterDepth = 1;
+			MainView.IsRefreshing = true;
 			FocusMonth(_viewModel.MonthAndDay[0]);
+			MainView.IsRefreshing = false;
 		}
 
 		private void Refresh_ListView(object sender, EventArgs e)
@@ -166,7 +180,7 @@ namespace App.Views
 			message.AppendLine($"{AppResource.Description}: {mvDisplay.Movement.Description,30}");
 			message.AppendLine($"{AppResource.Value}: {mvDisplay.ValueString,30}");
 			message.AppendLine($"{AppResource.Date}: {mvDisplay.DateString,30}");
-			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(mvDisplay.Movement.ExpenseType.ToString().PadLeft(30))}");
+			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(mvDisplay.Movement.ExpenseType.ToString()),30}");
 
 			DisplayAlert(AppResource.Movement, message.ToString(), "Ok");
 		}
