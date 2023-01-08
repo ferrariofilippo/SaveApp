@@ -91,16 +91,16 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<Button
-						Grid.Column="1"
-						Text="{x:Static resources:AppResource.Save}"
-						Clicked="Save_Clicked" />
-
 					<Button 
-						Grid.Column="2"
+						Grid.Column="1"
 						Text="{x:Static resources:AppResource.Cancel}"
 						BackgroundColor="{DynamicResource AccentColor}"
 						Clicked="Cancel_Clicked" />
+
+					<Button
+						Grid.Column="2"
+						Text="{x:Static resources:AppResource.Save}"
+						Clicked="Save_Clicked" />
 				</Grid>
 			</StackLayout>
 		</ScrollView>
