@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="App.Views.HistoryPage"
+			 Title="{x:Static resources:AppResource.History}"
+			 BackgroundColor="{DynamicResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:HistoryViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<xct:InvertedBoolConverter x:Key="BoolNegationConverter" />
+
+			<Style TargetType="ImageButton">
+				<Setter Property="Aspect" Value="AspectFit" />
+				<Setter Property="BackgroundColor" Value="Transparent" />
+				<Setter Property="CornerRadius" Value="20" />
+				<Setter Property="VerticalOptions" Value="Center" />
+			</Style>
+
+			<Style TargetType="Label">
+				<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<ContentPage.Content>
+		<RefreshView 
+			x:Name="MainView"
+			Refreshing="Refresh_ListView">
+			<ScrollView>
+				<Grid Padding="20"
+					  RowSpacing="0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="40" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+
+					<Grid 
+						Grid.Row="0"
+						BackgroundColor="{DynamicResource PrimaryColor}"
+				        Padding="5, 1, 5, 1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<ImageButton 
+							Grid.Column="0"
+						    Clicked="BackClicked"
+							Source="back.png" />
+
+						<Button
+							x:Name="TimeButton"
+			                Grid.Column="1"
+				            BackgroundColor="Transparent"
+					        Clicked="LatterClicked"
+						    FontSize="Medium"
+		                    HorizontalOptions="Center"
+		                    Text="{x:Binding CalendarTitle}"
+							Visual="Default" />
+
+						<ImageButton 
+						    Grid.Column="2"
+							Clicked="ForwardClicked"
+							Source="forward.png" />
+					</Grid>
+
+					<Grid
+						x:Name="MonthGrid"
+						Grid.Row="1"
+						BackgroundColor="{DynamicResource CalendarColor}"
+		                Padding="5, 1, 5, 1">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+					</Grid>
+
+					<Grid 
+		                x:Name="DayGrid"
+						Grid.Row="1"
+						BackgroundColor="{DynamicResource CalendarColor}"
+		                IsVisible="False"
+						Padding="5, 1, 5, 1">
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+					</Grid>
+
+					<Label 
+						Grid.Row="2"
+						FontSize="Large"
+						HorizontalOptions="Center"
+						VerticalOptions="Center"
+						IsVisible="{Binding ShowEmptyLabel}"
+						Text="{x:Static resources:AppResource.EmptyLabel}"
+						HorizontalTextAlignment="Center" />
+
+					<ListView
+						x:Name="HistoryListView"
+						Grid.Row="2"
+						IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
+						Margin="0, 20, 0, 5"
+						VerticalScrollBarVisibility="Never"
+						SelectionMode="None">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<SwipeView>
+										<SwipeView.LeftItems>
+											<SwipeItem 
+												BackgroundColor="{DynamicResource ExpenseColor}"
+												IconImageSource="delete.png"
+												Invoked="SwipeItem_DeleteInvoked"
+												Text="{x:Static resources:AppResource.Delete}" />
+										</SwipeView.LeftItems>
+
+										<SwipeView.RightItems>
+											<SwipeItem 
+												BackgroundColor="{DynamicResource IncomeColor}"
+												IconImageSource="edit.png"
+												Invoked="SwipeItem_EditInvoked"
+												Text="{x:Static resources:AppResource.Edit}" />
+
+											<SwipeItem 
+												BackgroundColor="{DynamicResource AccentColor}"
+												IconImageSource="info.png"
+												Invoked="SwipeItem_InfoInvoked"
+												Text="{x:Static resources:AppResource.Info}" />
+										</SwipeView.RightItems>
+
+										<Grid
+											BackgroundColor="{DynamicResource BackgroundMainColor}"
+											Padding="8"
+											ColumnSpacing="10">
+											<Grid.RowDefinitions>
+												<RowDefinition />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="120"/>
+												<ColumnDefinition Width="*" />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+
+											<Label
+												FontSize="Medium"
+												Text="{Binding DescriptionString}" />
+
+											<Label 
+												Grid.Column="1"
+												FontSize="Medium"
+												Text="{Binding ValueString}" />
+
+											<Ellipse 
+												Grid.RowSpan="2"
+												Grid.Column="2" 
+												Fill="{Binding BackgroundColor}"
+												VerticalOptions="Center"
+												HeightRequest="34"
+												WidthRequest="34" />
+
+											<Label 
+												Grid.Row="1"
+												FontSize="Small"
+												Text="{Binding DateString}"
+												VerticalOptions="Center" />
+										</Grid>
+									</SwipeView>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</Grid>
+
+			</ScrollView>
+		</RefreshView>
+	</ContentPage.Content>
+</ContentPage>

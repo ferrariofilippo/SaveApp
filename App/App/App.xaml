@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:app="clr-namespace:App"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.App">
+	<Application.Resources>
+		<ResourceDictionary Source="Themes/LightTheme.xaml"/>
+
+		<Style TargetType="Button">
+			<Setter Property="CornerRadius" Value="20" />
+			<Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="Padding" Value="5" />
+			<Setter Property="TextColor" Value="{DynamicResource ButtonForeColor}" />
+		</Style>
+
+		<Style TargetType="DatePicker">
+			<Setter Property="Margin" Value="0, 0, 0, 20" />
+			<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+			<Setter Property="Visual" Value="Default" />
+		</Style>
+		
+		<Style TargetType="Entry">
+			<Setter Property="BackgroundColor" Value="{DynamicResource BackgroundMainColor}" />
+			<Setter Property="Margin" Value="0, 0, 0, 20" />
+			<Setter Property="PlaceholderColor" Value="{DynamicResource ItemDescriptionColor}" />
+			<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+		</Style>
+
+		<Style TargetType="ImageButton">
+			<Setter Property="BackgroundColor" Value="{DynamicResource AccentColor}" />
+			<Setter Property="Padding" Value="5" />
+			<Setter Property="CornerRadius" Value="50" />
+		</Style>
+
+		<Style TargetType="Label">
+			<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+		</Style>
+
+		<Style TargetType="ListView">
+			<Setter Property="RefreshControlColor" Value="{DynamicResource PrimaryColor}" />
+			<Setter Property="RowHeight" Value="{x:Static app:Constants.ListViewCellHeight}" />
+		</Style>
+
+		<Style TargetType="Picker">
+			<Setter Property="BackgroundColor" Value="{DynamicResource BackgroundMainColor}" />
+			<Setter Property="Margin" Value="0, 0, 0, 20" />
+			<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+			<Setter Property="TitleColor" Value="{DynamicResource ItemDescriptionColor}" />
+			<Setter Property="Visual" Value="Default" />
+		</Style>
+
+		<Style TargetType="RefreshView">
+			<Setter Property="RefreshColor" Value="{DynamicResource PrimaryColor}" />
+		</Style>
+
+		<Style TargetType="Switch">
+			<Setter Property="OnColor" Value="{DynamicResource PrimaryColor}" />
+		</Style>
+	</Application.Resources>
+</Application>

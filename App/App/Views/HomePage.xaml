@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:sk="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             x:Class="App.Views.HomePage"
+			 Title="{x:Static resources:AppResource.Movements}"
+			 BackgroundColor="{DynamicResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:HomeViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Content>
+		<AbsoluteLayout Padding="15">
+			<RefreshView 
+				x:Name="Refresh"
+				AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+				AbsoluteLayout.LayoutFlags="SizeProportional"
+				Refreshing="RefreshView_Refreshing">
+				<ScrollView>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="Auto"/>
+							<RowDefinition />
+							<RowDefinition Height="Auto" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<sk:SKCanvasView 
+							x:Name="MovementsCanvas"
+							Grid.Row="1"
+							HorizontalOptions="Center"
+							VerticalOptions="Center"
+							PaintSurface="MovementsCanvas_PaintSurface"
+							IgnorePixelScaling="True" />
+
+						<Label 
+							x:Name="NetWorthLabel"
+							Grid.Row="1"
+							FontSize="Title"
+							HorizontalOptions="Center"
+							HorizontalTextAlignment="Center"
+							VerticalOptions="Center"
+							Text="{x:Binding NetWorthString}"
+							TextColor="{x:Binding NetWorthColor}" />
+
+						<Grid
+							x:Name="InfoGrid"
+							Grid.Row="3"
+							Padding="15, 0"
+							RowSpacing="20">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+
+							<Label 
+								Grid.Row="0"
+								Text="{x:Static resources:AppResource.Income}" 
+								FontSize="Title" />
+							<Label 
+								Grid.Row="0"
+								Grid.Column="1"
+								FontSize="Title"
+								TextColor="{DynamicResource IncomeColor}"
+								Text="{x:Binding IncomeString}" />
+
+							<Label 
+								Grid.Row="1"
+								Text="{x:Static resources:AppResource.Expenses}" 
+								FontSize="Title" />
+							<Label 
+								Grid.Row="1"
+								Grid.Column="1"
+								FontSize="Title"
+								TextColor="{DynamicResource ExpenseColor}" 
+								Text="{x:Binding ExpensesString}" />
+						</Grid>
+
+					</Grid>
+				</ScrollView>
+			</RefreshView>
+			<ImageButton 
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
+				Source="plus.png" 
+				Clicked="OpenAdd_Clicked" />
+		</AbsoluteLayout>
+	</ContentPage.Content>
+</ContentPage>

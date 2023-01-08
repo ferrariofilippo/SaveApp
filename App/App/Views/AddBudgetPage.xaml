@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.Views.AddBudgetPage"
+			 Title="{x:Static resources:AppResource.AddBudget}"
+			 BackgroundColor="{DynamicResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:AddBudgetViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label">
+				<Setter Property="FontAttributes" Value="Italic" />
+				<Setter Property="FontSize" Value="Small" />
+				<Setter Property="TextColor" Value="{DynamicResource ItemDescriptionColor}" />
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout Padding="15">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<Entry 
+						x:Name="ValueEntry"
+						MaxLength="14"
+						Placeholder="{x:Static resources:AppResource.Value}"
+						TextChanged="ValueEntry_TextChanged" />
+
+					<Picker 
+						x:Name="CurrencyPicker" 
+						Grid.Column="1"
+						Margin="3, 3, 3, 12"
+						Title="{x:Static resources:AppResource.Currency}" />
+				</Grid>
+
+				<Entry 
+					x:Name="DescriptionEntry" 
+					MaxLength="32"
+					Placeholder="{x:Static resources:AppResource.Description}" />
+
+				<Picker 
+					x:Name="ExpenseTypePicker"
+					IsVisible="False"
+					SelectedIndexChanged="ExpenseTypePicker_SelectedIndexChanged"
+					Title="{x:Static resources:AppResource.ExpenseType}"
+					Unfocused="ExpenseTypePicker_Unfocused" />
+
+				<Entry 
+					x:Name="ExpenseTypeLabel"
+					Focused="ExpenseTypeLabel_Focused"
+					Placeholder="{x:Static resources:AppResource.ExpenseType}" />
+
+				<DatePicker 
+					x:Name="InitialDatePicker"
+					DateSelected="InitialDatePicker_DateSelected"
+					IsVisible="False"
+					Unfocused="InitialDatePicker_Unfocused" />
+
+				<Entry 
+					x:Name="InitialDateLabel"
+					Focused="InitialDateLabel_Focused"
+					Placeholder="{x:Static resources:AppResource.InitialDate}" />
+
+				<DatePicker
+					x:Name="FinalDatePicker"
+					DateSelected="FinalDatePicker_DateSelected"
+					IsVisible="False"
+					MinimumDate="{x:Binding MinimumFinalDate}"
+					Unfocused="FinalDatePicker_Unfocused" />
+
+				<Entry 
+					x:Name="FinalDateLabel"
+					Focused="FinalDateLabel_Focused"
+					Placeholder="{x:Static resources:AppResource.FinalDate}" />
+
+				<Grid HeightRequest="50" Padding="0, 30, 0, 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<Button
+						Grid.Column="1"
+						Text="{x:Static resources:AppResource.Save}"
+						Clicked="Save_Clicked" />
+
+					<Button 
+						Grid.Column="2"
+						Text="{x:Static resources:AppResource.Cancel}"
+						BackgroundColor="{DynamicResource AccentColor}"
+						Clicked="Cancel_Clicked" />
+				</Grid>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

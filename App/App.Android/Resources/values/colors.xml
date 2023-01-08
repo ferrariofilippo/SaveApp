@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="launcher_background">#FFFFFF</color>
+
+	<color name="nordBackground">#434C5E</color>
+	<color name="iceBackground">#E1EDEF</color>
+	<color name="tealBackground">#3F3F3F</color>
+
+	<color name="nordTextColor">#ECEFF4</color>
+	<color name="iceTextColor">#2A2A2A</color>
+
+	<color name="splash_background">#FFFFFF</color>	
+
+</resources>

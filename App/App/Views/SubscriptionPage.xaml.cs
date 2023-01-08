@@ -1,0 +1,70 @@
+﻿using App.Models;
+using App.Resx;
+using App.ViewModels;
+using System;
+using System.Text;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace App.Views
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class SubscriptionPage : ContentPage
+	{
+		private readonly SubscriptionViewModel _viewModel = new SubscriptionViewModel();
+
+		public SubscriptionPage()
+		{
+			InitializeComponent();
+			this.BindingContext = _viewModel;
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			RefreshView_Refreshing(MainRefresh, EventArgs.Empty);
+		}
+
+		protected override async void OnDisappearing()
+		{
+			base.OnDisappearing();
+			await Navigation.PopAsync();
+		}
+
+		private async void RefreshView_Refreshing(object sender, EventArgs e)
+		{
+			await _viewModel.UpdateLayout();
+			MainRefresh.IsRefreshing = false;
+		}
+
+		private async void SwipeItem_DeleteInvoked(object sender, EventArgs e)
+		{
+			if (!await DisplayAlert(AppResource.Warning, AppResource.DeleteItemMessage, AppResource.Delete, AppResource.Cancel))
+				return;
+			var toDelete = (SubsDisplay)((SwipeItem)sender).Parent.BindingContext;
+			await _viewModel.DeleteSubscription(toDelete);
+			RefreshView_Refreshing(MainRefresh, EventArgs.Empty);
+		}
+
+		private async void SwipeItem_EditInvoked(object sender, EventArgs e)
+		{
+			var sub = ((SubsDisplay)((SwipeItem)sender).Parent.BindingContext).Subscription;
+			await Navigation.PushAsync(new AddPage(sub));
+		}
+
+		private void SwipeItem_InfoClicked(object sender, EventArgs e)
+		{
+			var displayItem = (SubsDisplay)((SwipeItem)sender).Parent.BindingContext;
+
+			StringBuilder message = new StringBuilder();
+			message.AppendLine($"{AppResource.Description}: {displayItem.Subscription.Description,30}");
+			message.AppendLine($"{AppResource.Value}: {displayItem.ValueString,30}");
+			message.AppendLine($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(displayItem.Subscription.ExpenseType.ToString()),30}");
+			message.AppendLine($"{AppResource.RenewalType}: {App.ResourceManager.GetString(displayItem.Subscription.RenewalType.ToString()),30}");
+			message.AppendLine($"{AppResource.NextRenewal}: {displayItem.NextRenewalString,30}");
+			message.Append($"{AppResource.LastRenewal}: {displayItem.Subscription.LastPaid,30:dd/MM/yyyy}");
+
+			DisplayAlert(AppResource.Subscriptions, message.ToString(), "Ok");
+		}
+	}
+}

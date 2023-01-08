@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="App.Views.BudgetBrowser"
+			 Title="{x:Static resources:AppResource.Budget}"
+			 BackgroundColor="{DynamicResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:BudgetBrowserViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<xct:InvertedBoolConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<ContentPage.Content>
+		<AbsoluteLayout Padding="15">
+			<Grid
+				AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+				AbsoluteLayout.LayoutFlags="SizeProportional">
+				<Label 
+					FontSize="Large"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					IsVisible="{Binding ShowEmptyLabel}"
+					HorizontalTextAlignment="Center"
+					Text="{x:Static resources:AppResource.EmptyLabel}" />
+
+				<ListView
+					x:Name="BudgetListView"
+					IsPullToRefreshEnabled="True"
+					IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
+					Refreshing="Refresh_Budgets"
+					SelectionMode="None">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<SwipeView>
+									<SwipeView.LeftItems>
+										<SwipeItem 
+											BackgroundColor="{DynamicResource ExpenseColor}"
+											IconImageSource="delete.png"
+											Invoked="SwipeItem_DeleteInvoked"
+											Text="{x:Static resources:AppResource.Delete}" />
+									</SwipeView.LeftItems>
+
+									<SwipeView.RightItems>
+										<SwipeItem 
+											BackgroundColor="{DynamicResource AccentColor}"
+											IconImageSource="info.png"
+											Invoked="SwipeItem_InfoInvoked"
+											Text="{x:Static resources:AppResource.Info}" />
+									</SwipeView.RightItems>
+
+									<Grid
+										BackgroundColor="{DynamicResource BackgroundMainColor}"
+										Padding="8"
+										ColumnSpacing="10">
+										<Grid.RowDefinitions>
+											<RowDefinition />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
+
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="120" />
+											<ColumnDefinition />
+										</Grid.ColumnDefinitions>
+
+										<Label 
+											FontAttributes="Bold"
+											FontSize="Medium" 
+											Text="{Binding DescriptionString}" 
+											TextColor="{DynamicResource ForegroundMainColor}" />
+
+										<Label 
+											Grid.Column="1"
+											FontSize="Medium" 
+											Text="{Binding EndingString}"
+											TextColor="{DynamicResource ExpenseColor}" />
+
+										<ProgressBar 
+											Grid.Row="1"
+											Grid.ColumnSpan="2"
+											HeightRequest="8"
+											Progress="{Binding UsedPercent}"
+											ProgressColor="{Binding TypeColor}" />
+									</Grid>
+								</SwipeView>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Grid>
+			
+			<ImageButton 
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
+				Clicked="Add_Clicked"
+				Source="plus.png" />
+		</AbsoluteLayout>
+	</ContentPage.Content>
+</ContentPage>

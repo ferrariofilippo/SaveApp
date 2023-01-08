@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+	<style name="lightAppTheme" parent="MainBaseTheme">
+	</style>
+
+	<style name="nordAppTheme" parent="MainBaseTheme">
+		<item name="colorPrimary">#8FBCBB</item>
+		<item name="colorPrimaryDark">#3B4252</item>
+		<item name="colorAccent">#88C0D0</item>
+		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyleNord</item>
+		<item name="alertDialogTheme">@style/AppCompatDialogStyleNord</item>
+	</style>
+	<style name="AppCompatDialogStyleNord" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">#88C0D0</item>
+		<item name="android:textColorPrimary">#ECEFF4</item>
+		<item name="android:textColorSecondary">#DDDDDD</item>
+		<item name="android:windowBackground">@color/nordBackground</item>
+	</style>
+
+	<style name="iceAppTheme" parent="MainBaseTheme">
+		<item name="colorPrimary">#459BAC</item>
+		<item name="colorPrimaryDark">#006D7D</item>
+		<item name="colorAccent">#79CCDE</item>
+		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyleIce</item>
+		<item name="alertDialogTheme">@style/AppCompatDialogStyleIce</item>
+	</style>
+	<style name="AppCompatDialogStyleIce" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">#79CCDE</item>
+		<item name="android:textColorPrimary">#2A2A2A</item>
+		<item name="android:textColorSecondary">#777777</item>
+		<item name="android:windowBackground">@color/iceBackground</item>
+	</style>
+
+	<style name="tealAppTheme" parent="MainBaseTheme">
+		<item name="colorPrimary">#00695C</item>
+		<item name="colorPrimaryDark">#003D33</item>
+		<item name="colorAccent">#439889</item>
+		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyleTeal</item>
+		<item name="alertDialogTheme">@style/AppCompatDialogStyleTeal</item>
+	</style>
+	<style name="AppCompatDialogStyleTeal" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">#439889</item>
+		<item name="android:textColorPrimary">#FFFFFF</item>
+		<item name="android:textColorSecondary">#E1E1E1</item>
+		<item name="android:windowBackground">@color/tealBackground</item>
+	</style>
+
+</resources>

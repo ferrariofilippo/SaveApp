@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.Views.SettingsPage"
+			 Title="{x:Static resources:AppResource.Settings}"
+			 BackgroundColor="{DynamicResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:SettingsViewModel />
+	</ContentPage.BindingContext>
+	
+    <ContentPage.Content>
+		<Grid Padding="20">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Picker 
+				x:Name="ThemePicker"
+				IsVisible="False"
+				SelectedIndexChanged="ThemePicker_SelectedIndexChanged"
+				Title="{x:Static resources:AppResource.Theme}"
+				Unfocused="ThemePicker_Unfocused" />
+
+			<Entry 
+				x:Name="ThemeLabel"
+				Focused="ThemeLabel_Focused"
+				Placeholder="{x:Static resources:AppResource.Theme}" />
+
+			<Picker 
+				x:Name="CurrencyPicker"
+				Grid.Row="1"
+				IsVisible="False"
+				SelectedIndexChanged="CurrencyPicker_SelectedIndexChanged"
+				Title="{x:Static resources:AppResource.Currency}"
+				Unfocused="CurrencyPicker_Unfocused"/>
+
+			<Entry 
+				x:Name="CurrencyLabel"
+				Grid.Row="1"
+				Focused="CurrencyLabel_Focused"
+				Placeholder="{x:Static resources:AppResource.Currency}" />
+
+			<Label 
+				Grid.Row="2"
+				Padding="0, 0, 0, 20"
+				FontSize="Small"
+				FontAttributes="Italic"
+				HorizontalTextAlignment="Center"
+				TextColor="{DynamicResource ItemDescriptionColor}"
+				Text="{x:Static resources:AppResource.CurrencyConversionWarning}"
+				VerticalTextAlignment="Start" />
+
+			<Button 
+				Grid.Row="3"
+				Clicked="Credits_Clicked"
+				Text="{x:Static resources:AppResource.Credits}" />
+
+			<Button 
+				Grid.Row="5"
+				BackgroundColor="Transparent"
+				BorderColor="DarkSlateGray"
+				BorderWidth="1"
+				Clicked="ManageSubs_Clicked"
+				Text="{x:Static resources:AppResource.ManageSubs}"
+				TextColor="{DynamicResource ForegroundMainColor}" />
+
+			<Button 
+				Grid.Row="6"
+				Clicked="DownloadData_Clicked"
+				ImageSource="download.png"
+				Padding="3"
+				Text="{x:Static resources:AppResource.DownloadData}" />
+		</Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:resources="clr-namespace:App.Resx"
+			 xmlns:vm="clr-namespace:App.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="App.Views.SubscriptionPage"
+			 Title="{x:Static resources:AppResource.Subscriptions}"
+			 BackgroundColor="{StaticResource BackgroundMainColor}"
+			 Visual="Material">
+
+	<ContentPage.BindingContext>
+		<vm:SubscriptionViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<xct:InvertedBoolConverter x:Key="BoolNegationConverter" />
+			
+			<Style TargetType="Label">
+				<Setter Property="FontSize" Value="Medium" />
+				<Setter Property="TextColor" Value="{DynamicResource ForegroundMainColor}" />
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	
+    <ContentPage.Content>
+		<ScrollView>
+			<RefreshView 
+				x:Name="MainRefresh"
+				Refreshing="RefreshView_Refreshing">
+				<Grid Padding="20">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Label Text="{x:Static resources:AppResource.TotalYTD}" />
+					<Label 
+						Grid.Column="1"
+						HorizontalTextAlignment="End"
+						Text="{x:Binding ExpenseYTD}" />
+
+					<Label 
+						Grid.Row="1"
+						Text="{x:Static resources:AppResource.MonthlyExpense}" />
+					<Label 
+						Grid.Row="1"
+						Grid.Column="1"
+						HorizontalTextAlignment="End"
+						Text="{x:Binding MonthlyExpense}" />
+
+					<Label 
+						Grid.Row="2"
+						Text="{x:Static resources:AppResource.YearlyExpense}" />
+					<Label 
+						Grid.Row="2"
+						Grid.Column="1"
+						HorizontalTextAlignment="End"
+						Text="{x:Binding YearlyExpense}" />
+
+					<Label 
+						Grid.Row="3"
+						Grid.ColumnSpan="2"
+						FontSize="Large"
+						HorizontalOptions="Center"
+						VerticalOptions="Center"
+						HorizontalTextAlignment="Center"
+						IsVisible="{Binding ShowEmptyLabel}"
+						Text="{x:Static resources:AppResource.EmptyLabel}" />
+					
+					<ListView
+						x:Name="SubscriptionsListView"
+						Grid.Row="3"
+						Grid.ColumnSpan="2"
+						Margin="0, 20, 0, 5"
+						IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
+						ItemsSource="{x:Binding Subscriptions}"
+						SelectedItem="None">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<SwipeView>
+										<SwipeView.LeftItems>
+											<SwipeItem 
+												BackgroundColor="{DynamicResource ExpenseColor}"
+												IconImageSource="delete.png" 
+												Invoked="SwipeItem_DeleteInvoked"
+												Text="{x:Static resources:AppResource.Delete}" />
+										</SwipeView.LeftItems>
+
+										<SwipeView.RightItems>
+											<SwipeItem 
+												BackgroundColor="{DynamicResource IncomeColor}"
+												IconImageSource="delete.png"
+												Invoked="SwipeItem_EditInvoked"
+												Text="{x:Static resources:AppResource.Edit}" />
+
+											<SwipeItem 
+												BackgroundColor="{DynamicResource AccentColor}"
+												IconImageSource="info.png"
+												Invoked="SwipeItem_InfoClicked"
+												Text="{x:Static resources:AppResource.Info}" />
+										</SwipeView.RightItems>
+
+										<Grid
+											BackgroundColor="{DynamicResource BackgroundMainColor}"
+											Padding="8"
+											ColumnSpacing="10">
+											<Grid.RowDefinitions>
+												<RowDefinition />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="120" />
+												<ColumnDefinition />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+
+											<Label 
+												 Text="{Binding DescriptionString}" />
+											
+											<Label 
+												Grid.Column="1"
+												Text="{Binding ValueString}" />
+
+											<Label 
+												Grid.Row="1"
+												FontSize="Small"
+												Text="{Binding NextRenewalString}"
+												VerticalOptions="Center" />
+											
+											<Ellipse 
+												Grid.RowSpan="2"
+												Grid.Column="2"
+												Fill="{Binding TypeColor}"
+												VerticalOptions="Center"
+												HeightRequest="34"
+												WidthRequest="34" />
+										</Grid>
+									</SwipeView>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</Grid>
+			</RefreshView>
+		</ScrollView>
+    </ContentPage.Content>
+</ContentPage>

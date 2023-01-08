@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.Themes.TealTheme">
+
+	<!--PrimaryColor-->
+	<Color x:Key="PrimaryColor">#00695C</Color>
+
+	<!--AccentColor-->
+	<Color x:Key="AccentColor">#439889</Color>
+
+	<!--ErrorColor-->
+	<Color x:Key="ErrorColor">#EE6002</Color>
+
+	<!--BackgroundMainColor-->
+	<Color x:Key="BackgroundMainColor">#3F3F3F</Color>
+
+	<!--ForegroundMainColor-->
+	<Color x:Key="ForegroundMainColor">#FFFFFF</Color>
+
+	<!--ButtonForeColor-->
+	<Color x:Key="ButtonForeColor">#FFFFFF</Color>
+
+	<!--IncomeColor-->
+	<Color x:Key="IncomeColor">#00695C</Color>
+
+	<!--ExpenseColor-->
+	<Color x:Key="ExpenseColor">#EE6002</Color>
+
+	<!--CalendarColor-->
+	<Color x:Key="CalendarColor">#AA4F4F4F</Color>
+
+	<!--ItemDescriptionColor-->
+	<Color x:Key="ItemDescriptionColor">#E1E1E1</Color>
+
+</ResourceDictionary>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+	   xmlns:resources="clr-namespace:App.Resx"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:App.Views"
+       Title="App"
+       x:Class="App.AppShell">
+
+	<Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{DynamicResource PrimaryColor}" />
+                <Setter Property="Shell.ForegroundColor" Value="{DynamicResource ButtonForeColor}" />
+				<Setter Property="Shell.TitleColor" Value="White" />
+				<Setter Property="Shell.DisabledColor" Value="#95FFFFFF" />
+				<Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource PrimaryColor}" />
+				<Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+				<Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+				<Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+    
+	<TabBar x:Name="MainTabBar">
+		<ShellContent
+			Title="Budget" 
+			Icon="money.png" 
+			Route="BudgetBrowser" 
+			ContentTemplate="{DataTemplate local:BudgetBrowser}" />
+
+		<ShellContent
+			Title="{x:Static resources:AppResource.History}" 
+			Icon="history.png" 
+			Route="HistoryPage" 
+			ContentTemplate="{DataTemplate local:HistoryPage}" />
+
+		<ShellContent 
+			x:Name="HomeTab" 
+			Title="Home" 
+			Icon="home.png" 
+			Route="HomePage" 
+			ContentTemplate="{DataTemplate local:HomePage}" />
+		
+		<ShellContent 
+			Title="Stats" 
+			Icon="graph.png" 
+			Route="StatsPage" 
+			ContentTemplate="{DataTemplate local:StatsPage}" />
+
+		<ShellContent
+			Title="{x:Static resources:AppResource.Settings}"
+			Icon="settings.png" 
+			Route="SettingsPage" 
+			ContentTemplate="{DataTemplate local:SettingsPage}" />
+	</TabBar>
+</Shell>
