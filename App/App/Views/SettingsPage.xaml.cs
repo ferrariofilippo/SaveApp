@@ -107,12 +107,9 @@ namespace App.Views
 					AppResource.FileDownloadedNotificationTItle,
 					AppResource.FileDownloadNotificationDescription);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				await DisplayAlert(
-					AppResource.Error,
-					AppResource.SavingFailed,
-					"Ok");
+				App.NotifyException(ex);
 			}
 
 			lock (_lock)

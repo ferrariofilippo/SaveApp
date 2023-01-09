@@ -1,5 +1,6 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Log;
 using App.Resx;
 using System;
 using System.Resources;
@@ -18,6 +19,8 @@ namespace App
 
 		private readonly CurrenciesManager _currencies;
 
+		private static readonly Logger _logger = new Logger();
+
 		public static readonly ResourceManager ResourceManager = new ResourceManager(typeof(AppResource));
 
 		public App()
@@ -33,7 +36,7 @@ namespace App
 			DependencyService.RegisterSingleton(_database);
 			DependencyService.RegisterSingleton(_statistics);
 			DependencyService.RegisterSingleton(_settings);
-
+			
 			// Currencies needs _settings service
 			_currencies = new CurrenciesManager();
 			DependencyService.RegisterSingleton(_currencies);
@@ -83,6 +86,7 @@ namespace App
 		{
 			var exceptionMessage = $"Thrown by: {ex.TargetSite.Name}\n\rMessage: {ex.Message}";
 			NotificationHelper.SendNotification(AppResource.Error, exceptionMessage);
+			_logger.LogWarningAsync(ex);
 		}
 	}
 }
