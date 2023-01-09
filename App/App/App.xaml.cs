@@ -79,9 +79,9 @@ namespace App
 		private void OnTaskSchedulerUnobservedException(object sender, UnobservedTaskExceptionEventArgs args)
 			=> NotifyException(args.Exception);
 
-		private void NotifyException(Exception ex)
+		public static void NotifyException(Exception ex)
 		{
-			var exceptionMessage = $"Thrown by: {ex.TargetSite}\n\rMessage: {ex.Message}";
+			var exceptionMessage = $"Thrown by: {ex.TargetSite.Name}\n\rMessage: {ex.Message}";
 			NotificationHelper.SendNotification(AppResource.Error, exceptionMessage);
 		}
 	}

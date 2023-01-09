@@ -14,10 +14,10 @@ namespace App.Helpers
 		public static async void CheckStatisticsForReset()
 		{
 			var lastMovement = (await _database.GetMovementsAsync()).LastOrDefault();
-			if (lastMovement is null || lastMovement.CreationDate.Year > DateTime.Now.Year)
+			if (lastMovement is null || lastMovement.CreationDate.Year >= DateTime.Now.Year)
 				return;
 
-			bool allZeroes = true;
+			var allZeroes = true;
 			for (int i = 0; i < 12 && allZeroes; i++)
 			{
 				allZeroes = _statistics.Statistics.ExpensesByType[i] == 0 &&

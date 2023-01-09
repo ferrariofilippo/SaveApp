@@ -68,14 +68,16 @@ namespace App.Views
 							{
 								var builder = new StringBuilder("ID,VALUE,IS_EXPENSE,DESCRIPTION,TYPE,DATE");
 								var movements = await database.GetMovementsAsync();
-								string path = $"Expenses-{DateTime.Now:dd-MM-yyyy}.csv";
-
-								foreach (var item in movements)
+								var path = $"Expenses-{DateTime.Now:dd-MM-yyyy}.csv";
+								if (!(movements is null))
 								{
-									builder.AppendLine(
-										$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
-										$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
-										$"{item.CreationDate.Date}");
+									foreach (var item in movements)
+									{
+										builder.AppendLine(
+											$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
+											$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
+											$"{item.CreationDate.Date}");
+									}
 								}
 
 								await _saver.SaveFile(path, builder.ToString());
@@ -85,14 +87,17 @@ namespace App.Views
 								var builder = new StringBuilder(
 									"ID,VALUE,DESCRIPTION,EXPENSE_TYPE,RENEWAL_TYPE,LAST_PAID,NEXT_RENEWAL,CREATION_DATE");
 								var subs = await database.GetSubscriptionsAsync();
-								string path = $"Subscriptions-{DateTime.Now:dd-MM-yyyy}.csv";
+								var path = $"Subscriptions-{DateTime.Now:dd-MM-yyyy}.csv";
 
-								foreach (var item in subs)
+								if (!(subs is null))
 								{
-									builder.AppendLine(
-										$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
-										$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
-										$"{item.CreationDate.Date}");
+									foreach (var item in subs)
+									{
+										builder.AppendLine(
+											$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
+											$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
+											$"{item.CreationDate.Date}");
+									}
 								}
 
 								await _saver.SaveFile(path, builder.ToString());
@@ -146,7 +151,7 @@ namespace App.Views
 			_ = currencies.UpdateAllToCurrent(previous);
 		}
 
-		private async void Credits_Clicked(object sender, EventArgs e) 
+		private async void Credits_Clicked(object sender, EventArgs e)
 			=> await Launcher.OpenAsync(Constants.Icons8Url);
 
 		private void ThemePicker_Unfocused(object sender, FocusEventArgs e)

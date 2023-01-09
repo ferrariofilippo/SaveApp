@@ -37,6 +37,13 @@ namespace App.ViewModels
 			set => SetProperty(ref _calendarTitle, value);
 		}
 
+		private bool _isRefreshing;
+		public bool IsRefreshing
+		{
+			get => _isRefreshing;
+			set => SetProperty(ref _isRefreshing, value);
+		}
+
 		public ObservableCollection<MovementDisplay> Movements = new ObservableCollection<MovementDisplay>();
 
 		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
@@ -110,24 +117,30 @@ namespace App.ViewModels
 		private async Task<List<MovementDisplay>> Filter(DateTime date, Func<Movement, bool> filterCondition, int depth)
 		{
 			List<MovementDisplay> returnList = new List<MovementDisplay>();
-
-			var data = (await _database.GetMovementsAsync())
-				.OrderBy(x => x.CreationDate)
-				.ToArray();
-
-			if (data.Length == 0)
-				return returnList;
-
-			int index = GetStartingIndex(data, date, depth);
-			if (index == -1)
-				return returnList;
-
-			for (; index < data.Length; index++)
+			try
 			{
-				if (filterCondition(data[index]))
-					returnList.Add(new MovementDisplay(data[index]));
-				else
+				var data = (await _database.GetMovementsAsync())
+					.OrderBy(x => x.CreationDate)
+					.ToArray();
+
+				if (data.Length == 0)
 					return returnList;
+
+				var index = GetStartingIndex(data, date, depth);
+				if (index == -1)
+					return returnList;
+
+				for (; index < data.Length; index++)
+				{
+					if (filterCondition(data[index]))
+						returnList.Add(new MovementDisplay(data[index]));
+					else
+						return returnList;
+				}
+			}
+			catch (Exception ex)
+			{
+				App.NotifyException(ex);
 			}
 
 			return returnList;
@@ -135,7 +148,7 @@ namespace App.ViewModels
 
 		private int GetStartingIndex(Movement[] items, DateTime toFind, int depth)
 		{
-			int index = -1;
+			var index = -1;
 
 			switch (depth)
 			{
@@ -164,7 +177,7 @@ namespace App.ViewModels
 		{
 			if (low >= high)
 				return -1;
-			int mid = (low + high - 1) / 2;
+			var mid = (low + high - 1) / 2;
 			if (items[mid].CreationDate.Year == year)
 				return mid;
 			if (year < items[mid].CreationDate.Year)
@@ -176,7 +189,7 @@ namespace App.ViewModels
 		{
 			if (low >= high)
 				return -1;
-			int mid = (low + high - 1) / 2;
+			var mid = (low + high - 1) / 2;
 			if (items[mid].CreationDate.Year == year && items[mid].CreationDate.Month == month)
 				return mid;
 			if (year < items[mid].CreationDate.Year || month < items[mid].CreationDate.Month)
@@ -188,7 +201,7 @@ namespace App.ViewModels
 		{
 			if (low >= high)
 				return -1;
-			int mid = (low + high - 1) / 2;
+			var mid = (low + high - 1) / 2;
 			if (items[mid].CreationDate.Date == date.Date)
 				return mid;
 			if (date.Date < items[mid].CreationDate.Date)

@@ -1,4 +1,5 @@
-﻿using App.Helpers;
+﻿using Android.OS;
+using App.Helpers;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -11,8 +12,7 @@ namespace App.Droid
 		public async Task SaveFile(string path, string content)
 		{
 			string filePath = Path.Combine(
-				Android.OS.Environment.ExternalStorageDirectory.AbsolutePath,
-				Android.OS.Environment.DirectoryDownloads,
+				Environment.GetExternalStoragePublicDirectory(Environment.DirectoryDownloads).AbsolutePath,
 				path);
 
 			await File.WriteAllTextAsync(filePath, content);

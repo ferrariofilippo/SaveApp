@@ -52,11 +52,15 @@ namespace App.Droid
 			intent.PutExtra(TitleKey, title);
 			intent.PutExtra(MessageKey, message);
 
+			var intentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+				? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable
+				: PendingIntentFlags.UpdateCurrent;
+
 			PendingIntent pending = PendingIntent.GetActivity(
 				Android.App.Application.Context,
 				_pendingIntentId++,
 				intent,
-				PendingIntentFlags.UpdateCurrent);
+				intentFlags);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(Android.App.Application.Context, _channelId)
 				.SetContentIntent(pending)

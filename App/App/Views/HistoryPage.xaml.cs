@@ -75,9 +75,7 @@ namespace App.Views
 		{
 			_filterDepth = 1;
 			var btn = (Button)sender;
-			MainView.IsRefreshing = true;
 			FocusMonth(_monthButtons.IndexOf(btn.Id) + 1);
-			MainView.IsRefreshing = false;
 			MonthGrid.IsVisible = false;
 			DayGrid.IsVisible = true;
 			OnPropertyChanged(nameof(DayGrid));
@@ -87,33 +85,27 @@ namespace App.Views
 		{
 			_filterDepth = 2;
 			var btn = (Button)sender;
-			MainView.IsRefreshing = true;
 			FocusDay(int.Parse(btn.Text));
-			MainView.IsRefreshing = false;
 		}
 
 		private void BackClicked(object sender, EventArgs e)
 		{
-			MainView.IsRefreshing = true;
 			if (_filterDepth == 0)
 				FocusYear(_viewModel.Year - 1);
 			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] > 1)
 				FocusMonth(_viewModel.MonthAndDay[0] - 1);
 			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] > 1)
 				FocusDay(_viewModel.MonthAndDay[1] - 1);
-			MainView.IsRefreshing = false;
 		}
 
 		private void ForwardClicked(object sender, EventArgs e)
 		{
-			MainView.IsRefreshing = true;
 			if (_filterDepth == 0)
 				FocusYear(_viewModel.Year + 1);
 			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] < 12)
 				FocusMonth(_viewModel.MonthAndDay[0] + 1);
 			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] < _lastMonthLength)
 				FocusDay(_viewModel.MonthAndDay[1] + 1);
-			MainView.IsRefreshing = false;
 		}
 
 		private void LatterClicked(object sender, EventArgs e)
@@ -124,9 +116,7 @@ namespace App.Views
 			{
 				_filterDepth--;
 				_viewModel.CalendarTitle = _viewModel.Year.ToString();
-				MainView.IsRefreshing = true;
 				FocusYear(_viewModel.Year);
-				MainView.IsRefreshing = false;
 				DayGrid.IsVisible = false;
 				MonthGrid.IsVisible = true;
 				OnPropertyChanged(nameof(MonthGrid));
@@ -134,9 +124,7 @@ namespace App.Views
 			}
 
 			_filterDepth = 1;
-			MainView.IsRefreshing = true;
 			FocusMonth(_viewModel.MonthAndDay[0]);
-			MainView.IsRefreshing = false;
 		}
 
 		private void Refresh_ListView(object sender, EventArgs e)
@@ -153,7 +141,7 @@ namespace App.Views
 					_viewModel.FilterByDay();
 					break;
 			}
-			MainView.IsRefreshing = false;
+			_viewModel.IsRefreshing = false;
 		}
 
 		private async void SwipeItem_DeleteInvoked(object sender, EventArgs e)
@@ -199,7 +187,7 @@ namespace App.Views
 				Constants.Months[month - 1]);
 
 			_viewModel.FilterByMonth();
-			int monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);
+			var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);
 			if (monthLength == _lastMonthLength)
 				return;
 
@@ -209,7 +197,7 @@ namespace App.Views
 			else
 				for (int i = monthLength; i < _lastMonthLength; i++)
 					((Button)DayGrid.Children[i]).IsVisible = false;
-				
+
 			_lastMonthLength = monthLength;
 		}
 

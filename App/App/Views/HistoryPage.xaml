@@ -33,6 +33,7 @@
 	<ContentPage.Content>
 		<RefreshView 
 			x:Name="MainView"
+			IsRefreshing="{x:Binding IsRefreshing, Mode=TwoWay}"
 			Refreshing="Refresh_ListView">
 			<ScrollView>
 				<Grid Padding="20"
