@@ -14,7 +14,9 @@ namespace App
 
 		public const string BaseCurrenciesUrl = "https://api.frankfurter.app/";
 
-		public const string Icons8Url = "https://icons8.com/";
+		public const string CreditsUrl = "https://github.com/ferrariofilippo/SaveApp";
+
+		public const string ReportBugUrl = "https://github.com/ferrariofilippo/SaveApp/issues/new";
 
 		public const int ListViewCellHeight = 65;
 

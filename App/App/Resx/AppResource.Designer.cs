@@ -754,6 +754,15 @@ namespace App.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Segnala un Bug.
+        /// </summary>
+        internal static string ReportBug {
+            get {
+                return ResourceManager.GetString("ReportBug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salva.
         /// </summary>
         internal static string Save {

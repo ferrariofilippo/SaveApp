@@ -351,6 +351,9 @@
   <data name="RenewalType" xml:space="preserve">
     <value>Renewal type</value>
   </data>
+  <data name="ReportBug" xml:space="preserve">
+    <value>Report a Bug</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>

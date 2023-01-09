@@ -152,7 +152,10 @@ namespace App.Views
 		}
 
 		private async void Credits_Clicked(object sender, EventArgs e)
-			=> await Launcher.OpenAsync(Constants.Icons8Url);
+			=> await Launcher.OpenAsync(Constants.CreditsUrl);
+
+		private async void ReportBug_Clicked(object sender, EventArgs e)
+			=> await Launcher.OpenAsync(Constants.ReportBugUrl);
 
 		private void ThemePicker_Unfocused(object sender, FocusEventArgs e)
 			=> ThemeLabel.Unfocus();
