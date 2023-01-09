@@ -3,6 +3,7 @@ using App.Helpers;
 using App.Resx;
 using System;
 using System.Resources;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace App
@@ -21,8 +22,7 @@ namespace App
 
 		public App()
 		{
-			AppDomain appDomain = AppDomain.CurrentDomain;
-			appDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhadledException);
+			SetUpExceptionHandling();
 
 			InitializeComponent();
 
@@ -54,8 +54,7 @@ namespace App
 			}
 			catch(Exception ex)
 			{
-				string exceptionMessage = $"Thrown by: {ex.TargetSite}\n\rMessage: {ex.Message}";
-				NotificationHelper.SendNotification(AppResource.Error, exceptionMessage);
+				NotifyException(ex);
 			}
 		}
 
@@ -67,12 +66,22 @@ namespace App
 		{
 		}
 
-		private void OnUnhadledException(object	sender, UnhandledExceptionEventArgs args)
+		private void SetUpExceptionHandling()
 		{
-			Exception exception = (Exception)args.ExceptionObject;
+			AppDomain appDomain = AppDomain.CurrentDomain;
+			appDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhadledException);
+			TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
+		}
 
-			string exceptionMessage = $"Thrown by: {exception.TargetSite}\n\rMessage: {exception.Message}";
+		private void OnUnhadledException(object	sender, UnhandledExceptionEventArgs args)
+			=> NotifyException((Exception) args.ExceptionObject);
 
+		private void OnTaskSchedulerUnobservedException(object sender, UnobservedTaskExceptionEventArgs args)
+			=> NotifyException(args.Exception);
+
+		private void NotifyException(Exception ex)
+		{
+			var exceptionMessage = $"Thrown by: {ex.TargetSite}\n\rMessage: {ex.Message}";
 			NotificationHelper.SendNotification(AppResource.Error, exceptionMessage);
 		}
 	}
