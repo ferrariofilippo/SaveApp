@@ -9,11 +9,11 @@ namespace App.Droid
 {
 	public class AndroidFileSaver : IFileSaver
 	{
-		public async Task SaveFile(string path, string content)
+		public async Task SaveFile(string relativePath, string content)
 		{
 			var filePath = Path.Combine(
 				Environment.GetExternalStoragePublicDirectory(Environment.DirectoryDownloads).AbsolutePath,
-				path);
+				relativePath);
 
 			await File.WriteAllTextAsync(filePath, content);
 		}

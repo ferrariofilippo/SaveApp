@@ -31,7 +31,7 @@ namespace App.Views
 			await Navigation.PopAsync();
 		}
 
-		private async void RefreshView_Refreshing(object sender, EventArgs e)
+		private async void RefreshView_Refreshing(object _, EventArgs e)
 		{
 			await _viewModel.UpdateLayout();
 			_viewModel.IsRefreshing = false;
@@ -44,7 +44,7 @@ namespace App.Views
 			var toDelete = (SubscriptionItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 			await _viewModel.DeleteSubscription(toDelete);
 			_viewModel.IsRefreshing = true;
-			RefreshView_Refreshing(MainRefresh, EventArgs.Empty);
+			RefreshView_Refreshing(null, EventArgs.Empty);
 		}
 
 		private async void SwipeItem_EditInvoked(object sender, EventArgs e)

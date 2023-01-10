@@ -709,6 +709,15 @@ namespace App.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pagamento di: {0}.
+        /// </summary>
+        internal static string PaymentOf {
+            get {
+                return ResourceManager.GetString("PaymentOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cura personale.
         /// </summary>
         internal static string PersonalCare {

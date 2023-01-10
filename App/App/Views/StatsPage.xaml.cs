@@ -47,7 +47,7 @@ namespace App.Views
 			_viewModel.Displays.Add(new StatisticsItemViewModel(
 				AppResource.YearlyIncome,
 				_stats.Statistics.IncomeByYear,
-				1.0m));
+				false));
 		}
 
 		private void UpdateGraphs(string name)
@@ -55,7 +55,7 @@ namespace App.Views
 			_viewModel.Displays[0].UpdateGraph(_stats.Statistics.ExpensesByType);
 			_viewModel.Displays[1].UpdateGraph(_stats.Statistics.ExpensesByMonth, isMonthly: true);
 			_viewModel.Displays[2].UpdateGraph(_stats.Statistics.ExpensesByYear);
-			_viewModel.Displays[3].UpdateGraph(_stats.Statistics.IncomeByYear, 1.0m);
+			_viewModel.Displays[3].UpdateGraph(_stats.Statistics.IncomeByYear, false);
 		}
 	}
 }

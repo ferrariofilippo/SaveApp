@@ -7,7 +7,7 @@ namespace App.Helpers.LogHelper
 {
     public class Logger
     {
-        private const int _bufferSize = 4096;
+        private const int _bufferSize = 2048;
 
         private readonly string _logFilePath;
 
@@ -23,9 +23,6 @@ namespace App.Helpers.LogHelper
                 return;
 
             var formattedException = FormatException(exception);
-            if (formattedException is null)
-                return;
-
             var offset = 0;
             var bytes = Encoding.UTF8.GetBytes(formattedException);
             while (offset < bytes.Length)
@@ -40,7 +37,7 @@ namespace App.Helpers.LogHelper
             FileStream fileStream = null;
             try
             {
-                fileStream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+                fileStream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, _bufferSize);
             }
             catch (Exception) { }
             return fileStream;

@@ -17,15 +17,15 @@ namespace App.Helpers
 			if (lastMovement is null || lastMovement.CreationDate.Year >= DateTime.Now.Year)
 				return;
 
-			var allZeroes = true;
-			for (int i = 0; i < 12 && allZeroes; i++)
-			{
-				allZeroes = _statistics.Statistics.ExpensesByType[i] == 0 &&
-					_statistics.Statistics.ExpensesByMonth[i] == 0;
-			}
-			if (allZeroes)
-				return;
+			var areAllZeroes = true;
+			for (int i = 0; i < _statistics.Statistics.ExpensesByType.Count && areAllZeroes; i++)
+				areAllZeroes = _statistics.Statistics.ExpensesByType[i] == 0;
 
+			for (int i = 0; i < _statistics.Statistics.ExpensesByMonth.Count && areAllZeroes; i++)
+                areAllZeroes = _statistics.Statistics.ExpensesByMonth[i] == 0;
+
+            if (areAllZeroes)
+				return;
 			await _statistics.EmptyPreviousYear();
 		}
 	}

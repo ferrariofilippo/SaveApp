@@ -5,6 +5,6 @@ namespace App.ViewModels
 {
     public class StatsViewModel
 	{
-		public readonly ObservableCollection<StatisticsItemViewModel> Displays = new ObservableCollection<StatisticsItemViewModel>();
+		public ObservableCollection<StatisticsItemViewModel> Displays { get; } = new ObservableCollection<StatisticsItemViewModel>();
 	}
 }

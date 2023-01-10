@@ -28,12 +28,12 @@ namespace App.Data
 
 		public CurrenciesManager()
 		{
-			_cachePath = Path.Combine(
+            for (int i = 0; i < Rates.Length; i++)
+                Rates[i] = 1.0m;
+
+            _cachePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				Constants.CurrenciesCachePath);
-
-			for (int i = 0; i < Rates.Length; i++)
-				Rates[i] = 1.0m;
 
 			if (File.Exists(_cachePath))
 				LoadCached();
@@ -49,11 +49,11 @@ namespace App.Data
 			var stats = DependencyService.Get<StatisticsHolder>();
 			var db = DependencyService.Get<AppDatabase>();
 
-			var factor = Rates[_settings.Settings.BaseCurrency] / Rates[(int)previous];
+			var changeRatio = Rates[_settings.Settings.BaseCurrency] / Rates[(int)previous];
 
 			await Task.WhenAll(
-				stats.UpdateAllToNewCurrency(factor),
-				db.UpdateDbToNewCurrency(factor));
+				stats.UpdateAllToNewCurrency(changeRatio),
+				db.UpdateDbToNewCurrency(changeRatio));
 
 			NotificationHelper.SendNotification(
 				AppResource.DatabaseCurrencyUpdateEnded, 
@@ -67,11 +67,11 @@ namespace App.Data
 			{
 				var parsed = JsonSerializer.Deserialize<CurrenciesCache>(json);
 
-				for (int i = 0; i < parsed.Rates.Length; i++)
-					Rates[i] = parsed.Rates[i];
-
-				if (parsed.LastUpdated < DateTime.Today)
-					LoadLatest();
+                if (parsed.LastUpdated < DateTime.Today)
+                    LoadLatest();
+				else
+					for (int i = 0; i < parsed.Rates.Length; i++)
+						Rates[i] = parsed.Rates[i];
 			}
 			else
 			{
@@ -81,14 +81,14 @@ namespace App.Data
 
 		private async Task SaveCached()
 		{
-			var toSave = new CurrenciesCache
+			var cached = new CurrenciesCache
 			{
 				LastUpdated = LastUpdate,
 				Rates = Rates
 			};
 
 			using (var writer = new StreamWriter(_cachePath, false))
-				await writer.WriteAsync(JsonSerializer.Serialize(toSave));
+				await writer.WriteAsync(JsonSerializer.Serialize(cached));
 		}
 
 		private async void LoadLatest()
@@ -110,17 +110,23 @@ namespace App.Data
 
 		private async Task<Dictionary<string, decimal>> Fetch(string query)
 		{
-			HttpResponseMessage response = await _client.GetAsync(query);
-			if (!response.IsSuccessStatusCode)
-				return null;
-			var parsed = JsonSerializer.Deserialize<JsonDocument>(
-				await response.Content.ReadAsStringAsync())
-				.RootElement
-				.GetProperty("rates");
+			try
+			{
+                HttpResponseMessage response = await _client.GetAsync(query);
+                if (!response.IsSuccessStatusCode)
+                    return null;
+                var ratesString = JsonSerializer.Deserialize<JsonDocument>(
+                    await response.Content.ReadAsStringAsync())
+                    .RootElement
+                    .GetProperty("rates")
+					.GetRawText();
 
-			LastUpdate = DateTime.Today;
+                LastUpdate = DateTime.Today;
 
-			return JsonSerializer.Deserialize<Dictionary<string, decimal>>(parsed.GetRawText());
+                return JsonSerializer.Deserialize<Dictionary<string, decimal>>(ratesString);
+            }
+			catch (Exception) { }
+			return null;
 		}
 
 		private class CurrenciesCache

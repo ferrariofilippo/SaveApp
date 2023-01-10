@@ -336,6 +336,9 @@
   <data name="Paid" xml:space="preserve">
     <value>Paid</value>
   </data>
+  <data name="PaymentOf" xml:space="preserve">
+    <value>Payment of: {0}</value>
+  </data>
   <data name="PersonalCare" xml:space="preserve">
     <value>Personal care</value>
   </data>

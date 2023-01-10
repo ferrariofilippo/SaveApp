@@ -1,5 +1,6 @@
 ﻿using App.Data;
 using App.Models;
+using App.Resx;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -22,8 +23,7 @@ namespace App.Helpers
 				var movement = CreateMovementFromSubscription(item);
 				while (!(movement is null))
 				{
-					if (movement.BudgetId != 0 && 
-						await BudgetHelper.AddMovementToBudget(movement) == 0)
+					if (await BudgetHelper.AddMovementToBudget(movement) != Models.Enums.AddToBudgetResult.Succeded)
 					{
 						item.BudgetId = 0;
 						await _database.SaveSubscriptionAsync(item);
@@ -37,22 +37,25 @@ namespace App.Helpers
 			}
 		}
 
-		public static Movement CreateMovementFromSubscription(Subscription s)
+		public static Movement CreateMovementFromSubscription(Subscription subscription)
 		{
-			DateTime renewal = s.NextRenewal.Date;
+			var renewal = subscription.NextRenewal.Date;
 			if (renewal > DateTime.Today.Date)
 				return null;
 
-			Movement movement = new Movement()
+			var paymentOf = string.Format(AppResource.PaymentOf, subscription.Description);
+			var month = App.ResourceManager.GetString(ReadOnlies.Months[renewal.Month - 1]);
+
+			var movement = new Movement()
 			{
-				BudgetId = s.BudgetId,
-				CreationDate = s.NextRenewal.Date,
-				Description = $"Pagamento di {s.Description} - {ReadOnlies.Months[renewal.Month]} {renewal.Year}",
-				ExpenseType = s.ExpenseType,
+				BudgetId = subscription.BudgetId,
+				CreationDate = subscription.NextRenewal.Date,
+				Description = $"{paymentOf} - {month} {renewal.Year}",
+				ExpenseType = subscription.ExpenseType,
 				IsExpense = true,
-				Value = s.Value,
+				Value = subscription.Value,
 			};
-			s.UpdateNextRenewal();
+			subscription.UpdateNextRenewal();
 			return movement;
 		}
 	}

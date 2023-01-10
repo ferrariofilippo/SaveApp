@@ -11,14 +11,14 @@ namespace App.Helpers.Themes
 
         public static async void ChangeTheme(Theme theme)
         {
-            var themeByte = (byte)theme;
-            if (Settings is null)
+            if (Settings is null || Device.RuntimePlatform != Device.Android)
                 return;
 
             var mergedDictionaires = Application.Current.Resources.MergedDictionaries;
             if (mergedDictionaires is null)
                 return;
 
+            var themeByte = (byte)theme;
             Settings.Settings.Theme = themeByte;
             await Settings.SaveSettings();
 
@@ -44,8 +44,7 @@ namespace App.Helpers.Themes
                     break;
             }
 
-            if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<INativeThemeManager>().OnThemeChanged(theme);
+            DependencyService.Get<INativeThemeManager>().OnThemeChanged(theme);
         }
 
         public static void LoadTheme()

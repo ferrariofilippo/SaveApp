@@ -2,6 +2,7 @@
 using App.Helpers;
 using App.Helpers.Notifications;
 using App.Models;
+using App.Models.Enums;
 using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
@@ -69,7 +70,7 @@ namespace App.ViewModels
 			var items = await Filter(
 				new DateTime(_year, 1, 1),
 				x => x.CreationDate.Year == _year,
-				0);
+				SearchDepth.Year);
 
             UpdateMovements(items);
         }
@@ -79,7 +80,7 @@ namespace App.ViewModels
 			var items = await Filter(
 				new DateTime(_year, MonthAndDay[0], 1),
 				x => x.CreationDate.Year == _year && x.CreationDate.Month == MonthAndDay[0],
-				1);
+				SearchDepth.Month);
 
 			UpdateMovements(items);
         }
@@ -90,7 +91,7 @@ namespace App.ViewModels
 			var items = await Filter(
 				date,
 				x => x.CreationDate.Date == date.Date,
-				2);
+				SearchDepth.Day);
 
 			UpdateMovements(items);
         }
@@ -102,7 +103,7 @@ namespace App.ViewModels
 			OnPropertyChanged(nameof(ShowEmptyLabel));
 		}
 
-		private async Task<List<MovementItemViewModel>> Filter(DateTime date, Func<Movement, bool> filterCondition, int depth)
+		private async Task<List<MovementItemViewModel>> Filter(DateTime date, Func<Movement, bool> filterCondition, SearchDepth depth)
 		{
 			List<MovementItemViewModel> returnList = new List<MovementItemViewModel>();
 			try
@@ -134,19 +135,19 @@ namespace App.ViewModels
 			return returnList;
 		}
 
-		private int GetStartingIndex(Movement[] items, DateTime toFind, int depth)
+		private int GetStartingIndex(Movement[] items, DateTime toFind, SearchDepth depth)
 		{
 			var index = -1;
 
 			switch (depth)
 			{
-				case 0:
+				case SearchDepth.Year:
 					index = BinarySearchDate(items, toFind.Year, 0, items.Length);
 					break;
-				case 1:
+				case SearchDepth.Month:
 					index = BinarySearchDate(items, toFind.Year, toFind.Month, 0, items.Length);
 					break;
-				case 2:
+				case SearchDepth.Day:
 					index = BinarySearchDate(items, toFind, 0, items.Length);
 					break;
 			}

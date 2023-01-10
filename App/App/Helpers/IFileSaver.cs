@@ -4,6 +4,6 @@ namespace App.Helpers
 {
     public interface IFileSaver
     {
-        Task SaveFile(string path, string content);
+        Task SaveFile(string relativePath, string content);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using App.Data;
 using App.Helpers.Notifications;
 using App.Models;
+using App.Models.Enums;
 using App.Resx;
 using System;
 using System.Threading.Tasks;
@@ -12,22 +13,25 @@ namespace App.Helpers
 	{
 		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
 
-		public static async Task<int> AddMovementToBudget(Movement m)
+		public static async Task<AddToBudgetResult> AddMovementToBudget(Movement movement)
 		{
-			var budget = await _database.GetBudgetAsync(m.BudgetId);
+			if (movement.BudgetId == 0)
+				return AddToBudgetResult.Succeded;
+
+			var budget = await _database.GetBudgetAsync(movement.BudgetId);
 			if (budget is null)
 			{
-				m.BudgetId = 0;
-				return -2;
+				movement.BudgetId = 0;
+				return AddToBudgetResult.NotExists;
 			}
 
-			if (m.CreationDate < budget.CreationDate || m.CreationDate > budget.EndingDate)
-				return -1;
+			if (movement.CreationDate < budget.CreationDate || movement.CreationDate > budget.EndingDate)
+				return AddToBudgetResult.DateOutOfRange;
 			if (budget.Remaining <= 0.0m)
-				return 0;
+				return AddToBudgetResult.BudgetEnded;
 
-			budget.Remaining -= m.Value;
-			budget.Used += m.Value;
+			budget.Remaining -= movement.Value;
+			budget.Used += movement.Value;
 
 			if (budget.Remaining <= 0.00m)
 			{
@@ -39,35 +43,39 @@ namespace App.Helpers
 					message);	
 			}
 
-			return await _database.SaveBudgetAsync(budget);
+			await _database.SaveBudgetAsync(budget);
+			return AddToBudgetResult.Succeded;
 		}
 
-		public static async Task<int> RemoveMovementFromBudget(Movement m)
+		public static async Task RemoveMovementFromBudget(Movement movement)
 		{
-			if (m.BudgetId == 0)
-				return -1;
+			if (movement.BudgetId == 0)
+				return;
 
-			var budget = await _database.GetBudgetAsync(m.BudgetId);
+			var budget = await _database.GetBudgetAsync(movement.BudgetId);
 			if (budget is null)
-				return -1;
+				return;
 
-			budget.Used -= m.Value;
-			budget.Remaining += m.Value;
-			return await _database.SaveBudgetAsync(budget);
+			budget.Used -= movement.Value;
+			budget.Remaining += movement.Value;
+			await _database.SaveBudgetAsync(budget);
 		}
 
 		public static async void ValidateBudgets()
 		{
 			var budgets = await _database.GetBudgetsAsync();
-			foreach (var item in budgets)
+			if (budgets is null)
+				return;
+
+			foreach (var budget in budgets)
 			{
-				if (DateTime.Today.Date > item.EndingDate)
+				if (DateTime.Today.Date > budget.EndingDate)
 				{
 					var message = string.Format(
 						AppResource.BudgetExpired,
-						item.Name);
+						budget.Name);
 					NotificationHelper.SendNotification(AppResource.BudgetExpiredTitle, message);
-					await _database.DeleteBudgetAsync(item);
+					await _database.DeleteBudgetAsync(budget);
 				}
 			}
 		}

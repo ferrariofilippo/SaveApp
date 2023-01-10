@@ -46,15 +46,15 @@ namespace App.Views
 
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)
 		{
-			var bgDisplay = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
+			var budgetgDisplay = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 
 			var message = new StringBuilder();
-			message.AppendLine($"{AppResource.Description}: {bgDisplay.Budget.Name,30}");
-			message.AppendLine($"{AppResource.Remaining}: {bgDisplay.RemainingString,30}");
-			message.AppendLine($"{AppResource.Used}: {bgDisplay.UsedString,30}");
-			message.AppendLine($"{AppResource.Total}: {bgDisplay.Budget.MaxAmount.ToCurrencyString(),30}");
-			message.AppendLine($"{AppResource.InitialDate}: {bgDisplay.InitialString,30}");
-			message.Append($"{AppResource.FinalDate}: {bgDisplay.EndingString,30}");
+			message.AppendLine($"{AppResource.Description}: {budgetgDisplay.Budget.Name,30}");
+			message.AppendLine($"{AppResource.Remaining}: {budgetgDisplay.RemainingString,30}");
+			message.AppendLine($"{AppResource.Used}: {budgetgDisplay.UsedString,30}");
+			message.AppendLine($"{AppResource.Total}: {budgetgDisplay.Budget.MaxAmount.ToCurrencyString(),30}");
+			message.AppendLine($"{AppResource.InitialDate}: {budgetgDisplay.InitialString,30}");
+			message.Append($"{AppResource.FinalDate}: {budgetgDisplay.EndingString,30}");
 
 			DisplayAlert(AppResource.Budget, message.ToString(), "Ok");
 		}

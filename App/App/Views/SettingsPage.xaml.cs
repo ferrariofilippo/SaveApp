@@ -66,44 +66,46 @@ namespace App.Views
 				var database = DependencyService.Get<AppDatabase>();
 
 				await Task.WhenAll(
-							Task.Run(async () =>
+					Task.Run(async () =>
+					{
+						var builder = new StringBuilder("ID,VALUE,IS_EXPENSE,DESCRIPTION,TYPE,DATE");
+						var movements = await database.GetMovementsAsync();
+						var path = $"Expenses-{DateTime.Now:dd-MM-yyyy}.csv";
+
+						if (!(movements is null))
+						{
+							foreach (var item in movements)
 							{
-								var builder = new StringBuilder("ID,VALUE,IS_EXPENSE,DESCRIPTION,TYPE,DATE");
-								var movements = await database.GetMovementsAsync();
-								var path = $"Expenses-{DateTime.Now:dd-MM-yyyy}.csv";
-								if (!(movements is null))
-								{
-									foreach (var item in movements)
-									{
-										builder.AppendLine(
-											$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
-											$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
-											$"{item.CreationDate.Date}");
-									}
-								}
+								builder.AppendLine(
+									$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
+									$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
+									$"{item.CreationDate.Date}");
+							}
+						}
 
-								await _saver.SaveFile(path, builder.ToString());
-							}),
-							Task.Run(async () =>
+						await _saver.SaveFile(path, builder.ToString());
+					}),
+					Task.Run(async () =>
+					{
+						var builder = new StringBuilder(
+							"ID,VALUE,DESCRIPTION,EXPENSE_TYPE,RENEWAL_TYPE,LAST_PAID,NEXT_RENEWAL,CREATION_DATE");
+						var subs = await database.GetSubscriptionsAsync();
+						var path = $"Subscriptions-{DateTime.Now:dd-MM-yyyy}.csv";
+
+						if (!(subs is null))
+						{
+							foreach (var item in subs)
 							{
-								var builder = new StringBuilder(
-									"ID,VALUE,DESCRIPTION,EXPENSE_TYPE,RENEWAL_TYPE,LAST_PAID,NEXT_RENEWAL,CREATION_DATE");
-								var subs = await database.GetSubscriptionsAsync();
-								var path = $"Subscriptions-{DateTime.Now:dd-MM-yyyy}.csv";
+								builder.AppendLine(
+									$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
+									$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
+									$"{item.CreationDate.Date}");
+							}
+						}
 
-								if (!(subs is null))
-								{
-									foreach (var item in subs)
-									{
-										builder.AppendLine(
-											$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
-											$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
-											$"{item.CreationDate.Date}");
-									}
-								}
-
-								await _saver.SaveFile(path, builder.ToString());
-							}));
+						await _saver.SaveFile(path, builder.ToString());
+					})
+				);
 
 				NotificationHelper.SendNotification(
 					AppResource.FileDownloadedNotificationTItle,
@@ -146,7 +148,7 @@ namespace App.Views
 			var currencies = DependencyService.Get<CurrenciesManager>();
 			_settings.Settings.BaseCurrency = (byte)CurrencyPicker.SelectedIndex;
 
-			await Task.WhenAll(_settings.SaveSettings());
+			await _settings.SaveSettings();
 			_ = currencies.UpdateAllToCurrent(previous);
 		}
 
@@ -158,13 +160,11 @@ namespace App.Views
 
 		private void ThemePicker_Unfocused(object sender, FocusEventArgs e)
 			=> ThemeLabel.Unfocus();
-
 		private void ThemeLabel_Focused(object sender, FocusEventArgs e)
 			=> ThemePicker.Focus();
 
 		private void CurrencyLabel_Focused(object sender, FocusEventArgs e)
 			=> CurrencyPicker.Focus();
-
 		private void CurrencyPicker_Unfocused(object sender, FocusEventArgs e)
 			=> CurrencyLabel.Unfocus();
 	}

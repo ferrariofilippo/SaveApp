@@ -58,7 +58,7 @@ namespace App.Views
 			_viewModel.Stats.PropertyChanged += UpdateGraph;
 		}
 
-		private void HomePage_SizeChanged(object sender, EventArgs e)
+		private void HomePage_SizeChanged(object _, EventArgs e)
 		{
 			double pageWidth = this.Width > 480 ? 450.0d : this.Width - 30.0d;
 
@@ -72,7 +72,7 @@ namespace App.Views
 			UpdateGraph("");
 		}
 
-		private void MovementsCanvas_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
+		private void MovementsCanvas_PaintSurface(object _, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
 		{
 			var netWorth = _viewModel.Expenses + _viewModel.Income;
 			var expensesAngle = -140.0f;
@@ -104,10 +104,10 @@ namespace App.Views
 			}
 		}
 
-		private async void OpenAdd_Clicked(object sender, EventArgs e)
+		private async void OpenAdd_Clicked(object _, EventArgs e)
 			=> await Navigation.PushAsync(new AddPage());
 
-		private void RefreshView_Refreshing(object sender, EventArgs e)
+		private void RefreshView_Refreshing(object _, EventArgs e)
 			=> UpdateGraph("");
 
 		private void UpdateGraph(string name)

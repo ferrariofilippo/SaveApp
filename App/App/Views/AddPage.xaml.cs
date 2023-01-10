@@ -97,18 +97,21 @@ namespace App.Views
 
             for (int i = 0; i < budgets.Count; i++)
             {
-                IndexToBudgetId.Add(i + 1, budgets[i].Id);
-                BudgetPicker.Items.Add(budgets[i].Name);
+                if (budgets[i].Remaining > 0.0m || (_isEditingMovement && budgets[i].Id == _toEdit.BudgetId))
+                {
+                    IndexToBudgetId.Add(i + 1, budgets[i].Id);
+                    BudgetPicker.Items.Add(budgets[i].Name);
+                }
             }
 
             BudgetPicker.SelectedIndex = 0;
             CurrencyPicker.SelectedIndex = settings.Settings.BaseCurrency;
         }
 
-        private async void Cancel_Clicked(object sender, EventArgs e)
+        private async void Cancel_Clicked(object _, EventArgs e)
             => await Navigation.PopAsync();
 
-        private async void Save_Clicked(object sender, EventArgs e)
+        private async void Save_Clicked(object _, EventArgs e)
         {
             var (isValid, value) = await ValidateInput();
             if (!isValid)
@@ -176,12 +179,12 @@ namespace App.Views
             if (!(movement is null))
             {
                 var result = movement.BudgetId == 0
-                    ? 1
+                    ? AddToBudgetResult.Succeded
                     : await BudgetHelper.AddMovementToBudget(movement);
 
-                if (result == -1)
+                if (result == AddToBudgetResult.DateOutOfRange)
                     await ShowError(AppResource.DateOutOfBudget);
-                else if (result == 0)
+                else if (result == AddToBudgetResult.BudgetEnded)
                     await ShowError(AppResource.BudgetEndedAlert);
                 else
                     await Task.WhenAll(
@@ -206,13 +209,15 @@ namespace App.Views
 
             if (_isEditingMovement)
             {
+                await BudgetHelper.RemoveMovementFromBudget(_toEdit);
+
                 var result = await BudgetHelper.AddMovementToBudget(movement);
-                if (result == -1)
+                if (result == AddToBudgetResult.DateOutOfRange)
                 {
                     await ShowError(AppResource.DateOutOfBudget);
                     return false;
                 }
-                else if (result == 0)
+                else if (result == AddToBudgetResult.BudgetEnded)
                 {
                     await ShowError(AppResource.BudgetEndedAlert);
                     return false;

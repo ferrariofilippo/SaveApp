@@ -25,13 +25,12 @@ namespace App.ViewModels.DataViewModels
 
         public bool ShowEmptyLabel { get; set; } = false;
 
-        public StatisticsItemViewModel(string title, List<decimal> values, decimal isExpense = -1.0m, bool isMonthly = false)
+        public StatisticsItemViewModel(string title, List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
             Title = title;
+            var entries = CreateEntries(values, isExpense, isMonthly);
 
-            var sum = values.Sum();
-            ShowEmptyLabel = sum == 0.0m;
-            var entries = CreateEntries(values, isExpense, sum, isMonthly);
+            ShowEmptyLabel = entries.Length == 0;
 
             StatChart = new DonutChart()
             {
@@ -43,7 +42,7 @@ namespace App.ViewModels.DataViewModels
             };
         }
 
-        public StatisticsItemViewModel(string title, Dictionary<int, decimal> values, decimal isExpense = -1.0m)
+        public StatisticsItemViewModel(string title, Dictionary<int, decimal> values, bool isExpense = true)
         {
             Title = title;
             var entries = CreateEntries(values, isExpense);
@@ -62,32 +61,36 @@ namespace App.ViewModels.DataViewModels
             };
         }
 
-        public void UpdateGraph(List<decimal> values, decimal isExpense = -1.0m, bool isMonthly = false)
+        public void UpdateGraph(List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
-            var sum = values.Sum();
-            ShowEmptyLabel = sum == 0.0m;
-            StatChart.Entries = CreateEntries(values, isExpense, sum, isMonthly);
+            ShowEmptyLabel = values.Count == 0;
+            StatChart.Entries = CreateEntries(values, isExpense, isMonthly);
         }
 
-        public void UpdateGraph(Dictionary<int, decimal> values, decimal isExpense = -1.0m)
+        public void UpdateGraph(Dictionary<int, decimal> values, bool isExpense = true)
         {
             ShowEmptyLabel = values.Keys.Count == 0;
             StatChart.Entries = CreateEntries(values, isExpense);
         }
 
-        private ChartEntry[] CreateEntries(List<decimal> values, decimal isExpense, decimal sum, bool isMonthly)
+        private ChartEntry[] CreateEntries(List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
             Items.Clear();
+            if (values.Count == 0)
+                return Array.Empty<ChartEntry>();
+
+            var sum = values.Sum();
             var entries = new ChartEntry[values.Count];
             var total = sum / 100.0m;
+            var sign = isExpense ? -1.0m : 1.0m;
 
-            if (total == 0)
-                return Array.Empty<ChartEntry>();
+            Color xamarinColor;
+            SKColor skColor;
 
             for (int i = 0; i < values.Count; i++)
             {
-                var xamarinColor = ReadOnlies.MovementTypeColors[i];
-                var skColor = ReadOnlies.SK_MovementTypeColors[i];
+                xamarinColor = ReadOnlies.MovementTypeColors[i];
+                skColor = ReadOnlies.SK_MovementTypeColors[i];
 
                 entries[i] = new ChartEntry((float)values[i])
                 {
@@ -101,21 +104,23 @@ namespace App.ViewModels.DataViewModels
                         : App.ResourceManager.GetString(((ExpenseType)i).ToString()),
                     Percentage = $"{values[i] / total:0.00}%",
                     TypeColor = xamarinColor,
-                    ValueString = (values[i] * isExpense).ToCurrencyString()
+                    ValueString = (values[i] * sign).ToCurrencyString()
                 });
             }
             return entries;
         }
 
-        private ChartEntry[] CreateEntries(Dictionary<int, decimal> values, decimal isExpense)
+        private ChartEntry[] CreateEntries(Dictionary<int, decimal> values, bool isExpense)
         {
             Items.Clear();
-            if (values.Values.Count == 0)
+            var valuesCount = values.Values.Count;
+            if (valuesCount == 0)
                 return Array.Empty<ChartEntry>();
 
-            var entries = new ChartEntry[values.Count];
-            var avg = values.Values.Sum() / values.Values.Count;
+            var entries = new ChartEntry[valuesCount];
+            var avg = values.Values.Sum() / valuesCount;
             var keys = values.Keys.OrderByDescending(x => x).ToArray();
+            var sign = isExpense ? -1.0m : 1.0m;
 
             var negativeXamarinColor = (Color)Application.Current.Resources["ExpenseColor"];
             var negativeSKColor = SKColor.Parse(negativeXamarinColor.ToHex());
@@ -128,7 +133,7 @@ namespace App.ViewModels.DataViewModels
             for (int i = 0; i < keys.Length; i++)
             {
                 var value = values[keys[i]];
-                var colors = value >= avg ? negativeColors : positiveColors;
+                var colors = value > avg ? negativeColors : positiveColors;
 
                 entries[i] = new ChartEntry((float)value)
                 {
@@ -141,7 +146,7 @@ namespace App.ViewModels.DataViewModels
                     Name = keys[i].ToString(),
                     Percentage = string.Empty,
                     TypeColor = colors.Item2,
-                    ValueString = (value * isExpense).ToCurrencyString()
+                    ValueString = (value * sign).ToCurrencyString()
                 });
             }
             return entries;

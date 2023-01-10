@@ -14,22 +14,8 @@ namespace App.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
 			Instance = null;
-			var theme = ThemeManager.GetCurrentTheme();
-			switch (theme)
-			{
-				case Models.Enums.Theme.Light:
-					SetTheme(Resource.Style.lightAppTheme);
-					break;
-				case Models.Enums.Theme.Nord:
-					SetTheme(Resource.Style.nordAppTheme);
-					break;
-				case Models.Enums.Theme.Ice:
-					SetTheme(Resource.Style.iceAppTheme);
-					break;
-				case Models.Enums.Theme.Teal:
-					SetTheme(Resource.Style.tealAppTheme);
-					break;
-			}
+
+            LoadUserTheme();
 
 			base.OnCreate(savedInstanceState);
             
@@ -46,6 +32,26 @@ namespace App.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+		private void LoadUserTheme()
+		{
+            var theme = ThemeManager.GetCurrentTheme();
+            switch (theme)
+            {
+                case Models.Enums.Theme.Light:
+                    SetTheme(Resource.Style.lightAppTheme);
+                    break;
+                case Models.Enums.Theme.Nord:
+                    SetTheme(Resource.Style.nordAppTheme);
+                    break;
+                case Models.Enums.Theme.Ice:
+                    SetTheme(Resource.Style.iceAppTheme);
+                    break;
+                case Models.Enums.Theme.Teal:
+                    SetTheme(Resource.Style.tealAppTheme);
+                    break;
+            }
         }
 	}
 }

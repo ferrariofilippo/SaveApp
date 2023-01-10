@@ -10,7 +10,7 @@ namespace App.Data
 {
 	public class AppDatabase
 	{
-		readonly SQLiteAsyncConnection _database;
+		private readonly SQLiteAsyncConnection _database;
 
 		public AppDatabase()
 		{
@@ -22,27 +22,24 @@ namespace App.Data
 		}
 
 		public Task<List<Movement>> GetMovementsAsync() => _database.Table<Movement>().ToListAsync();
-		public Task<List<Movement>> GetMovementsAsync(DateTime starting, DateTime ending) 
-			=> _database.Table<Movement>()
-				.Where(m => m.CreationDate > starting && m.CreationDate < ending)
-				.ToListAsync();
+
 		public Task<List<Subscription>> GetSubscriptionsAsync() => _database.Table<Subscription>().ToListAsync();
 		public Task<List<Budget>> GetBudgetsAsync() => _database.Table<Budget>().ToListAsync();
 		public Task<Budget> GetBudgetAsync(int id) => _database.Table<Budget>().FirstOrDefaultAsync(m => m.Id == id);
 
-		public Task<int> SaveMovementAsync(Movement m) => m.Id == 0 
-			? _database.InsertAsync(m) 
-			: _database.UpdateAsync(m);
-		public Task<int> SaveSubscriptionAsync(Subscription s) => s.Id == 0
-			? _database.InsertAsync(s)
-			: _database.UpdateAsync(s); 
-		public Task<int> SaveBudgetAsync(Budget b) => b.Id == 0
-			? _database.InsertAsync(b)
-			: _database.UpdateAsync(b);
+		public Task<int> SaveMovementAsync(Movement movement) => movement.Id == 0 
+			? _database.InsertAsync(movement) 
+			: _database.UpdateAsync(movement);
+		public Task<int> SaveSubscriptionAsync(Subscription subscription) => subscription.Id == 0
+			? _database.InsertAsync(subscription)
+			: _database.UpdateAsync(subscription); 
+		public Task<int> SaveBudgetAsync(Budget budget) => budget.Id == 0
+			? _database.InsertAsync(budget)
+			: _database.UpdateAsync(budget);
 
-		public Task<int> DeleteMovementAsync(Movement m) => _database.DeleteAsync(m);
-		public Task<int> DeleteSubscriptionAsync(Subscription s) => _database.DeleteAsync(s);
-		public Task<int> DeleteBudgetAsync(Budget b) => _database.DeleteAsync(b);
+		public Task<int> DeleteMovementAsync(Movement movement) => _database.DeleteAsync(movement);
+		public Task<int> DeleteSubscriptionAsync(Subscription subscription) => _database.DeleteAsync(subscription);
+		public Task<int> DeleteBudgetAsync(Budget budget) => _database.DeleteAsync(budget);
 
 		public Task UpdateDbToNewCurrency(decimal currencyRatio) => Task.WhenAll(
 				UpdateAllMovements(currencyRatio),

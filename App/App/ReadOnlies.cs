@@ -5,6 +5,7 @@ namespace App
 {
     public static class ReadOnlies
     {
+        // Months of the year
         public static readonly string[] Months =
         {
             "January",
@@ -21,6 +22,7 @@ namespace App
             "December"
         };
 
+        // Xamarin Types Colors
         public static readonly Color[] MovementTypeColors =
         {
             new Color(213.0 / 255, 166.0 / 255, 189.0 / 255),
@@ -37,6 +39,7 @@ namespace App
             new Color(234.0 / 255, 153.0 / 255, 153.0 / 255)
         };
 
+        // SkiaSharp Types Colors
         public static readonly SKColor[] SK_MovementTypeColors =
         {
             new SKColor(213, 166, 189),
