@@ -25,7 +25,7 @@ namespace App.Data
 
 			if (File.Exists(_statsPath))
 			{ 
-				string json = File.ReadAllText(_statsPath);
+				var json = File.ReadAllText(_statsPath);
 				if (!string.IsNullOrWhiteSpace(json))
 					Statistics = JsonSerializer.Deserialize<Statistics>(json);
 			}

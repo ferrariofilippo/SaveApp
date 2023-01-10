@@ -40,7 +40,7 @@ namespace App.Models
 
 		public void UpdateNextRenewal()
 		{
-			int renewalOffset = DateTime.IsLeapYear(LastPaid.Year) ? 366 : 365;
+			var renewalOffset = DateTime.IsLeapYear(LastPaid.Year) ? 366 : 365;
 			
 			switch (RenewalType)
 			{
@@ -51,15 +51,15 @@ namespace App.Models
 					renewalOffset = DateTime.DaysInMonth(LastPaid.Year, LastPaid.Month);
 					break;
 				case RenewalType.Bimonthly:
-					DateTime nextMonth = LastPaid.AddMonths(1);
+					var nextMonth = LastPaid.AddMonths(1);
 
 					renewalOffset =
 						DateTime.DaysInMonth(LastPaid.Year, LastPaid.Month) +
 						DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month);
 					break;
 				case RenewalType.Quarterly:
-					DateTime secondMonth = LastPaid.AddMonths(1);
-					DateTime thirdMonth = secondMonth.AddMonths(1);
+					var secondMonth = LastPaid.AddMonths(1);
+					var thirdMonth = secondMonth.AddMonths(1);
 
 					renewalOffset =
 						DateTime.DaysInMonth(LastPaid.Year, LastPaid.Month) +

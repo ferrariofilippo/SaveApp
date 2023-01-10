@@ -192,7 +192,7 @@ namespace App.Views
 				var movement = SubscriptionHelper.CreateMovementFromSubscription(sub);
 				if (!(movement is null))
 				{
-					int result = movement.BudgetId == 0
+					var result = movement.BudgetId == 0
 						? 1
 						: await BudgetHelper.AddMovementToBudget(movement);
 
@@ -227,7 +227,7 @@ namespace App.Views
 					await _stats.RemoveMovement(_toEdit);
 				}
 
-				int result = movement.BudgetId == 0
+				var result = movement.BudgetId == 0
 					? 1
 					: await BudgetHelper.AddMovementToBudget(movement);
 

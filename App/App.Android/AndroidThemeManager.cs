@@ -9,7 +9,7 @@ namespace App.Droid
 	{
 		public void OnThemeChanged(Theme theme)
 		{
-			MainActivity activity = MainActivity.Instance;
+			var activity = MainActivity.Instance;
 			if (activity is null)
 				return;
 			var intent = MainActivity.Instance.Intent;

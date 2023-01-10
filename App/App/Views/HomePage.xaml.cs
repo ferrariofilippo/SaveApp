@@ -74,12 +74,12 @@ namespace App.Views
 
 		private void MovementsCanvas_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
 		{
-			decimal netWorth = _viewModel.Expenses + _viewModel.Income;
-			float expensesAngle = -140.0f;
+			var netWorth = _viewModel.Expenses + _viewModel.Income;
+			var expensesAngle = -140.0f;
 			expensesAngle -= netWorth == 0.00m ? 0.00f : (float)(280.0m * ((_viewModel.Expenses / netWorth) - 0.5m));
 
-			SKCanvas canvas = e.Surface.Canvas;
-			SKRect rect = new SKRect(
+			var canvas = e.Surface.Canvas;
+			var rect = new SKRect(
 				_circleData.TopLeftOffset,
 				_circleData.TopLeftOffset,
 				_circleData.BottomRightOffset,
@@ -92,12 +92,12 @@ namespace App.Views
 				_circleData.Radius, 
 				_incomePaint);
 
-			using (SKPath path = new SKPath())
+			using (var path = new SKPath())
 			{
 				path.AddArc(rect, _expensesStartAngle, expensesAngle);
 				canvas.DrawPath(path, _expensesPaint);
 			}
-			using (SKPath path = new SKPath())
+			using (var path = new SKPath())
 			{
 				path.AddArc(rect, _backgroundStartAngle, _backgroundAngle);
 				canvas.DrawPath(path, _backgroundPaint);

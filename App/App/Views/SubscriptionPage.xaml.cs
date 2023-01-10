@@ -56,7 +56,7 @@ namespace App.Views
 		{
 			var displayItem = (SubsDisplay)((SwipeItem)sender).Parent.BindingContext;
 
-			StringBuilder message = new StringBuilder();
+			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {displayItem.Subscription.Description,30}");
 			message.AppendLine($"{AppResource.Value}: {displayItem.ValueString,30}");
 			message.AppendLine($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(displayItem.Subscription.ExpenseType.ToString()),30}");

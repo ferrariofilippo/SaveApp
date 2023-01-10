@@ -7,9 +7,9 @@ namespace App.Log
 {
 	public class Logger
 	{
-		private readonly string _logFilePath;
-
 		private const int _bufferSize = 4096;
+
+		private readonly string _logFilePath;
 
 		public Logger()
 		{

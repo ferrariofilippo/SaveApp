@@ -19,7 +19,7 @@ namespace App
 
 		private readonly CurrenciesManager _currencies;
 
-		private static readonly Logger _logger = new Logger();
+		private readonly Logger _logger;
 
 		public static readonly ResourceManager ResourceManager = new ResourceManager(typeof(AppResource));
 
@@ -32,11 +32,13 @@ namespace App
 			_database = new AppDatabase();
 			_statistics = new StatisticsHolder();
 			_settings = new SettingsManager();
+			_logger = new Logger();
 
 			DependencyService.RegisterSingleton(_database);
 			DependencyService.RegisterSingleton(_statistics);
 			DependencyService.RegisterSingleton(_settings);
-			
+			DependencyService.RegisterSingleton(_logger);
+
 			// Currencies needs _settings service
 			_currencies = new CurrenciesManager();
 			DependencyService.RegisterSingleton(_currencies);
@@ -57,36 +59,20 @@ namespace App
 			}
 			catch(Exception ex)
 			{
-				NotifyException(ex);
+				NotificationHelper.NotifyException(ex);
 			}
-		}
-
-		protected override void OnSleep()
-		{
-		}
-
-		protected override void OnResume()
-		{
 		}
 
 		private void SetUpExceptionHandling()
 		{
-			AppDomain appDomain = AppDomain.CurrentDomain;
-			appDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhadledException);
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhadledException);
 			TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 		}
 
 		private void OnUnhadledException(object	sender, UnhandledExceptionEventArgs args)
-			=> NotifyException((Exception) args.ExceptionObject);
+			=> NotificationHelper.NotifyException((Exception) args.ExceptionObject);
 
 		private void OnTaskSchedulerUnobservedException(object sender, UnobservedTaskExceptionEventArgs args)
-			=> NotifyException(args.Exception);
-
-		public static void NotifyException(Exception ex)
-		{
-			var exceptionMessage = $"Thrown by: {ex.TargetSite.Name}\n\rMessage: {ex.Message}";
-			NotificationHelper.SendNotification(AppResource.Error, exceptionMessage);
-			_logger.LogWarningAsync(ex);
-		}
+			=> NotificationHelper.NotifyException(args.Exception);
 	}
 }

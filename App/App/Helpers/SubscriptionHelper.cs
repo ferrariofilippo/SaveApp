@@ -15,6 +15,8 @@ namespace App.Helpers
 		public static async void ValidateSubscriptions()
 		{
 			var subs = await _database.GetSubscriptionsAsync();
+			if (subs is null)
+				return;
 			foreach (var item in subs)
 			{
 				var movement = CreateMovementFromSubscription(item);

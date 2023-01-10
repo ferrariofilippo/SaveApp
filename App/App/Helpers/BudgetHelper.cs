@@ -30,7 +30,7 @@ namespace App.Helpers
 
 			if (budget.Remaining <= 0.00m)
 			{
-				string message = string.Format(
+				var message = string.Format(
 					AppResource.BudgetEnded,
 					budget.Name);
 				NotificationHelper.SendNotification(
@@ -62,7 +62,7 @@ namespace App.Helpers
 			{
 				if (DateTime.Today.Date > item.EndingDate)
 				{
-					string message = string.Format(
+					var message = string.Format(
 						AppResource.BudgetExpired,
 						item.Name);
 					NotificationHelper.SendNotification(AppResource.BudgetExpiredTitle, message);

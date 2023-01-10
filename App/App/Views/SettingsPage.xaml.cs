@@ -109,7 +109,7 @@ namespace App.Views
 			}
 			catch (Exception ex)
 			{
-				App.NotifyException(ex);
+				NotificationHelper.NotifyException(ex);
 			}
 
 			lock (_lock)

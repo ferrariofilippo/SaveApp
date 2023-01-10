@@ -62,7 +62,7 @@ namespace App.Data
 
 		private void LoadCached()
 		{
-			string json = File.ReadAllText(_cachePath);
+			var json = File.ReadAllText(_cachePath);
 			if (!string.IsNullOrWhiteSpace(json))
 			{
 				var parsed = JsonSerializer.Deserialize<CurrenciesCache>(json);

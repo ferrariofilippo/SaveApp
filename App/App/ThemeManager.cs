@@ -12,7 +12,7 @@ namespace App
 
 		public static async void ChangeTheme(Theme theme) 
 		{
-			byte themeByte = (byte)theme;
+			var themeByte = (byte)theme;
 			if (Settings is null)
 				return;
 
@@ -37,9 +37,11 @@ namespace App
 					break;
 				case Theme.Ice:
 					mergedDictionaires.Add(new IceTheme());
+					App.Current.UserAppTheme = OSAppTheme.Light;
 					break;
 				case Theme.Teal:
 					mergedDictionaires.Add(new TealTheme());
+					App.Current.UserAppTheme = OSAppTheme.Dark;
 					break;
 			}
 

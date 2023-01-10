@@ -4,7 +4,6 @@ using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
 using App.Helpers;
-using System;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(App.Droid.AndroidNotificationManager))]
@@ -23,7 +22,7 @@ namespace App.Droid
 		private int _messageId = 0;
 		private int _pendingIntentId = 0;
 
-		private NotificationManager manager;
+		private NotificationManager _manager;
 
 		public static AndroidNotificationManager Instance { get; private set; }
 
@@ -31,11 +30,10 @@ namespace App.Droid
 
 		public void Initialize()
 		{
-			if (Instance is null)
-			{
-				CreateNotificationChannel();
-				Instance = this;
-			}
+			if (!(Instance is null))
+				return;
+			CreateNotificationChannel();
+			Instance = this;
 		}
 
 		public void SendNotification(string title, string message)
@@ -48,7 +46,7 @@ namespace App.Droid
 
 		public void Show(string title, string message)
 		{
-			Intent intent = new Intent(Android.App.Application.Context, typeof(MainActivity));
+			var intent = new Intent(Android.App.Application.Context, typeof(MainActivity));
 			intent.PutExtra(TitleKey, title);
 			intent.PutExtra(MessageKey, message);
 
@@ -56,13 +54,13 @@ namespace App.Droid
 				? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable
 				: PendingIntentFlags.UpdateCurrent;
 
-			PendingIntent pending = PendingIntent.GetActivity(
+			var pending = PendingIntent.GetActivity(
 				Android.App.Application.Context,
 				_pendingIntentId++,
 				intent,
 				intentFlags);
 
-			NotificationCompat.Builder builder = new NotificationCompat.Builder(Android.App.Application.Context, _channelId)
+			var builder = new NotificationCompat.Builder(Android.App.Application.Context, _channelId)
 				.SetContentIntent(pending)
 				.SetContentTitle(title)
 				.SetContentText(message)
@@ -70,13 +68,13 @@ namespace App.Droid
 				.SetSmallIcon(Resource.Mipmap.icon_round)
 				.SetDefaults((int)NotificationDefaults.All);
 
-			Notification notification = builder.Build();
-			manager.Notify(_messageId++, notification);
+			var notification = builder.Build();
+			_manager.Notify(_messageId++, notification);
 		}
 
 		private void CreateNotificationChannel()
 		{
-			manager = (NotificationManager)Android.App.Application.Context.GetSystemService(Android.App.Application.NotificationService);
+			_manager = (NotificationManager)Android.App.Application.Context.GetSystemService(Android.App.Application.NotificationService);
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 			{
@@ -85,7 +83,7 @@ namespace App.Droid
 				{
 					Description = _channelDescription
 				};
-				manager.CreateNotificationChannel(channel);
+				_manager.CreateNotificationChannel(channel);
 			}
 
 			_channelInitialized = true;

@@ -11,7 +11,7 @@ namespace App.Droid
 	{
 		public async Task SaveFile(string path, string content)
 		{
-			string filePath = Path.Combine(
+			var filePath = Path.Combine(
 				Environment.GetExternalStoragePublicDirectory(Environment.DirectoryDownloads).AbsolutePath,
 				path);
 

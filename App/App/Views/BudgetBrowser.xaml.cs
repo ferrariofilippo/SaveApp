@@ -46,7 +46,7 @@ namespace App.Views
 		{
 			var bgDisplay = (BudgetDisplay)((SwipeItem)sender).Parent.BindingContext;
 
-			StringBuilder message = new StringBuilder();
+			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {bgDisplay.Budget.Name,30}");
 			message.AppendLine($"{AppResource.Remaining}: {bgDisplay.RemainingString,30}");
 			message.AppendLine($"{AppResource.Used}: {bgDisplay.UsedString,30}");

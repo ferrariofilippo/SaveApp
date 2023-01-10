@@ -21,7 +21,7 @@ namespace App.Data
 
 			if (File.Exists(_settingsPath))
 			{
-				string json = File.ReadAllText(_settingsPath);
+				var json = File.ReadAllText(_settingsPath);
 				if (!string.IsNullOrWhiteSpace(json))
 					Settings = JsonSerializer.Deserialize<Settings>(json);
 			}

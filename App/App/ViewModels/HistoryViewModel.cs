@@ -100,7 +100,7 @@ namespace App.ViewModels
 		{
 			Movements.Clear();
 
-			DateTime date = new DateTime(_year, MonthAndDay[0], MonthAndDay[1]);
+			var date = new DateTime(_year, MonthAndDay[0], MonthAndDay[1]);
 			var items = await Filter(
 				date,
 				x => x.CreationDate.Date == date.Date,
@@ -140,7 +140,7 @@ namespace App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.NotifyException(ex);
+				NotificationHelper.NotifyException(ex);
 			}
 
 			return returnList;

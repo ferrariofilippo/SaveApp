@@ -164,7 +164,7 @@ namespace App.Views
 		{
 			var mvDisplay = (MovementDisplay)((SwipeItem)sender).Parent.BindingContext;
 
-			StringBuilder message = new StringBuilder();
+			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {mvDisplay.Movement.Description,30}");
 			message.AppendLine($"{AppResource.Value}: {mvDisplay.ValueString,30}");
 			message.AppendLine($"{AppResource.Date}: {mvDisplay.DateString,30}");

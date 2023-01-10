@@ -78,9 +78,9 @@ namespace App.Models
 		private ChartEntry[] CreateEntries(List<decimal> values, decimal isExpense, decimal sum, bool isMonthly)
 		{
 			Items.Clear();
-			byte[] rgb = new byte[3];
+			var rgb = new byte[3];
 			var entries = new ChartEntry[values.Count];
-			decimal total = sum / 100.0m;
+			var total = sum / 100.0m;
 
 			if (total == 0)
 				return Array.Empty<ChartEntry>();
@@ -117,7 +117,7 @@ namespace App.Models
 				return Array.Empty<ChartEntry>();
 
 			var entries = new ChartEntry[values.Count];
-			decimal avg = values.Values.Sum() / values.Values.Count;
+			var avg = values.Values.Sum() / values.Values.Count;
 			var keys = values.Keys.OrderByDescending(x => x).ToArray();
 
 			var expenseColor = (Color)Application.Current.Resources["ExpenseColor"];
