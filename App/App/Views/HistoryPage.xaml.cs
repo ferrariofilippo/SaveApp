@@ -175,30 +175,31 @@ namespace App.Views
 
 		private void FocusDay(int day)
 		{
-			_viewModel.MonthAndDay[1] = day;
+            _viewModel.MonthAndDay[1] = day;
 			_viewModel.CalendarTitle = $"{_viewModel.MonthAndDay[1]} {App.ResourceManager.GetString(ReadOnlies.Months[_viewModel.MonthAndDay[0] - 1])}";
 			_viewModel.FilterByDay();
 		}
 
 		private void FocusMonth(int month)
 		{
-			_viewModel.MonthAndDay[0] = month;
+            _viewModel.MonthAndDay[0] = month;
 			_viewModel.CalendarTitle = App.ResourceManager.GetString(
 				ReadOnlies.Months[month - 1]);
 
-			_viewModel.FilterByMonth();
-			var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);
-			if (monthLength == _lastMonthLength)
-				return;
+            var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);
+            if (monthLength == _lastMonthLength)
+                return;
 
-			if (monthLength > _lastMonthLength)
-				for (int i = _lastMonthLength; i < monthLength; i++)
-					((Button)DayGrid.Children[i]).IsVisible = true;
-			else
-				for (int i = monthLength; i < _lastMonthLength; i++)
-					((Button)DayGrid.Children[i]).IsVisible = false;
+            if (monthLength > _lastMonthLength)
+                for (int i = _lastMonthLength; i < monthLength; i++)
+                    ((Button)DayGrid.Children[i]).IsVisible = true;
+            else
+                for (int i = monthLength; i < _lastMonthLength; i++)
+                    ((Button)DayGrid.Children[i]).IsVisible = false;
 
-			_lastMonthLength = monthLength;
+            _lastMonthLength = monthLength;
+
+            _viewModel.FilterByMonth();
 		}
 
 		private void FocusYear(int year)
