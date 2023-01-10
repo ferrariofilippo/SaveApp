@@ -28,6 +28,7 @@
 		<ScrollView>
 			<RefreshView 
 				x:Name="MainRefresh"
+				IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
 				Refreshing="RefreshView_Refreshing">
 				<Grid Padding="20">
 					<Grid.RowDefinitions>

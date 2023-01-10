@@ -47,7 +47,7 @@ namespace App.Helpers
 			{
 				BudgetId = s.BudgetId,
 				CreationDate = s.NextRenewal.Date,
-				Description = $"Pagamento di {s.Description} - {Constants.Months[renewal.Month]} {renewal.Year}",
+				Description = $"Pagamento di {s.Description} - {ReadOnlies.Months[renewal.Month]} {renewal.Year}",
 				ExpenseType = s.ExpenseType,
 				IsExpense = true,
 				Value = s.Value,

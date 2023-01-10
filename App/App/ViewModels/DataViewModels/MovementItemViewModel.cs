@@ -40,7 +40,7 @@ namespace App.ViewModels.DataViewModels
         public MovementItemViewModel(Movement m)
         {
             Movement = m;
-            BackgroundColor = m.IsExpense ? Constants.MovementTypeColors[(int)m.ExpenseType] : (Color)Application.Current.Resources["IncomeColor"];
+            BackgroundColor = m.IsExpense ? ReadOnlies.MovementTypeColors[(int)m.ExpenseType] : (Color)Application.Current.Resources["IncomeColor"];
         }
     }
 }

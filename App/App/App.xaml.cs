@@ -1,8 +1,8 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Helpers.LogHelper;
 using App.Helpers.Notifications;
 using App.Helpers.Themes;
-using App.Log;
 using App.Resx;
 using System;
 using System.Resources;

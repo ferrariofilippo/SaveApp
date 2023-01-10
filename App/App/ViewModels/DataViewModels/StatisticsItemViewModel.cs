@@ -78,7 +78,6 @@ namespace App.ViewModels.DataViewModels
         private ChartEntry[] CreateEntries(List<decimal> values, decimal isExpense, decimal sum, bool isMonthly)
         {
             Items.Clear();
-            var rgb = new byte[3];
             var entries = new ChartEntry[values.Count];
             var total = sum / 100.0m;
 
@@ -87,23 +86,21 @@ namespace App.ViewModels.DataViewModels
 
             for (int i = 0; i < values.Count; i++)
             {
-                var color = Constants.MovementTypeColors[i];
-                rgb[0] = (byte)(color.R * 255);
-                rgb[1] = (byte)(color.G * 255);
-                rgb[2] = (byte)(color.B * 255);
+                var xamarinColor = ReadOnlies.MovementTypeColors[i];
+                var skColor = ReadOnlies.SK_MovementTypeColors[i];
 
                 entries[i] = new ChartEntry((float)values[i])
                 {
-                    Color = new SKColor(rgb[0], rgb[1], rgb[2])
+                    Color = skColor
                 };
 
                 Items.Add(new StatisticItem()
                 {
                     Name = isMonthly
-                        ? App.ResourceManager.GetString(Constants.Months[i])
+                        ? App.ResourceManager.GetString(ReadOnlies.Months[i])
                         : App.ResourceManager.GetString(((ExpenseType)i).ToString()),
                     Percentage = $"{values[i] / total:0.00}%",
-                    TypeColor = color,
+                    TypeColor = xamarinColor,
                     ValueString = (values[i] * isExpense).ToCurrencyString()
                 });
             }
@@ -120,25 +117,30 @@ namespace App.ViewModels.DataViewModels
             var avg = values.Values.Sum() / values.Values.Count;
             var keys = values.Keys.OrderByDescending(x => x).ToArray();
 
-            var expenseColor = (Color)Application.Current.Resources["ExpenseColor"];
-            var incomeColor = (Color)Application.Current.Resources["IncomeColor"];
+            var negativeXamarinColor = (Color)Application.Current.Resources["ExpenseColor"];
+            var negativeSKColor = SKColor.Parse(negativeXamarinColor.ToHex());
+            var positiveXamarinColor = (Color)Application.Current.Resources["IncomeColor"];
+            var positiveSKColor = SKColor.Parse(positiveXamarinColor.ToHex());
+
+            var negativeColors = (negativeSKColor, negativeXamarinColor);
+            var positiveColors = (positiveSKColor, positiveXamarinColor);
 
             for (int i = 0; i < keys.Length; i++)
             {
                 var value = values[keys[i]];
-                var color = value >= avg ? expenseColor : incomeColor;
+                var colors = value >= avg ? negativeColors : positiveColors;
 
                 entries[i] = new ChartEntry((float)value)
                 {
                     Label = keys[i].ToString(),
-                    Color = SKColor.Parse(color.ToHex())
+                    Color = colors.Item1
                 };
 
                 Items.Add(new StatisticItem()
                 {
                     Name = keys[i].ToString(),
                     Percentage = string.Empty,
-                    TypeColor = color,
+                    TypeColor = colors.Item2,
                     ValueString = (value * isExpense).ToCurrencyString()
                 });
             }

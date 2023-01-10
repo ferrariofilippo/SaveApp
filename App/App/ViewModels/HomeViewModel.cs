@@ -41,6 +41,13 @@ namespace App.ViewModels
 			}
 		}
 
+		private bool _isRefreshing;
+		public bool IsRefreshing
+		{
+			get => _isRefreshing;
+			set => SetProperty(ref _isRefreshing, value);
+		}
+
 		public Color Green => (Color)App.Current.Resources["IncomeColor"];
 
 		public Color Red => (Color)App.Current.Resources["ExpenseColor"];

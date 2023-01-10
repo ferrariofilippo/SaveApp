@@ -27,10 +27,10 @@ namespace App.Views
 			Refresh_Budgets(BudgetListView, EventArgs.Empty);
 		}
 
-		private async void Refresh_Budgets(object sender, EventArgs e)
+		private async void Refresh_Budgets(object _, EventArgs e)
 		{
 			await _viewModel.LoadBudgets();
-			BudgetListView.IsRefreshing = false;
+			_viewModel.IsRefreshing = false;
 		}
 
 		private async void SwipeItem_DeleteInvoked(object sender, EventArgs e)
@@ -39,7 +39,9 @@ namespace App.Views
 				return;
 			var toDelete = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 			await _viewModel.DeleteBudget(toDelete);
-			await _viewModel.LoadBudgets();
+
+			_viewModel.IsRefreshing = true;
+			Refresh_Budgets(null, null);
 		}
 
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)

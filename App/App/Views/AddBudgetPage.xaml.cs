@@ -1,11 +1,10 @@
 ﻿using App.Data;
+using App.Helpers.UIHelpers;
 using App.Models;
 using App.Models.Enums;
 using App.Resx;
 using App.ViewModels;
 using System;
-using System.Globalization;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -22,14 +21,11 @@ namespace App.Views
 		public AddBudgetPage()
 		{
 			InitializeComponent();
-			InitializePickers();
+			InitializeUI();
 			this.BindingContext = _viewModel;
-
-			InitialDateLabel.Text = DateTime.Today.ToString("dd/MM/yyyy");
-			FinalDateLabel.Text = DateTime.Today.ToString("dd/MM/yyyy");
 		}
 
-		private void InitializePickers()
+		private void InitializeUI()
 		{
 			var settings = DependencyService.Get<SettingsManager>();
 
@@ -37,12 +33,16 @@ namespace App.Views
 			_viewModel.Currencies.ForEach(x => CurrencyPicker.Items.Add(x));
 
 			CurrencyPicker.SelectedIndex = settings.Settings.BaseCurrency;
-		}
+
+            InitialDateLabel.Text = DateTime.Today.ToString("dd/MM/yyyy");
+            FinalDateLabel.Text = DateTime.Today.ToString("dd/MM/yyyy");
+        }
 
 		private async void Save_Clicked(object sender, EventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(ValueEntry.Text) ||
-				!decimal.TryParse(ValueEntry.Text, out decimal value))
+				!decimal.TryParse(ValueEntry.Text, out decimal value) ||
+				value <= 0.0m)
 			{
 				await DisplayAlert(AppResource.Warning, AppResource.ValueEnteredNotValid, "Ok");
 				return;
@@ -78,59 +78,45 @@ namespace App.Views
 			await Navigation.PopAsync();
 		}
 
-		private async void Cancel_Clicked(object sender, EventArgs e)
+		private async void Cancel_Clicked(object _, EventArgs e)
 			=> await Navigation.PopAsync();
 
-		private void InitialDateLabel_Focused(object sender, EventArgs e)
+		private void InitialDateLabel_Focused(object _, EventArgs e)
 			=> InitialDatePicker.Focus();
 
-		private void FinalDateLabel_Focused(object sender, EventArgs e)
+		private void FinalDateLabel_Focused(object _, EventArgs e)
 			=> FinalDatePicker.Focus();
 
-		private void InitialDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+		private void InitialDatePicker_DateSelected(object _, DateChangedEventArgs e)
 		{
 			InitialDateLabel.Text = InitialDatePicker.Date.ToString("dd/MM/yyyy");
 			InitialDateLabel.Unfocus();
 		}
 
-		private void FinalDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+		private void FinalDatePicker_DateSelected(object _, DateChangedEventArgs e)
 		{
 			FinalDateLabel.Text = FinalDatePicker.Date.ToString("dd/MM/yyyy");
 			FinalDateLabel.Unfocus();
 		}
 
-		private void InitialDatePicker_Unfocused(object sender, FocusEventArgs e)
+		private void InitialDatePicker_Unfocused(object _, FocusEventArgs e)
 			=> InitialDateLabel.Unfocus();
 
-		private void FinalDatePicker_Unfocused(object sender, FocusEventArgs e)
+		private void FinalDatePicker_Unfocused(object _, FocusEventArgs e)
 			=> InitialDateLabel.Unfocus();
 
-		private void ExpenseTypeLabel_Focused(object sender, FocusEventArgs e)
+		private void ExpenseTypeLabel_Focused(object _, FocusEventArgs e)
 			=> ExpenseTypePicker.Focus();
-		private void ExpenseTypePicker_Unfocused(object sender, FocusEventArgs e)
+		private void ExpenseTypePicker_Unfocused(object _, FocusEventArgs e)
 			=> ExpenseTypeLabel.Unfocus();
 
-		private void ExpenseTypePicker_SelectedIndexChanged(object sender, EventArgs e)
+		private void ExpenseTypePicker_SelectedIndexChanged(object _, EventArgs e)
 		{
 			ExpenseTypeLabel.Text = ExpenseTypePicker.SelectedItem.ToString();
 			ExpenseTypeLabel.Unfocus();
 		}
 
-		private void ValueEntry_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			if (e.NewTextValue.Length > 0)
-			{
-				if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == "," &&
-					e.NewTextValue.Last() == '.')
-				{
-					ValueEntry.Text = e.OldTextValue + ',';
-				}
-				else if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == "." &&
-					e.NewTextValue.Last() == ',')
-				{
-					ValueEntry.Text = e.OldTextValue + '.';
-				}
-			}
-		}
+		private void ValueEntry_TextChanged(object _, TextChangedEventArgs e)
+			=> EntryHelpers.AdjustCurrencyEntryText(ValueEntry, e);
 	}
 }

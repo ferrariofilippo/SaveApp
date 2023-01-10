@@ -24,6 +24,13 @@ namespace App.ViewModels
 
 		public bool ShowEmptyLabel => Subscriptions.Count == 0;
 
+		private bool _isRefreshing;
+		public bool IsRefreshing
+		{
+			get => _isRefreshing;
+			set => SetProperty(ref _isRefreshing, value);
+		}
+
 		public async Task UpdateLayout()
 		{
 			Subscriptions.Clear();

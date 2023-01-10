@@ -108,15 +108,13 @@ namespace App.Views
 			=> await Navigation.PushAsync(new AddPage());
 
 		private void RefreshView_Refreshing(object sender, EventArgs e)
-		{
-			UpdateGraph("");
-			Refresh.IsRefreshing = false;
-		}
+			=> UpdateGraph("");
 
 		private void UpdateGraph(string name)
 		{
 			_viewModel.UpdateData();
 			MovementsCanvas.InvalidateSurface();
-		}
-	}
+            _viewModel.IsRefreshing = false;
+        }
+    }
 }

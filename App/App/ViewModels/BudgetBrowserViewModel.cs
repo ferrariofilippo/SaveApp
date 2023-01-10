@@ -17,6 +17,13 @@ namespace App.ViewModels
 
 		public bool ShowEmptyLabel => Budgets.Count == 0;
 
+		private bool _isRefreshing;
+		public bool IsRefreshing
+		{
+			get => _isRefreshing;
+			set => SetProperty(ref _isRefreshing, value);
+		}
+
 		public async Task LoadBudgets()
 		{
 			Budgets.Clear();

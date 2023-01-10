@@ -47,7 +47,7 @@ namespace App.Views
 				var btn = new Button()
 				{
 					BackgroundColor = Color.Transparent,
-					Text = App.ResourceManager.GetString(Constants.Months[i]),
+					Text = App.ResourceManager.GetString(ReadOnlies.Months[i]),
 					TextColor = textColor,
 					Visual = VisualMarker.Default
 				};
@@ -176,7 +176,7 @@ namespace App.Views
 		private void FocusDay(int day)
 		{
 			_viewModel.MonthAndDay[1] = day;
-			_viewModel.CalendarTitle = $"{_viewModel.MonthAndDay[1]} {App.ResourceManager.GetString(Constants.Months[_viewModel.MonthAndDay[0] - 1])}";
+			_viewModel.CalendarTitle = $"{_viewModel.MonthAndDay[1]} {App.ResourceManager.GetString(ReadOnlies.Months[_viewModel.MonthAndDay[0] - 1])}";
 			_viewModel.FilterByDay();
 		}
 
@@ -184,7 +184,7 @@ namespace App.Views
 		{
 			_viewModel.MonthAndDay[0] = month;
 			_viewModel.CalendarTitle = App.ResourceManager.GetString(
-				Constants.Months[month - 1]);
+				ReadOnlies.Months[month - 1]);
 
 			_viewModel.FilterByMonth();
 			var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);

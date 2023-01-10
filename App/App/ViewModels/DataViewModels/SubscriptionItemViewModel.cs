@@ -39,7 +39,7 @@ namespace App.ViewModels.DataViewModels
         public SubscriptionItemViewModel(Subscription sub)
         {
             Subscription = sub;
-            TypeColor = Constants.MovementTypeColors[(int)sub.ExpenseType];
+            TypeColor = ReadOnlies.MovementTypeColors[(int)sub.ExpenseType];
         }
     }
 }

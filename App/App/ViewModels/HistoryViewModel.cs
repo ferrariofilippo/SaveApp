@@ -66,53 +66,39 @@ namespace App.ViewModels
 
 		public async void FilterByYear()
 		{
-			Movements.Clear();
-
 			var items = await Filter(
 				new DateTime(_year, 1, 1),
 				x => x.CreationDate.Year == _year,
 				0);
 
-			foreach (var item in items)
-			{
-				Movements.Add(item);
-			}
+            UpdateMovements(items);
+        }
 
-			OnPropertyChanged(nameof(ShowEmptyLabel));
-		}
-
-		public async void FilterByMonth()
+        public async void FilterByMonth()
 		{
-			Movements.Clear();
-
 			var items = await Filter(
 				new DateTime(_year, MonthAndDay[0], 1),
 				x => x.CreationDate.Year == _year && x.CreationDate.Month == MonthAndDay[0],
 				1);
 
-			foreach (var item in items)
-			{
-				Movements.Add(item);
-			}
+			UpdateMovements(items);
+        }
 
-			OnPropertyChanged(nameof(ShowEmptyLabel));
-		}
-
-		public async void FilterByDay()
+        public async void FilterByDay()
 		{
-			Movements.Clear();
-
 			var date = new DateTime(_year, MonthAndDay[0], MonthAndDay[1]);
 			var items = await Filter(
 				date,
 				x => x.CreationDate.Date == date.Date,
 				2);
 
-			foreach (var item in items)
-			{
-				Movements.Add(item);
-			}
+			UpdateMovements(items);
+        }
 
+		private void UpdateMovements(List<MovementItemViewModel> movementItems)
+		{
+            Movements.Clear();
+            movementItems.ForEach(m => Movements.Add(m));
 			OnPropertyChanged(nameof(ShowEmptyLabel));
 		}
 

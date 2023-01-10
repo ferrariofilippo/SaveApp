@@ -1,4 +1,4 @@
-﻿using App.Log;
+﻿using App.Helpers.LogHelper;
 using App.Resx;
 using System;
 using Xamarin.Forms;

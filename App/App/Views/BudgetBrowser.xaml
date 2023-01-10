@@ -35,6 +35,7 @@
 				<ListView
 					x:Name="BudgetListView"
 					IsPullToRefreshEnabled="True"
+					IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
 					IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
 					Refreshing="Refresh_Budgets"
 					SelectionMode="None">

@@ -49,7 +49,7 @@ namespace App.ViewModels.DataViewModels
         public BudgetItemViewModel(Budget budget)
         {
             Budget = budget;
-            TypeColor = Constants.MovementTypeColors[(int)budget.MovementType];
+            TypeColor = ReadOnlies.MovementTypeColors[(int)budget.MovementType];
         }
     }
 }
