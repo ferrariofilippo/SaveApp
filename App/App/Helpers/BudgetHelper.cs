@@ -1,4 +1,5 @@
 ﻿using App.Data;
+using App.Helpers.Notifications;
 using App.Models;
 using App.Resx;
 using System;
@@ -7,7 +8,7 @@ using Xamarin.Forms;
 
 namespace App.Helpers
 {
-	public static class BudgetHelper
+    public static class BudgetHelper
 	{
 		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
 

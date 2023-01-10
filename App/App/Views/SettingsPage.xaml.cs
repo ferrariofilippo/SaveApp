@@ -1,5 +1,7 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Helpers.Notifications;
+using App.Helpers.Themes;
 using App.Models.Enums;
 using App.Resx;
 using App.ViewModels;
@@ -13,7 +15,7 @@ using Xamarin.Forms.Xaml;
 
 namespace App.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SettingsPage : ContentPage
 	{
 		private readonly IFileSaver _saver = DependencyService.Get<IFileSaver>();

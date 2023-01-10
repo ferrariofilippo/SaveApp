@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using App.Helpers.Themes;
 
 namespace App.Droid
 {

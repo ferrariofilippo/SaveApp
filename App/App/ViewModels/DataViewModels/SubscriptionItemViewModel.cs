@@ -1,10 +1,11 @@
 ﻿using App.Extensions;
+using App.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Xamarin.Forms;
 
-namespace App.Models
+namespace App.ViewModels.DataViewModels
 {
-    public class SubsDisplay : ObservableObject
+    public class SubscriptionItemViewModel : ObservableObject
     {
         private Color _typeColor;
         public Color TypeColor
@@ -13,8 +14,8 @@ namespace App.Models
             set => SetProperty(ref _typeColor, value);
         }
 
-        public string DescriptionString => Subscription.Description.Length > 20 
-            ? Subscription.Description.Substring(0, 20) 
+        public string DescriptionString => Subscription.Description.Length > 20
+            ? Subscription.Description.Substring(0, 20)
             : Subscription.Description.PadRight(20);
 
         public string ValueString => Subscription.Value.ToCurrencyString();
@@ -30,12 +31,12 @@ namespace App.Models
                 if (SetProperty(ref _subscription, value))
                 {
                     OnPropertyChanged(nameof(DescriptionString));
-					OnPropertyChanged(nameof(ValueString));
-					OnPropertyChanged(nameof(NextRenewalString));
-				}
-			}
+                    OnPropertyChanged(nameof(ValueString));
+                    OnPropertyChanged(nameof(NextRenewalString));
+                }
+            }
         }
-        public SubsDisplay(Subscription sub)
+        public SubscriptionItemViewModel(Subscription sub)
         {
             Subscription = sub;
             TypeColor = Constants.MovementTypeColors[(int)sub.ExpenseType];

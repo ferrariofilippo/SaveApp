@@ -1,6 +1,6 @@
 ﻿using App.Data;
 using App.Extensions;
-using App.Models;
+using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -8,13 +8,13 @@ using Xamarin.Forms;
 
 namespace App.ViewModels
 {
-	public class SubscriptionViewModel : ObservableObject
+    public class SubscriptionViewModel : ObservableObject
 	{
 		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
 
 		private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
 
-		public ObservableCollection<SubsDisplay> Subscriptions = new ObservableCollection<SubsDisplay>();
+		public ObservableCollection<SubscriptionItemViewModel> Subscriptions = new ObservableCollection<SubscriptionItemViewModel>();
 
 		public string ExpenseYTD => _stats.Statistics.SubscriptionPaidYTD.ToCurrencyString();
 
@@ -27,7 +27,7 @@ namespace App.ViewModels
 		public async Task UpdateLayout()
 		{
 			Subscriptions.Clear();
-			(await _database.GetSubscriptionsAsync()).ForEach(x => Subscriptions.Add(new SubsDisplay(x)));
+			(await _database.GetSubscriptionsAsync()).ForEach(x => Subscriptions.Add(new SubscriptionItemViewModel(x)));
 
 			OnPropertyChanged(nameof(ExpenseYTD));
 			OnPropertyChanged(nameof(MonthlyExpense));
@@ -35,7 +35,7 @@ namespace App.ViewModels
 			OnPropertyChanged(nameof(ShowEmptyLabel));
 		}
 
-		public Task DeleteSubscription(SubsDisplay d) 
+		public Task DeleteSubscription(SubscriptionItemViewModel d) 
 			=> Task.WhenAll(
 				_database.DeleteSubscriptionAsync(d.Subscription),
 				_stats.RemoveSubscription(d.Subscription)

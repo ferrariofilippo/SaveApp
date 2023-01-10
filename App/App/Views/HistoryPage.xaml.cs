@@ -1,7 +1,7 @@
 ﻿using App.Helpers;
-using App.Models;
 using App.Resx;
 using App.ViewModels;
+using App.ViewModels.DataViewModels;
 using System;
 using System.Text;
 using Xamarin.Forms;
@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace App.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HistoryPage : ContentPage
 	{
 		private readonly HistoryViewModel _viewModel = new HistoryViewModel();
@@ -148,7 +148,7 @@ namespace App.Views
 		{
 			if (!await DisplayAlert(AppResource.Warning, AppResource.DeleteItemMessage, AppResource.Delete, AppResource.Cancel))
 				return;
-			var toDelete = ((MovementDisplay)((SwipeItem)sender).Parent.BindingContext).Movement;
+			var toDelete = ((MovementItemViewModel)((SwipeItem)sender).Parent.BindingContext).Movement;
 			await BudgetHelper.RemoveMovementFromBudget(toDelete);
 			await _viewModel.DeleteItemAsync(toDelete);
 			Refresh_ListView(MainView, EventArgs.Empty);
@@ -156,13 +156,13 @@ namespace App.Views
 
 		private async void SwipeItem_EditInvoked(object sender, EventArgs e)
 		{
-			var toEdit = ((MovementDisplay)((SwipeItem)sender).Parent.BindingContext).Movement;
+			var toEdit = ((MovementItemViewModel)((SwipeItem)sender).Parent.BindingContext).Movement;
 			await Navigation.PushAsync(new AddPage(toEdit));
 		}
 
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)
 		{
-			var mvDisplay = (MovementDisplay)((SwipeItem)sender).Parent.BindingContext;
+			var mvDisplay = (MovementItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 
 			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {mvDisplay.Movement.Description,30}");

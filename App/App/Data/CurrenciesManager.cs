@@ -1,4 +1,4 @@
-﻿using App.Helpers;
+﻿using App.Helpers.Notifications;
 using App.Models.Enums;
 using App.Resx;
 using System;
@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-	public class CurrenciesManager
+    public class CurrenciesManager
 	{
 		private readonly SettingsManager _settings = DependencyService.Get<SettingsManager>();
 

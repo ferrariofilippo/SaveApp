@@ -1,11 +1,11 @@
-﻿using App.Helpers;
+﻿using App.Helpers.Themes;
 using App.Models.Enums;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(App.Droid.AndroidThemeManager))]
 namespace App.Droid
 {
-	public class AndroidThemeManager : INativeThemeManager
+    public class AndroidThemeManager : INativeThemeManager
 	{
 		public void OnThemeChanged(Theme theme)
 		{

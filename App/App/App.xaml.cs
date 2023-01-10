@@ -1,5 +1,7 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Helpers.Notifications;
+using App.Helpers.Themes;
 using App.Log;
 using App.Resx;
 using System;
@@ -9,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
 		private readonly AppDatabase _database;
 

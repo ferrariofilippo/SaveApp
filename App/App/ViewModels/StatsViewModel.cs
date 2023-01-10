@@ -1,10 +1,10 @@
-﻿using App.Models;
+﻿using App.ViewModels.DataViewModels;
 using System.Collections.ObjectModel;
 
 namespace App.ViewModels
 {
-	public class StatsViewModel
+    public class StatsViewModel
 	{
-		public readonly ObservableCollection<StatisticsDisplay> Displays = new ObservableCollection<StatisticsDisplay>();
+		public readonly ObservableCollection<StatisticsItemViewModel> Displays = new ObservableCollection<StatisticsItemViewModel>();
 	}
 }

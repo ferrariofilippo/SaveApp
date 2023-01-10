@@ -1,7 +1,7 @@
 ﻿using App.Data;
-using App.Models;
 using App.Resx;
 using App.ViewModels;
+using App.ViewModels.DataViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,19 +32,19 @@ namespace App.Views
 		{
 			_viewModel.Displays.Clear();
 
-			_viewModel.Displays.Add(new StatisticsDisplay(
+			_viewModel.Displays.Add(new StatisticsItemViewModel(
 				AppResource.ExpenseType, 
 				_stats.Statistics.ExpensesByType));
 
-			_viewModel.Displays.Add(new StatisticsDisplay(
+			_viewModel.Displays.Add(new StatisticsItemViewModel(
 				AppResource.Monthly, 
 				_stats.Statistics.ExpensesByMonth, isMonthly: true));
 			
-			_viewModel.Displays.Add(new StatisticsDisplay(
+			_viewModel.Displays.Add(new StatisticsItemViewModel(
 				AppResource.YearlyExpense,
 				_stats.Statistics.ExpensesByYear));
 
-			_viewModel.Displays.Add(new StatisticsDisplay(
+			_viewModel.Displays.Add(new StatisticsItemViewModel(
 				AppResource.YearlyIncome,
 				_stats.Statistics.IncomeByYear,
 				1.0m));

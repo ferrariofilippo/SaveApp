@@ -77,9 +77,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndroidFileSaver.cs" />
-    <Compile Include="AndroidNotificationManager.cs" />
-    <Compile Include="AndroidThemeManager.cs" />
+    <Compile Include="AndroidImplementations\AndroidFileSaver.cs" />
+    <Compile Include="AndroidImplementations\AndroidNotificationManager.cs" />
+    <Compile Include="AndroidImplementations\AndroidThemeManager.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

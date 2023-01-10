@@ -1,7 +1,7 @@
 ﻿using App.Extensions;
-using App.Models;
 using App.Resx;
 using App.ViewModels;
+using App.ViewModels.DataViewModels;
 using System;
 using System.Text;
 using Xamarin.Forms;
@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace App.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class BudgetBrowser : ContentPage
 	{
 		private readonly BudgetBrowserViewModel _viewModel = new BudgetBrowserViewModel();
@@ -37,14 +37,14 @@ namespace App.Views
 		{
 			if (!await DisplayAlert(AppResource.Warning, AppResource.DeleteItemMessage, AppResource.Delete, AppResource.Cancel))
 				return;
-			var toDelete = (BudgetDisplay)((SwipeItem)sender).Parent.BindingContext;
+			var toDelete = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 			await _viewModel.DeleteBudget(toDelete);
 			await _viewModel.LoadBudgets();
 		}
 
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)
 		{
-			var bgDisplay = (BudgetDisplay)((SwipeItem)sender).Parent.BindingContext;
+			var bgDisplay = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 
 			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {bgDisplay.Budget.Name,30}");

@@ -1,6 +1,6 @@
-﻿using App.Models;
-using App.Resx;
+﻿using App.Resx;
 using App.ViewModels;
+using App.ViewModels.DataViewModels;
 using System;
 using System.Text;
 using Xamarin.Forms;
@@ -8,7 +8,7 @@ using Xamarin.Forms.Xaml;
 
 namespace App.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SubscriptionPage : ContentPage
 	{
 		private readonly SubscriptionViewModel _viewModel = new SubscriptionViewModel();
@@ -41,20 +41,20 @@ namespace App.Views
 		{
 			if (!await DisplayAlert(AppResource.Warning, AppResource.DeleteItemMessage, AppResource.Delete, AppResource.Cancel))
 				return;
-			var toDelete = (SubsDisplay)((SwipeItem)sender).Parent.BindingContext;
+			var toDelete = (SubscriptionItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 			await _viewModel.DeleteSubscription(toDelete);
 			RefreshView_Refreshing(MainRefresh, EventArgs.Empty);
 		}
 
 		private async void SwipeItem_EditInvoked(object sender, EventArgs e)
 		{
-			var sub = ((SubsDisplay)((SwipeItem)sender).Parent.BindingContext).Subscription;
+			var sub = ((SubscriptionItemViewModel)((SwipeItem)sender).Parent.BindingContext).Subscription;
 			await Navigation.PushAsync(new AddPage(sub));
 		}
 
 		private void SwipeItem_InfoClicked(object sender, EventArgs e)
 		{
-			var displayItem = (SubsDisplay)((SwipeItem)sender).Parent.BindingContext;
+			var displayItem = (SubscriptionItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 
 			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {displayItem.Subscription.Description,30}");

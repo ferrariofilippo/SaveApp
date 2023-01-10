@@ -1,10 +1,11 @@
 ﻿using App.Extensions;
+using App.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Xamarin.Forms;
 
-namespace App.Models
+namespace App.ViewModels.DataViewModels
 {
-    public class BudgetDisplay : ObservableObject
+    public class BudgetItemViewModel : ObservableObject
     {
         private Color _typeColor;
         public Color TypeColor
@@ -23,8 +24,8 @@ namespace App.Models
 
         public float UsedPercent => (float)(Budget.Used / Budget.MaxAmount);
 
-        public string DescriptionString => Budget.Name.Length > 20 
-            ? Budget.Name.Substring(0, 20) 
+        public string DescriptionString => Budget.Name.Length > 20
+            ? Budget.Name.Substring(0, 20)
             : Budget.Name.PadRight(20);
 
         private Budget _budget;
@@ -36,16 +37,16 @@ namespace App.Models
                 if (SetProperty(ref _budget, value))
                 {
                     OnPropertyChanged(nameof(RemainingString));
-					OnPropertyChanged(nameof(UsedString));
-					OnPropertyChanged(nameof(InitialString));
-					OnPropertyChanged(nameof(EndingString));
-					OnPropertyChanged(nameof(DescriptionString));
+                    OnPropertyChanged(nameof(UsedString));
+                    OnPropertyChanged(nameof(InitialString));
+                    OnPropertyChanged(nameof(EndingString));
+                    OnPropertyChanged(nameof(DescriptionString));
                     OnPropertyChanged(nameof(UsedPercent));
-				}
-			}
+                }
+            }
         }
 
-        public BudgetDisplay(Budget budget)
+        public BudgetItemViewModel(Budget budget)
         {
             Budget = budget;
             TypeColor = Constants.MovementTypeColors[(int)budget.MovementType];

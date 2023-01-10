@@ -3,13 +3,13 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
-using App.Helpers;
+using App.Helpers.Notifications;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(App.Droid.AndroidNotificationManager))]
 namespace App.Droid
 {
-	public class AndroidNotificationManager : INotificationManager
+    public class AndroidNotificationManager : INotificationManager
 	{
 		private const string _channelId = "default";
 		private const string _channelName = "Default";

@@ -1,6 +1,8 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Helpers.Notifications;
 using App.Models;
+using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels
 {
-	public class HistoryViewModel : ObservableObject
+    public class HistoryViewModel : ObservableObject
 	{
 		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
 
@@ -44,7 +46,7 @@ namespace App.ViewModels
 			set => SetProperty(ref _isRefreshing, value);
 		}
 
-		public ObservableCollection<MovementDisplay> Movements = new ObservableCollection<MovementDisplay>();
+		public ObservableCollection<MovementItemViewModel> Movements = new ObservableCollection<MovementItemViewModel>();
 
 		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
 
@@ -114,9 +116,9 @@ namespace App.ViewModels
 			OnPropertyChanged(nameof(ShowEmptyLabel));
 		}
 
-		private async Task<List<MovementDisplay>> Filter(DateTime date, Func<Movement, bool> filterCondition, int depth)
+		private async Task<List<MovementItemViewModel>> Filter(DateTime date, Func<Movement, bool> filterCondition, int depth)
 		{
-			List<MovementDisplay> returnList = new List<MovementDisplay>();
+			List<MovementItemViewModel> returnList = new List<MovementItemViewModel>();
 			try
 			{
 				var data = (await _database.GetMovementsAsync())
@@ -133,7 +135,7 @@ namespace App.ViewModels
 				for (; index < data.Length; index++)
 				{
 					if (filterCondition(data[index]))
-						returnList.Add(new MovementDisplay(data[index]));
+						returnList.Add(new MovementItemViewModel(data[index]));
 					else
 						return returnList;
 				}

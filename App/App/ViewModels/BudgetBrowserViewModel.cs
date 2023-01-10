@@ -1,5 +1,5 @@
 ﻿using App.Data;
-using App.Models;
+using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,11 +9,11 @@ using Xamarin.Forms.Internals;
 
 namespace App.ViewModels
 {
-	public class BudgetBrowserViewModel : ObservableObject
+    public class BudgetBrowserViewModel : ObservableObject
 	{
 		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
 		
-		public ObservableCollection<BudgetDisplay> Budgets = new ObservableCollection<BudgetDisplay>();
+		public ObservableCollection<BudgetItemViewModel> Budgets = new ObservableCollection<BudgetItemViewModel>();
 
 		public bool ShowEmptyLabel => Budgets.Count == 0;
 
@@ -23,11 +23,11 @@ namespace App.ViewModels
 
 			(await _database.GetBudgetsAsync())
 				.OrderBy(b => b.EndingDate)
-				.ForEach(x => Budgets.Add(new BudgetDisplay(x)));
+				.ForEach(x => Budgets.Add(new BudgetItemViewModel(x)));
 
 			OnPropertyChanged(nameof(ShowEmptyLabel));
 		}
 
-		public Task DeleteBudget(BudgetDisplay b) => _database.DeleteBudgetAsync(b.Budget);
+		public Task DeleteBudget(BudgetItemViewModel b) => _database.DeleteBudgetAsync(b.Budget);
 	}
 }
