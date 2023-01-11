@@ -1,13 +1,10 @@
 ﻿using App.Data;
 using App.Helpers;
-using App.Helpers.Notifications;
 using App.Helpers.Themes;
 using App.Models.Enums;
 using App.Resx;
 using App.ViewModels;
 using System;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -18,7 +15,7 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SettingsPage : ContentPage
 	{
-		private readonly SettingsManager _settings = DependencyService.Get<SettingsManager>();
+		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
 		private readonly SettingsViewModel _viewModel = new SettingsViewModel();
 
@@ -78,7 +75,7 @@ namespace App.Views
 			CurrencyLabel.Text = CurrencyPicker.SelectedItem.ToString();
 
 			var previous = (Currencies)_settings.Settings.BaseCurrency;
-			var currencies = DependencyService.Get<CurrenciesManager>();
+			var currencies = DependencyService.Get<ICurrenciesManager>();
 			_settings.Settings.BaseCurrency = (byte)CurrencyPicker.SelectedIndex;
 
 			await _settings.SaveSettings();

@@ -9,7 +9,7 @@ namespace App.Helpers.Notifications
     {
         private static readonly INotificationManager _notificationManager = DependencyService.Get<INotificationManager>();
 
-        private static readonly Logger _logger = DependencyService.Get<Logger>();
+        private static readonly ILogger _logger = DependencyService.Get<ILogger>();
 
         public static void SendNotification(string title, string message)
             => _notificationManager.SendNotification(title, message);

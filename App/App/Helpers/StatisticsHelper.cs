@@ -7,7 +7,7 @@ namespace App.Helpers
 {
 	public static class StatisticsHelper
 	{
-		private static readonly StatisticsHolder _statistics = DependencyService.Get<StatisticsHolder>();
+		private static readonly StatisticsManager _statistics = DependencyService.Get<StatisticsManager>();
 
 		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 

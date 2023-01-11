@@ -11,9 +11,9 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-    public class CurrenciesManager
+    public class CurrenciesManager : ICurrenciesManager
 	{
-		private readonly SettingsManager _settings = DependencyService.Get<SettingsManager>();
+		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
 		private readonly string _cachePath;
 
@@ -22,14 +22,14 @@ namespace App.Data
 			BaseAddress = new Uri(Constants.BaseCurrenciesUrl)
 		};
 
-		public readonly decimal[] Rates = new decimal[8];
+		private readonly decimal[] _rates = new decimal[8];
 
 		public DateTime LastUpdate { get; private set; }
 
 		public CurrenciesManager()
 		{
-            for (int i = 0; i < Rates.Length; i++)
-                Rates[i] = 1.0m;
+            for (int i = 0; i < _rates.Length; i++)
+                _rates[i] = 1.0m;
 
             _cachePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -42,14 +42,14 @@ namespace App.Data
 		}
 
 		public decimal ConvertCurrencyToDefault(decimal value, Currencies from) 
-			=> value * Rates[_settings.Settings.BaseCurrency] / Rates[(byte)from];
+			=> value * _rates[_settings.Settings.BaseCurrency] / _rates[(byte)from];
 
 		public async Task UpdateAllToCurrent(Currencies previous)
 		{
-			var stats = DependencyService.Get<StatisticsHolder>();
+			var stats = DependencyService.Get<StatisticsManager>();
 			var db = DependencyService.Get<IAppDatabase>();
 
-			var changeRatio = Rates[_settings.Settings.BaseCurrency] / Rates[(int)previous];
+			var changeRatio = _rates[_settings.Settings.BaseCurrency] / _rates[(int)previous];
 
 			await Task.WhenAll(
 				stats.UpdateAllToNewCurrency(changeRatio),
@@ -71,7 +71,7 @@ namespace App.Data
                     LoadLatest();
 				else
 					for (int i = 0; i < parsed.Rates.Length; i++)
-						Rates[i] = parsed.Rates[i];
+						_rates[i] = parsed.Rates[i];
 			}
 			else
 			{
@@ -84,7 +84,7 @@ namespace App.Data
 			var cached = new CurrenciesCache
 			{
 				LastUpdated = LastUpdate,
-				Rates = Rates
+				Rates = _rates
 			};
 
 			using (var writer = new StreamWriter(_cachePath, false))
@@ -97,13 +97,13 @@ namespace App.Data
 			if (data is null)
 				return;
 
-			Rates[1] = data["USD"];
-			Rates[2] = data["AUD"];
-			Rates[3] = data["CAD"];
-			Rates[4] = data["GBP"];
-			Rates[5] = data["CHF"];
-			Rates[6] = data["JPY"];
-			Rates[7] = data["CNY"];
+			_rates[1] = data["USD"];
+			_rates[2] = data["AUD"];
+			_rates[3] = data["CAD"];
+			_rates[4] = data["GBP"];
+			_rates[5] = data["CHF"];
+			_rates[6] = data["JPY"];
+			_rates[7] = data["CNY"];
 
 			await SaveCached();
 		}

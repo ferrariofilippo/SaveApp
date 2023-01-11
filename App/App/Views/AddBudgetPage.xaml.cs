@@ -33,7 +33,7 @@ namespace App.Views
 
 		private void InitializeUI()
 		{
-			var settings = DependencyService.Get<SettingsManager>();
+			var settings = DependencyService.Get<ISettingsManager>();
 
 			_viewModel.MovementTypes.ForEach(x => ExpenseTypePicker.Items.Add(x));
 			_viewModel.Currencies.ForEach(x => CurrencyPicker.Items.Add(x));
@@ -64,7 +64,7 @@ namespace App.Views
 				return;
 			}
 
-			var currenciesManager = DependencyService.Get<CurrenciesManager>();
+			var currenciesManager = DependencyService.Get<ICurrenciesManager>();
 			value = currenciesManager.ConvertCurrencyToDefault(
 				value, 
 				(Currencies)CurrencyPicker.SelectedIndex);

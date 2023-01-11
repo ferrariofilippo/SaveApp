@@ -15,13 +15,13 @@ namespace App
 	{
 		private readonly IAppDatabase _database;
 
-		private readonly StatisticsHolder _statistics;
+		private readonly StatisticsManager _statistics;
 
-		private readonly SettingsManager _settings;
+		private readonly ISettingsManager _settings;
 
-		private readonly CurrenciesManager _currencies;
+		private readonly ICurrenciesManager _currencies;
 
-		private readonly Logger _logger;
+		private readonly ILogger _logger;
 
 		public static readonly ResourceManager ResourceManager = new ResourceManager(typeof(AppResource));
 
@@ -32,7 +32,7 @@ namespace App
 			InitializeComponent();
 
 			_database = new AppDatabase();
-			_statistics = new StatisticsHolder();
+			_statistics = new StatisticsManager();
 			_settings = new SettingsManager();
 			_logger = new Logger();
 

@@ -71,7 +71,7 @@ namespace App.Helpers
 				return;
 			}
 			var database = DependencyService.Get<IAppDatabase>();
-			var stats = DependencyService.Get<StatisticsHolder>();
+			var stats = DependencyService.Get<StatisticsManager>();
 			await Task.WhenAll( 
 				database.SaveMovementsAsync(movements),
 				stats.AddMovements(movements));

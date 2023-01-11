@@ -5,7 +5,7 @@ using Xamarin.Essentials;
 
 namespace App.Helpers.LogHelper
 {
-    public class Logger
+    public class Logger : ILogger
     {
         private const int _bufferSize = 2048;
 

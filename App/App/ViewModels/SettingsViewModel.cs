@@ -1,5 +1,4 @@
 ﻿using App.Models.Enums;
-using App.Resx;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Linq;

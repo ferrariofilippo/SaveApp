@@ -7,7 +7,7 @@ namespace App.Helpers.Themes
 {
     public class ThemeManager
     {
-        public static SettingsManager Settings = null;
+        public static ISettingsManager Settings = null;
 
         public static async void ChangeTheme(Theme theme)
         {

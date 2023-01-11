@@ -11,7 +11,7 @@ namespace App.Helpers
 	{
 		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
-		private static readonly StatisticsHolder _statistics = DependencyService.Get<StatisticsHolder>();
+		private static readonly StatisticsManager _statistics = DependencyService.Get<StatisticsManager>();
 
 		public static async void ValidateSubscriptions()
 		{

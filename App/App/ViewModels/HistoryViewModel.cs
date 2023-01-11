@@ -17,7 +17,7 @@ namespace App.ViewModels
     {
         private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
-        private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
+        private readonly StatisticsManager _stats = DependencyService.Get<StatisticsManager>();
 
         public readonly int[] MonthAndDay = { DateTime.Now.Month, DateTime.Now.Day };
 

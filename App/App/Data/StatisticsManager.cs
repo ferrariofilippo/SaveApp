@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Data
 {
-    public class StatisticsHolder
+    public class StatisticsManager
     {
         private readonly string _statsPath;
 
@@ -17,7 +17,7 @@ namespace App.Data
 
         public Statistics Statistics { get; private set; } = new Statistics();
 
-        public StatisticsHolder()
+        public StatisticsManager()
         {
             _statsPath = Path.Combine(
                 Environment.GetFolderPath(

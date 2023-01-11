@@ -10,7 +10,7 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StatsPage : ContentPage
 	{
-		private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
+		private readonly StatisticsManager _stats = DependencyService.Get<StatisticsManager>();
 
 		private readonly StatsViewModel _viewModel = new StatsViewModel();
 
