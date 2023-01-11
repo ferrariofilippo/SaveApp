@@ -2,6 +2,7 @@
 using App.Models;
 using App.Resx;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -44,7 +45,7 @@ namespace App.Helpers
 				return null;
 
 			var paymentOf = string.Format(AppResource.PaymentOf, subscription.Description);
-			var month = App.ResourceManager.GetString(ReadOnlies.Months[renewal.Month - 1]);
+			var month = App.ResourceManager.GetString(ReadOnlies.Months[renewal.Month - 1], CultureInfo.CurrentCulture);
 
 			var movement = new Movement()
 			{

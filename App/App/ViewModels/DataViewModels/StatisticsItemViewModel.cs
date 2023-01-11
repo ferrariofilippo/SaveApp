@@ -6,6 +6,7 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -23,7 +24,7 @@ namespace App.ViewModels.DataViewModels
 
         public double ChartSize => Application.Current.MainPage.Width - 30;
 
-        public bool ShowEmptyLabel { get; set; } = false;
+        public bool ShowEmptyLabel { get; set; }
 
         public StatisticsItemViewModel(string title, List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
@@ -62,23 +63,26 @@ namespace App.ViewModels.DataViewModels
         }
 
         public void UpdateGraph(List<decimal> values, bool isExpense = true, bool isMonthly = false)
-        {
-            ShowEmptyLabel = values.Count == 0;
+        { 
+            ShowEmptyLabel = values is null || values.Count == 0;
+            if (ShowEmptyLabel)
+                return;
             StatChart.Entries = CreateEntries(values, isExpense, isMonthly);
         }
 
         public void UpdateGraph(Dictionary<int, decimal> values, bool isExpense = true)
         {
-            ShowEmptyLabel = values.Keys.Count == 0;
+            ShowEmptyLabel = values is null || values.Keys.Count == 0;
+            if (ShowEmptyLabel)
+                return;
             StatChart.Entries = CreateEntries(values, isExpense);
         }
 
         private ChartEntry[] CreateEntries(List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
             Items.Clear();
-            if (values.Count == 0)
-                return Array.Empty<ChartEntry>();
 
+            var culture = CultureInfo.CurrentCulture;
             var sum = values.Sum();
             var entries = new ChartEntry[values.Count];
             var total = sum / 100.0m;
@@ -90,7 +94,7 @@ namespace App.ViewModels.DataViewModels
             for (int i = 0; i < values.Count; i++)
             {
                 xamarinColor = ReadOnlies.MovementTypeColors[i];
-                skColor = ReadOnlies.SK_MovementTypeColors[i];
+                skColor = ReadOnlies.SKMovementTypeColors[i];
 
                 entries[i] = new ChartEntry((float)values[i])
                 {
@@ -100,8 +104,8 @@ namespace App.ViewModels.DataViewModels
                 Items.Add(new StatisticItem()
                 {
                     Name = isMonthly
-                        ? App.ResourceManager.GetString(ReadOnlies.Months[i])
-                        : App.ResourceManager.GetString(((ExpenseType)i).ToString()),
+                        ? App.ResourceManager.GetString(ReadOnlies.Months[i], culture)
+                        : App.ResourceManager.GetString(((ExpenseType)i).ToString(), culture),
                     Percentage = $"{values[i] / total:0.00}%",
                     TypeColor = xamarinColor,
                     ValueString = (values[i] * sign).ToCurrencyString()
@@ -114,8 +118,6 @@ namespace App.ViewModels.DataViewModels
         {
             Items.Clear();
             var valuesCount = values.Values.Count;
-            if (valuesCount == 0)
-                return Array.Empty<ChartEntry>();
 
             var entries = new ChartEntry[valuesCount];
             var avg = values.Values.Sum() / valuesCount;

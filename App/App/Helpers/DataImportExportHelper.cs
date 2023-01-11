@@ -22,7 +22,7 @@ namespace App.Helpers
 
 		private static readonly FilePickerFileType _acceptedFileTypes = new FilePickerFileType(_fileTypes);
 
-		private static bool _isExporting = false;
+		private static bool _isExporting;
 
 		private static readonly object _lock = new object();
 

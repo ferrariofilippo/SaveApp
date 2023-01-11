@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-    public class CurrenciesManager : ICurrenciesManager
+    public class CurrenciesManager : ICurrenciesManager, IDisposable
 	{
 		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
@@ -129,7 +129,13 @@ namespace App.Data
 			return null;
 		}
 
-		private class CurrenciesCache
+		public void Dispose()
+		{
+			_client.Dispose();
+			GC.SuppressFinalize(this);
+		}
+
+		private sealed class CurrenciesCache
 		{
 			public DateTime LastUpdated { get; set; }
 

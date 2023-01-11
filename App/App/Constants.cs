@@ -1,6 +1,6 @@
 ﻿namespace App
 {
-	public class Constants
+	public static class Constants
 	{
 		// Local resources
 		public const string DbPath = "database.db";

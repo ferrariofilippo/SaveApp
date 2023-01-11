@@ -3,6 +3,7 @@ using App.Resx;
 using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
+using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -17,7 +18,7 @@ namespace App.Views
 
 		private readonly Guid[] _monthButtons = new Guid[12];
 
-		private byte _filterDepth = 0;
+		private byte _filterDepth;
 
 		private int _lastMonthLength = 31;
 
@@ -47,7 +48,7 @@ namespace App.Views
 				var btn = new Button()
 				{
 					BackgroundColor = Color.Transparent,
-					Text = App.ResourceManager.GetString(ReadOnlies.Months[i]),
+					Text = App.ResourceManager.GetString(ReadOnlies.Months[i], CultureInfo.CurrentCulture),
 					TextColor = textColor,
 					Visual = VisualMarker.Default
 				};

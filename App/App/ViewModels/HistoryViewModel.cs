@@ -69,7 +69,7 @@ namespace App.ViewModels
             await Filter(
                 new DateTime(_year, 1, 1),
                 x => x.CreationDate.Year == _year,
-                SearchDepth.Year);
+                SearchDepth.Year).ConfigureAwait(false);
         }
 
         public async void FilterByMonth()
@@ -77,7 +77,7 @@ namespace App.ViewModels
             await Filter(
                 new DateTime(_year, MonthAndDay[0], 1),
                 x => x.CreationDate.Year == _year && x.CreationDate.Month == MonthAndDay[0],
-                SearchDepth.Month);
+                SearchDepth.Month).ConfigureAwait(false);
         }
 
         public async void FilterByDay()
@@ -86,7 +86,7 @@ namespace App.ViewModels
             await Filter(
                 date,
                 x => x.CreationDate.Date == date.Date,
-                SearchDepth.Day);
+                SearchDepth.Day).ConfigureAwait(false);
         }
 
         private async Task Filter(DateTime date, Func<Movement, bool> filterCondition, SearchDepth depth)

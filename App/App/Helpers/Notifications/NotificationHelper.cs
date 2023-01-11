@@ -16,6 +16,8 @@ namespace App.Helpers.Notifications
 
         public static void NotifyException(Exception ex)
         {
+            if (ex is null)
+                return;
             var exceptionMessage = $"Thrown by: {ex.TargetSite.Name}\n\rMessage: {ex.Message}";
             SendNotification(AppResource.Error, exceptionMessage);
             _logger.LogWarningAsync(ex);

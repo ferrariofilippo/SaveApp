@@ -145,7 +145,7 @@ namespace App.Data
             await SaveStats();
         }
 
-        private int GetMultiplier(RenewalType renwal)
+        private static int GetMultiplier(RenewalType renwal)
         {
             switch (renwal)
             {

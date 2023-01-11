@@ -40,7 +40,7 @@ namespace App
         };
 
         // SkiaSharp Types Colors
-        public static readonly SKColor[] SK_MovementTypeColors =
+        public static readonly SKColor[] SKMovementTypeColors =
         {
             new SKColor(213, 166, 189),
             new SKColor(217, 234, 211),

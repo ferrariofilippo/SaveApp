@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace App.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HomePage : ContentPage
+	public partial class HomePage : ContentPage, IDisposable
 	{
 		private struct CircleData
 		{
@@ -116,5 +116,14 @@ namespace App.Views
 			MovementsCanvas.InvalidateSurface();
             _viewModel.IsRefreshing = false;
         }
-    }
+
+		public void Dispose()
+		{
+			_expensesPaint.Dispose();
+			_incomePaint.Dispose();
+			_backgroundPaint.Dispose();
+			_viewModel.Stats.PropertyChanged -= UpdateGraph;
+			GC.SuppressFinalize(this);
+		}
+	}
 }

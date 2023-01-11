@@ -2,7 +2,7 @@
 
 namespace App.Helpers
 {
-    class CurrencyHelper
+    public static class CurrencyHelper
     {
         public static string GetCurrencySymbol(Currencies currency)
         {
