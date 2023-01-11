@@ -14,7 +14,7 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddBudgetPage : ContentPage
 	{
-		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
 		private readonly AddBudgetViewModel _viewModel = new AddBudgetViewModel();
 
@@ -23,6 +23,12 @@ namespace App.Views
 			InitializeComponent();
 			InitializeUI();
 			this.BindingContext = _viewModel;
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			Navigation.PopToRootAsync();
 		}
 
 		private void InitializeUI()

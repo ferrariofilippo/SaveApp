@@ -47,7 +47,7 @@ namespace App.Data
 		public async Task UpdateAllToCurrent(Currencies previous)
 		{
 			var stats = DependencyService.Get<StatisticsHolder>();
-			var db = DependencyService.Get<AppDatabase>();
+			var db = DependencyService.Get<IAppDatabase>();
 
 			var changeRatio = Rates[_settings.Settings.BaseCurrency] / Rates[(int)previous];
 

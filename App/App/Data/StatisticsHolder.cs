@@ -1,6 +1,7 @@
 ﻿using App.Models;
 using App.Models.Enums;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -33,35 +34,50 @@ namespace App.Data
 
         public async Task AddMovement(Movement movement, bool isSubscriptionPayment = false)
         {
-            if (movement.IsExpense)
+            AddSingleMovement(movement, isSubscriptionPayment);
+            PropertyChanged?.Invoke(nameof(Statistics));
+            await SaveStats();
+        }
+
+        public async Task AddMovements(List<Movement> movements)
+        {
+            foreach (var item in movements)
             {
-                Statistics.TotalExpenses += movement.Value;
-
-                if (Statistics.ExpensesByYear.ContainsKey(movement.CreationDate.Year))
-                    Statistics.ExpensesByYear[movement.CreationDate.Year] += movement.Value;
-                else
-                    Statistics.ExpensesByYear[movement.CreationDate.Year] = movement.Value;
-
-                if (movement.CreationDate.Year == DateTime.Now.Year)
-                {
-                    Statistics.ExpensesByType[(byte)movement.ExpenseType] += movement.Value;
-                    Statistics.ExpensesByMonth[movement.CreationDate.Month - 1] += movement.Value;
-                }
-
-                if (isSubscriptionPayment)
-                    Statistics.SubscriptionPaidYTD += movement.Value;
-            }
-            else
-            {
-                Statistics.TotalIncome += movement.Value;
-                if (Statistics.IncomeByYear.ContainsKey(movement.CreationDate.Year))
-                    Statistics.IncomeByYear[movement.CreationDate.Year] += movement.Value;
-                else
-                    Statistics.IncomeByYear[movement.CreationDate.Year] = movement.Value;
+                AddSingleMovement(item);
             }
             PropertyChanged?.Invoke(nameof(Statistics));
             await SaveStats();
         }
+
+        private void AddSingleMovement(Movement movement, bool isSubscriptionPayment = false)
+        {
+			if (movement.IsExpense)
+			{
+				Statistics.TotalExpenses += movement.Value;
+
+				if (Statistics.ExpensesByYear.ContainsKey(movement.CreationDate.Year))
+					Statistics.ExpensesByYear[movement.CreationDate.Year] += movement.Value;
+				else
+					Statistics.ExpensesByYear[movement.CreationDate.Year] = movement.Value;
+
+				if (movement.CreationDate.Year == DateTime.Now.Year)
+				{
+					Statistics.ExpensesByType[(byte)movement.ExpenseType] += movement.Value;
+					Statistics.ExpensesByMonth[movement.CreationDate.Month - 1] += movement.Value;
+				}
+
+				if (isSubscriptionPayment)
+					Statistics.SubscriptionPaidYTD += movement.Value;
+			}
+			else
+			{
+				Statistics.TotalIncome += movement.Value;
+				if (Statistics.IncomeByYear.ContainsKey(movement.CreationDate.Year))
+					Statistics.IncomeByYear[movement.CreationDate.Year] += movement.Value;
+				else
+					Statistics.IncomeByYear[movement.CreationDate.Year] = movement.Value;
+			}
+		}
 
         public async Task RemoveMovement(Movement movement)
         {

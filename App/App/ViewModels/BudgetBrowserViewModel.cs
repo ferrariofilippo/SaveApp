@@ -11,7 +11,7 @@ namespace App.ViewModels
 {
     public class BudgetBrowserViewModel : ObservableObject
 	{
-		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 		
 		public ObservableCollection<BudgetItemViewModel> Budgets = new ObservableCollection<BudgetItemViewModel>();
 

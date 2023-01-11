@@ -6,7 +6,6 @@ using App.Models.Enums;
 using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace App.ViewModels
 {
     public class HistoryViewModel : ObservableObject
     {
-        private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+        private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
         private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
 

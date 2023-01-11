@@ -13,7 +13,7 @@ namespace App
 {
     public partial class App : Application
 	{
-		private readonly AppDatabase _database;
+		private readonly IAppDatabase _database;
 
 		private readonly StatisticsHolder _statistics;
 

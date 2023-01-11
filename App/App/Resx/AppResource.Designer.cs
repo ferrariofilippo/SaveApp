@@ -313,6 +313,15 @@ namespace App.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scarica template movimenti.
+        /// </summary>
+        internal static string DownloadTemplate {
+            get {
+                return ResourceManager.GetString("DownloadTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modifica.
         /// </summary>
         internal static string Edit {
@@ -387,9 +396,9 @@ namespace App.Resx {
         /// <summary>
         ///   Looks up a localized string similar to File scaricati.
         /// </summary>
-        internal static string FileDownloadedNotificationTItle {
+        internal static string FileDownloadedNotificationTitle {
             get {
-                return ResourceManager.GetString("FileDownloadedNotificationTItle", resourceCulture);
+                return ResourceManager.GetString("FileDownloadedNotificationTitle", resourceCulture);
             }
         }
         
@@ -399,6 +408,15 @@ namespace App.Resx {
         internal static string FileDownloadNotificationDescription {
             get {
                 return ResourceManager.GetString("FileDownloadNotificationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scegli il file da cui importare i dati.
+        /// </summary>
+        internal static string FilePickerTitle {
+            get {
+                return ResourceManager.GetString("FilePickerTitle", resourceCulture);
             }
         }
         
@@ -453,6 +471,51 @@ namespace App.Resx {
         internal static string Ice {
             get {
                 return ResourceManager.GetString("Ice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Il file selezionato non è valido.
+        /// </summary>
+        internal static string ImportFailedMessage {
+            get {
+                return ResourceManager.GetString("ImportFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossibile Importare I Movimenti.
+        /// </summary>
+        internal static string ImportFailedTitle {
+            get {
+                return ResourceManager.GetString("ImportFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importa movimenti.
+        /// </summary>
+        internal static string ImportMovements {
+            get {
+                return ResourceManager.GetString("ImportMovements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I movimenti sono stati importati con successo!.
+        /// </summary>
+        internal static string ImportSuccededMessage {
+            get {
+                return ResourceManager.GetString("ImportSuccededMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movimenti Importati.
+        /// </summary>
+        internal static string ImportSuccededTitle {
+            get {
+                return ResourceManager.GetString("ImportSuccededTitle", resourceCulture);
             }
         }
         
@@ -561,6 +624,15 @@ namespace App.Resx {
         internal static string Light {
             get {
                 return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gestisci i dati.
+        /// </summary>
+        internal static string ManageData {
+            get {
+                return ResourceManager.GetString("ManageData", resourceCulture);
             }
         }
         
@@ -862,6 +934,15 @@ namespace App.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Il template dei movimenti è stato scaricato.
+        /// </summary>
+        internal static string TemplateDownloadedMessage {
+            get {
+                return ResourceManager.GetString("TemplateDownloadedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tema.
         /// </summary>
         internal static string Theme {
@@ -921,6 +1002,15 @@ namespace App.Resx {
         internal static string Used {
             get {
                 return ResourceManager.GetString("Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cultura.
+        /// </summary>
+        internal static string UserCulture {
+            get {
+                return ResourceManager.GetString("UserCulture", resourceCulture);
             }
         }
         

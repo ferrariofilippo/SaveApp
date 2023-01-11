@@ -11,8 +11,8 @@
 	<ContentPage.BindingContext>
 		<vm:SettingsViewModel />
 	</ContentPage.BindingContext>
-	
-    <ContentPage.Content>
+
+	<ContentPage.Content>
 		<Grid Padding="20">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -90,13 +90,42 @@
 				Text="{x:Static resources:AppResource.ManageSubs}"
 				TextColor="{DynamicResource ForegroundMainColor}" />
 
-			<Button
+			<StackLayout
 				Grid.ColumnSpan="2"
-				Grid.Row="6"
-				Clicked="DownloadData_Clicked"
-				ImageSource="download.png"
-				Padding="3"
-				Text="{x:Static resources:AppResource.DownloadData}" />
+				Grid.Row="6">
+				<Button
+					Clicked="ToggleMovementSection_Clicked"
+					ContentLayout="Left,10"
+					ImageSource="{Binding ToggleIconSource}"
+					Padding="3"
+					Text="{x:Static resources:AppResource.ManageData}" />
+
+				<StackLayout IsVisible="{Binding IsDataSectionVisible}" Padding="5, 3, 5, 3">
+					<Button
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						ContentLayout="Left,10"
+						Clicked="DownloadData_Clicked"
+						ImageSource="download.png"
+						Padding="3"
+						Text="{x:Static resources:AppResource.DownloadData}" />
+
+					<Button
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						ContentLayout="Left,10"					
+						Clicked="DownloadTemplate_Clicked"
+						ImageSource="template.png"
+						Padding="3"
+						Text="{x:Static resources:AppResource.DownloadTemplate}" />
+
+					<Button
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						ContentLayout="Left,10"
+						Clicked="ImportMovements_Clicked"
+						ImageSource="importIcon.png"
+						Padding="3"
+						Text="{x:Static resources:AppResource.ImportMovements}" />
+				</StackLayout>
+			</StackLayout>
 		</Grid>
-    </ContentPage.Content>
+	</ContentPage.Content>
 </ContentPage>

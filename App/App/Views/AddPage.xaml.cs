@@ -1,5 +1,6 @@
 ﻿using App.Data;
 using App.Helpers;
+using App.Helpers.Notifications;
 using App.Helpers.UIHelpers;
 using App.Models;
 using App.Models.Enums;
@@ -17,7 +18,7 @@ namespace App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddPage : ContentPage
     {
-        private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+        private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
         private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
 
@@ -75,7 +76,13 @@ namespace App.Views
             _viewModel.IsExpense = _viewModel.IsSubscription = true;
         }
 
-        private void Init()
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            Navigation.PopToRootAsync();
+		}
+
+		private void Init()
         {
             InitializeComponent();
             this.BindingContext = _viewModel;
@@ -169,6 +176,7 @@ namespace App.Views
                 subscription.CreationDate = _subToEdit.CreationDate;
                 subscription.NextRenewal = _subToEdit.NextRenewal;
                 subscription.LastPaid = _subToEdit.LastPaid;
+                await _stats.RemoveMovement(_toEdit);
             }
 
             await Task.WhenAll(

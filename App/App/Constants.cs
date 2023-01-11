@@ -24,5 +24,10 @@
 		public const int ListViewCellHeight = 65;
 
 		public const string TrasnparentHex = "#00FFFFFF";
+
+		// CSV files headers
+		public const string MovementsFileHeader = "ID,VALUE,IS_EXPENSE,DESCRIPTION,TYPE,DATE";
+
+		public const string SubscriptionsFileHeader = "ID,VALUE,DESCRIPTION,EXPENSE_TYPE,RENEWAL_TYPE,LAST_PAID,NEXT_RENEWAL,CREATION_DATE";
 	}
 }

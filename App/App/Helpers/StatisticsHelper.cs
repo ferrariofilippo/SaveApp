@@ -9,7 +9,7 @@ namespace App.Helpers
 	{
 		private static readonly StatisticsHolder _statistics = DependencyService.Get<StatisticsHolder>();
 
-		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
 		public static async void CheckStatisticsForReset()
 		{

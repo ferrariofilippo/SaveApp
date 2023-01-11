@@ -9,7 +9,7 @@ namespace App.Helpers
 {
 	public static class SubscriptionHelper
 	{
-		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
 		private static readonly StatisticsHolder _statistics = DependencyService.Get<StatisticsHolder>();
 

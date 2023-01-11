@@ -4,7 +4,7 @@
     {
         Bets = 0,
         Clothes = 1,
-        Culture = 2,
+        UserCulture = 2,
         Entertainment = 3,
         Food = 4,
         Gifts = 5,
