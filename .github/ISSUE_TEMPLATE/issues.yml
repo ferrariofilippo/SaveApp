@@ -7,7 +7,7 @@ body:
       description: What is this issue about?
     validations:
       required: true
-  -type: textarea
+  - type: textarea
     attributes:
       label: Screenshots & Videos
       description: Post here screenshots or videos of the bug
