@@ -4,7 +4,9 @@ using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
 using System.Globalization;
+using System.Runtime.Serialization;
 using System.Text;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -172,6 +174,15 @@ namespace App.Views
 			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(mvDisplay.Movement.ExpenseType.ToString()),30}");
 
 			DisplayAlert(AppResource.Movement, message.ToString(), "Ok");
+		}
+
+		private async void ChangeSortingOrder_Clicked(object sender, EventArgs e)
+		{
+			if (_viewModel.SortOrder == Models.Enums.SortOrder.Ascending)
+				_viewModel.SortOrder = Models.Enums.SortOrder.Descending;
+			else
+				_viewModel.SortOrder = Models.Enums.SortOrder.Ascending;
+			await _viewModel.OrderHistory();
 		}
 
 		private void FocusDay(int day)

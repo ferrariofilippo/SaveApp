@@ -30,6 +30,13 @@
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
+	<ContentPage.ToolbarItems>
+		<ToolbarItem 
+			Clicked="ChangeSortingOrder_Clicked"
+			IsEnabled="{Binding IsSortButtonEnabled}"
+			IconImageSource="{Binding SortIconSource}" />
+	</ContentPage.ToolbarItems>
+	
 	<ContentPage.Content>
 		<RefreshView 
 			x:Name="MainView"
