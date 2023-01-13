@@ -65,7 +65,7 @@
 				            BackgroundColor="Transparent"
 					        Clicked="LatterClicked"
 						    FontSize="Medium"
-		                    HorizontalOptions="Center"
+		                    HorizontalOptions="Fill"
 		                    Text="{x:Binding CalendarTitle}"
 							Visual="Default" />
 
