@@ -24,6 +24,6 @@ body:
     attributes:
       label: Android Version
       description: Which version of Android are you using?
-      placeholder: 12
+      placeholder: 12 Snow Cone
     validations:
       required: true
