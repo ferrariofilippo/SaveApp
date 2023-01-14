@@ -1,10 +1,10 @@
 ﻿using App.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace App.Data
 {
@@ -26,13 +26,13 @@ namespace App.Data
 		public Task<List<Budget>> GetBudgetsAsync() => _database.Table<Budget>().ToListAsync();
 		public Task<Budget> GetBudgetAsync(int id) => _database.Table<Budget>().FirstOrDefaultAsync(m => m.Id == id);
 
-		public Task<int> SaveMovementAsync(Movement movement) => movement.Id == 0 
-			? _database.InsertAsync(movement) 
+		public Task<int> SaveMovementAsync(Movement movement) => movement.Id == 0
+			? _database.InsertAsync(movement)
 			: _database.UpdateAsync(movement);
 		public Task<int> SaveMovementsAsync(IEnumerable<Movement> movements) => _database.InsertAllAsync(movements);
 		public Task<int> SaveSubscriptionAsync(Subscription subscription) => subscription.Id == 0
 			? _database.InsertAsync(subscription)
-			: _database.UpdateAsync(subscription); 
+			: _database.UpdateAsync(subscription);
 		public Task<int> SaveBudgetAsync(Budget budget) => budget.Id == 0
 			? _database.InsertAsync(budget)
 			: _database.UpdateAsync(budget);
