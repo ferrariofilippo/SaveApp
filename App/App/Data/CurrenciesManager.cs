@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-  public class CurrenciesManager : ICurrenciesManager, IDisposable
+	public class CurrenciesManager : ICurrenciesManager, IDisposable
 	{
 		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
@@ -28,8 +28,8 @@ namespace App.Data
 
 		public CurrenciesManager()
 		{
-      for (int i = 0; i < _rates.Length; i++)
-        _rates[i] = 1.0m;
+			for (int i = 0; i < _rates.Length; i++)
+				_rates[i] = 1.0m;
 
 			_cachePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -41,7 +41,7 @@ namespace App.Data
 				LoadLatest();
 		}
 
-		public decimal ConvertCurrencyToDefault(decimal value, Currencies from) 
+		public decimal ConvertCurrencyToDefault(decimal value, Currencies from)
 			=> value * _rates[_settings.Settings.BaseCurrency] / _rates[(byte)from];
 
 		public async Task UpdateAllToCurrent(Currencies previous)
