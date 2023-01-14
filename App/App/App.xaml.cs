@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App
 {
-    public partial class App : Application
+	public partial class App : Application
 	{
 		private readonly IAppDatabase _database;
 
@@ -59,7 +59,7 @@ namespace App
 				StatisticsHelper.CheckStatisticsForReset();
 				BudgetHelper.ValidateBudgets();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				NotificationHelper.NotifyException(ex);
 			}
@@ -71,8 +71,8 @@ namespace App
 			TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 		}
 
-		private void OnUnhadledException(object	sender, UnhandledExceptionEventArgs args)
-			=> NotificationHelper.NotifyException((Exception) args.ExceptionObject);
+		private void OnUnhadledException(object sender, UnhandledExceptionEventArgs args)
+			=> NotificationHelper.NotifyException((Exception)args.ExceptionObject);
 
 		private void OnTaskSchedulerUnobservedException(object sender, UnobservedTaskExceptionEventArgs args)
 			=> NotificationHelper.NotifyException(args.Exception);

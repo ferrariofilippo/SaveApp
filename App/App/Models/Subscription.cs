@@ -26,7 +26,7 @@ namespace App.Models
 		
 		public DateTime CreationDate { get; set; }
 
-		[ForeignKey(name:"BudgetId")]
+		[ForeignKey(name: "BudgetId")]
 		public int BudgetId { get; set; } = 0;
 
 		public Subscription() { }
