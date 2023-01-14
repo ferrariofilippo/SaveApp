@@ -10,9 +10,9 @@ namespace App.ViewModels
 {
     public class SubscriptionViewModel : ObservableObject
 	{
-		private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
-		private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
+		private readonly StatisticsManager _stats = DependencyService.Get<StatisticsManager>();
 
 		public ObservableCollection<SubscriptionItemViewModel> Subscriptions = new ObservableCollection<SubscriptionItemViewModel>();
 

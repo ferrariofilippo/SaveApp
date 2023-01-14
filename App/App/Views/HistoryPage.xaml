@@ -30,6 +30,13 @@
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
+	<ContentPage.ToolbarItems>
+		<ToolbarItem 
+			Clicked="ChangeSortingOrder_Clicked"
+			IsEnabled="{Binding IsSortButtonEnabled}"
+			IconImageSource="{Binding SortIconSource}" />
+	</ContentPage.ToolbarItems>
+	
 	<ContentPage.Content>
 		<RefreshView 
 			x:Name="MainView"
@@ -65,7 +72,7 @@
 				            BackgroundColor="Transparent"
 					        Clicked="LatterClicked"
 						    FontSize="Medium"
-		                    HorizontalOptions="Center"
+		                    HorizontalOptions="Fill"
 		                    Text="{x:Binding CalendarTitle}"
 							Visual="Default" />
 

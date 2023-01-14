@@ -162,9 +162,6 @@
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
   </data>
-  <data name="Culture" xml:space="preserve">
-    <value>Culture</value>
-  </data>
   <data name="Currency" xml:space="preserve">
     <value>Currency</value>
   </data>
@@ -204,6 +201,9 @@
   <data name="DownloadData" xml:space="preserve">
     <value>Download Data</value>
   </data>
+  <data name="DownloadTemplate" xml:space="preserve">
+    <value>Download movements template</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -228,11 +228,14 @@
   <data name="February" xml:space="preserve">
     <value>Feb</value>
   </data>
-  <data name="FileDownloadedNotificationTItle" xml:space="preserve">
+  <data name="FileDownloadedNotificationTitle" xml:space="preserve">
     <value>Files downloaded</value>
   </data>
   <data name="FileDownloadNotificationDescription" xml:space="preserve">
     <value>Movements and subscriptions have been saved in the download folder</value>
+  </data>
+  <data name="FilePickerTitle" xml:space="preserve">
+    <value>Choose a file to import from</value>
   </data>
   <data name="FinalDate" xml:space="preserve">
     <value>Final date</value>
@@ -251,6 +254,21 @@
   </data>
   <data name="Ice" xml:space="preserve">
     <value>Ice</value>
+  </data>
+  <data name="ImportFailedMessage" xml:space="preserve">
+    <value>Source file is not valid</value>
+  </data>
+  <data name="ImportFailedTitle" xml:space="preserve">
+    <value>Movements Import Failed</value>
+  </data>
+  <data name="ImportMovements" xml:space="preserve">
+    <value>Import movements</value>
+  </data>
+  <data name="ImportSuccededMessage" xml:space="preserve">
+    <value>Movements have been imported successfully!</value>
+  </data>
+  <data name="ImportSuccededTitle" xml:space="preserve">
+    <value>Movements Import Succeded</value>
   </data>
   <data name="Income" xml:space="preserve">
     <value>Income:</value>
@@ -287,6 +305,9 @@
   </data>
   <data name="Light" xml:space="preserve">
     <value>Light</value>
+  </data>
+  <data name="ManageData" xml:space="preserve">
+    <value>Manage Data</value>
   </data>
   <data name="ManageSubs" xml:space="preserve">
     <value>Manage subscriptions</value>
@@ -387,6 +408,9 @@
   <data name="Tech" xml:space="preserve">
     <value>Tech</value>
   </data>
+  <data name="TemplateDownloadedMessage" xml:space="preserve">
+    <value>Movement template has been downloaded</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>Tema</value>
   </data>
@@ -407,6 +431,9 @@
   </data>
   <data name="Used" xml:space="preserve">
     <value>Used</value>
+  </data>
+  <data name="UserCulture" xml:space="preserve">
+    <value>Culture</value>
   </data>
   <data name="ValueEnteredNotValid" xml:space="preserve">
     <value>Entered value is not valid</value>

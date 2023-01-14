@@ -17,9 +17,9 @@ namespace App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddPage : ContentPage
     {
-        private readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+        private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
-        private readonly StatisticsHolder _stats = DependencyService.Get<StatisticsHolder>();
+        private readonly StatisticsManager _stats = DependencyService.Get<StatisticsManager>();
 
         private readonly AddMovementViewModel _viewModel = new AddMovementViewModel();
 
@@ -75,7 +75,13 @@ namespace App.Views
             _viewModel.IsExpense = _viewModel.IsSubscription = true;
         }
 
-        private void Init()
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            Navigation.PopToRootAsync();
+		}
+
+		private void Init()
         {
             InitializeComponent();
             this.BindingContext = _viewModel;
@@ -84,7 +90,7 @@ namespace App.Views
 
         private async void InitializaPickers()
         {
-            var settings = DependencyService.Get<SettingsManager>();
+            var settings = DependencyService.Get<ISettingsManager>();
 
             _viewModel.MovementTypes.ForEach(x => ExpenseTypePicker.Items.Add(x));
             _viewModel.RenewalTypes.ForEach(x => RenewalPicker.Items.Add(x));
@@ -141,7 +147,7 @@ namespace App.Views
                 return (false, 0.0m);
             }
 
-            var currencyManager = DependencyService.Get<CurrenciesManager>();
+            var currencyManager = DependencyService.Get<ICurrenciesManager>();
             var selectedCurrency = (Currencies)CurrencyPicker.SelectedIndex;
             return (true, currencyManager.ConvertCurrencyToDefault(value, selectedCurrency));
         }
@@ -169,6 +175,7 @@ namespace App.Views
                 subscription.CreationDate = _subToEdit.CreationDate;
                 subscription.NextRenewal = _subToEdit.NextRenewal;
                 subscription.LastPaid = _subToEdit.LastPaid;
+                await _stats.RemoveMovement(_toEdit);
             }
 
             await Task.WhenAll(

@@ -2,6 +2,7 @@
 using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
+using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -55,13 +56,14 @@ namespace App.Views
 
 		private void SwipeItem_InfoClicked(object sender, EventArgs e)
 		{
+			var currentCulture = CultureInfo.CurrentCulture;
 			var displayItem = (SubscriptionItemViewModel)((SwipeItem)sender).Parent.BindingContext;
 
 			var message = new StringBuilder();
 			message.AppendLine($"{AppResource.Description}: {displayItem.Subscription.Description,30}");
 			message.AppendLine($"{AppResource.Value}: {displayItem.ValueString,30}");
-			message.AppendLine($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(displayItem.Subscription.ExpenseType.ToString()),30}");
-			message.AppendLine($"{AppResource.RenewalType}: {App.ResourceManager.GetString(displayItem.Subscription.RenewalType.ToString()),30}");
+			message.AppendLine($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(displayItem.Subscription.ExpenseType.ToString(), currentCulture),30}");
+			message.AppendLine($"{AppResource.RenewalType}: {App.ResourceManager.GetString(displayItem.Subscription.RenewalType.ToString(), currentCulture),30}");
 			message.AppendLine($"{AppResource.NextRenewal}: {displayItem.NextRenewalString,30}");
 			message.Append($"{AppResource.LastRenewal}: {displayItem.Subscription.LastPaid,30:dd/MM/yyyy}");
 

@@ -1,13 +1,10 @@
 ﻿using App.Data;
 using App.Helpers;
-using App.Helpers.Notifications;
 using App.Helpers.Themes;
 using App.Models.Enums;
 using App.Resx;
 using App.ViewModels;
 using System;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -15,18 +12,12 @@ using Xamarin.Forms.Xaml;
 
 namespace App.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SettingsPage : ContentPage
 	{
-		private readonly IFileSaver _saver = DependencyService.Get<IFileSaver>();
-
-		private readonly SettingsManager _settings = DependencyService.Get<SettingsManager>();
+		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
 		private readonly SettingsViewModel _viewModel = new SettingsViewModel();
-
-		private readonly object _lock = new object();
-
-		private bool _isSaving = false;
 
 		public SettingsPage()
 		{
@@ -47,78 +38,17 @@ namespace App.Views
 		private async void ManageSubs_Clicked(object sender, EventArgs e)
 			=> await Navigation.PushAsync(new SubscriptionPage());
 
+		private void ToggleMovementSection_Clicked(object sender, EventArgs e)
+			=> _viewModel.IsDataSectionVisible = !_viewModel.IsDataSectionVisible;
+
 		private void DownloadData_Clicked(object sender, EventArgs e)
-		{
-			lock (_lock)
-			{
-				if (!_isSaving)
-					_ = SaveData();
-			}
-		}
+			=> _ = DataImportExportHelper.ExportData();
 
-		private async Task SaveData()
-		{
-			try
-			{
-				lock (_lock)
-					_isSaving = true;
+		private void DownloadTemplate_Clicked(object sender, EventArgs e)
+			=> _ = DataImportExportHelper.GetTemplateFile();
 
-				var database = DependencyService.Get<AppDatabase>();
-
-				await Task.WhenAll(
-					Task.Run(async () =>
-					{
-						var builder = new StringBuilder("ID,VALUE,IS_EXPENSE,DESCRIPTION,TYPE,DATE");
-						var movements = await database.GetMovementsAsync();
-						var path = $"Expenses-{DateTime.Now:dd-MM-yyyy}.csv";
-
-						if (!(movements is null))
-						{
-							foreach (var item in movements)
-							{
-								builder.AppendLine(
-									$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
-									$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
-									$"{item.CreationDate.Date}");
-							}
-						}
-
-						await _saver.SaveFile(path, builder.ToString());
-					}),
-					Task.Run(async () =>
-					{
-						var builder = new StringBuilder(
-							"ID,VALUE,DESCRIPTION,EXPENSE_TYPE,RENEWAL_TYPE,LAST_PAID,NEXT_RENEWAL,CREATION_DATE");
-						var subs = await database.GetSubscriptionsAsync();
-						var path = $"Subscriptions-{DateTime.Now:dd-MM-yyyy}.csv";
-
-						if (!(subs is null))
-						{
-							foreach (var item in subs)
-							{
-								builder.AppendLine(
-									$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
-									$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
-									$"{item.CreationDate.Date}");
-							}
-						}
-
-						await _saver.SaveFile(path, builder.ToString());
-					})
-				);
-
-				NotificationHelper.SendNotification(
-					AppResource.FileDownloadedNotificationTItle,
-					AppResource.FileDownloadNotificationDescription);
-			}
-			catch (Exception ex)
-			{
-				NotificationHelper.NotifyException(ex);
-			}
-
-			lock (_lock)
-				_isSaving = false;
-		}
+		private async void ImportMovements_Clicked(object sender, EventArgs e)
+			=> await DataImportExportHelper.ImportMovements();
 
 		private void ThemePicker_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -145,7 +75,7 @@ namespace App.Views
 			CurrencyLabel.Text = CurrencyPicker.SelectedItem.ToString();
 
 			var previous = (Currencies)_settings.Settings.BaseCurrency;
-			var currencies = DependencyService.Get<CurrenciesManager>();
+			var currencies = DependencyService.Get<ICurrenciesManager>();
 			_settings.Settings.BaseCurrency = (byte)CurrencyPicker.SelectedIndex;
 
 			await _settings.SaveSettings();

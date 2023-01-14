@@ -11,7 +11,7 @@ namespace App.Helpers
 {
     public static class BudgetHelper
 	{
-		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
 		public static async Task<AddToBudgetResult> AddMovementToBudget(Movement movement)
 		{

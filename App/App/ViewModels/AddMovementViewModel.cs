@@ -1,20 +1,23 @@
 ﻿using App.Models.Enums;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace App.ViewModels
 {
 	public class AddMovementViewModel : ObservableObject
 	{
+		private static CultureInfo culture => CultureInfo.CurrentCulture;
+
 		public readonly string[] MovementTypes = Enum.GetValues(typeof(ExpenseType))
 			.Cast<ExpenseType>()
-			.Select(x => App.ResourceManager.GetString(x.ToString()))
+			.Select(x => App.ResourceManager.GetString(x.ToString(), culture))
 			.ToArray();
 
 		public readonly string[] RenewalTypes = Enum.GetValues(typeof(RenewalType))
 			.Cast<RenewalType>()
-			.Select(x => App.ResourceManager.GetString(x.ToString()))
+			.Select(x => App.ResourceManager.GetString(x.ToString(), culture))
 			.ToArray();
 
 		public readonly string[] Currencies = Enum.GetValues(typeof(Currencies))
@@ -26,7 +29,7 @@ namespace App.ViewModels
 
 		public readonly DateTime MinDate = DateTime.Now.AddYears(-5);
 
-		private bool _isSubscription = false;
+		private bool _isSubscription;
 		public bool IsSubscription
 		{
 			get => _isSubscription;

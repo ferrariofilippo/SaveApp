@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace App.Helpers.Themes
 {
-    public class ThemeManager
+    public static class ThemeManager
     {
-        public static SettingsManager Settings = null;
+        public static ISettingsManager Settings;
 
         public static async void ChangeTheme(Theme theme)
         {

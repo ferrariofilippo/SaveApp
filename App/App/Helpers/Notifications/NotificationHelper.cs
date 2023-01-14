@@ -9,13 +9,15 @@ namespace App.Helpers.Notifications
     {
         private static readonly INotificationManager _notificationManager = DependencyService.Get<INotificationManager>();
 
-        private static readonly Logger _logger = DependencyService.Get<Logger>();
+        private static readonly ILogger _logger = DependencyService.Get<ILogger>();
 
         public static void SendNotification(string title, string message)
             => _notificationManager.SendNotification(title, message);
 
         public static void NotifyException(Exception ex)
         {
+            if (ex is null)
+                return;
             var exceptionMessage = $"Thrown by: {ex.TargetSite.Name}\n\rMessage: {ex.Message}";
             SendNotification(AppResource.Error, exceptionMessage);
             _logger.LogWarningAsync(ex);

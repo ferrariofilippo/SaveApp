@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Data
 {
-	public class SettingsManager
+	public class SettingsManager : ISettingsManager
 	{
 		private readonly string _settingsPath;
 

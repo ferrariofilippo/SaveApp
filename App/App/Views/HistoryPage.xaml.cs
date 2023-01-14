@@ -3,7 +3,10 @@ using App.Resx;
 using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 using System.Text;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -17,7 +20,7 @@ namespace App.Views
 
 		private readonly Guid[] _monthButtons = new Guid[12];
 
-		private byte _filterDepth = 0;
+		private byte _filterDepth;
 
 		private int _lastMonthLength = 31;
 
@@ -47,7 +50,7 @@ namespace App.Views
 				var btn = new Button()
 				{
 					BackgroundColor = Color.Transparent,
-					Text = App.ResourceManager.GetString(ReadOnlies.Months[i]),
+					Text = App.ResourceManager.GetString(ReadOnlies.Months[i], CultureInfo.CurrentCulture),
 					TextColor = textColor,
 					Visual = VisualMarker.Default
 				};
@@ -171,6 +174,15 @@ namespace App.Views
 			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(mvDisplay.Movement.ExpenseType.ToString()),30}");
 
 			DisplayAlert(AppResource.Movement, message.ToString(), "Ok");
+		}
+
+		private async void ChangeSortingOrder_Clicked(object sender, EventArgs e)
+		{
+			if (_viewModel.SortOrder == Models.Enums.SortOrder.Ascending)
+				_viewModel.SortOrder = Models.Enums.SortOrder.Descending;
+			else
+				_viewModel.SortOrder = Models.Enums.SortOrder.Ascending;
+			await _viewModel.OrderHistory();
 		}
 
 		private void FocusDay(int day)

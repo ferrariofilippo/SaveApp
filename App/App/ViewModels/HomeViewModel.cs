@@ -7,7 +7,7 @@ namespace App.ViewModels
 {
 	public class HomeViewModel : ObservableObject
 	{
-		public readonly StatisticsHolder Stats = DependencyService.Get<StatisticsHolder>();
+		public readonly StatisticsManager Stats = DependencyService.Get<StatisticsManager>();
 
 		private decimal _income = 0.0m;
 		public decimal Income

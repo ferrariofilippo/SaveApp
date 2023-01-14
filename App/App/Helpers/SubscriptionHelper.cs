@@ -2,6 +2,7 @@
 using App.Models;
 using App.Resx;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -9,9 +10,9 @@ namespace App.Helpers
 {
 	public static class SubscriptionHelper
 	{
-		private static readonly AppDatabase _database = DependencyService.Get<AppDatabase>();
+		private static readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
-		private static readonly StatisticsHolder _statistics = DependencyService.Get<StatisticsHolder>();
+		private static readonly StatisticsManager _statistics = DependencyService.Get<StatisticsManager>();
 
 		public static async void ValidateSubscriptions()
 		{
@@ -44,7 +45,7 @@ namespace App.Helpers
 				return null;
 
 			var paymentOf = string.Format(AppResource.PaymentOf, subscription.Description);
-			var month = App.ResourceManager.GetString(ReadOnlies.Months[renewal.Month - 1]);
+			var month = App.ResourceManager.GetString(ReadOnlies.Months[renewal.Month - 1], CultureInfo.CurrentCulture);
 
 			var movement = new Movement()
 			{
