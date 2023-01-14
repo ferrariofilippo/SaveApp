@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-    public class CurrenciesManager
+	public class CurrenciesManager
 	{
 		private readonly SettingsManager _settings = DependencyService.Get<SettingsManager>();
 
@@ -28,10 +28,10 @@ namespace App.Data
 
 		public CurrenciesManager()
 		{
-            for (int i = 0; i < Rates.Length; i++)
-                Rates[i] = 1.0m;
+			for (int i = 0; i < Rates.Length; i++)
+				Rates[i] = 1.0m;
 
-            _cachePath = Path.Combine(
+			_cachePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				Constants.CurrenciesCachePath);
 
@@ -41,7 +41,7 @@ namespace App.Data
 				LoadLatest();
 		}
 
-		public decimal ConvertCurrencyToDefault(decimal value, Currencies from) 
+		public decimal ConvertCurrencyToDefault(decimal value, Currencies from)
 			=> value * Rates[_settings.Settings.BaseCurrency] / Rates[(byte)from];
 
 		public async Task UpdateAllToCurrent(Currencies previous)
@@ -56,7 +56,7 @@ namespace App.Data
 				db.UpdateDbToNewCurrency(changeRatio));
 
 			NotificationHelper.SendNotification(
-				AppResource.DatabaseCurrencyUpdateEnded, 
+				AppResource.DatabaseCurrencyUpdateEnded,
 				AppResource.DatabseCurrencyUpdateEndedMessage);
 		}
 
@@ -67,15 +67,14 @@ namespace App.Data
 			{
 				var parsed = JsonSerializer.Deserialize<CurrenciesCache>(json);
 
-                if (parsed.LastUpdated < DateTime.Today)
-                    LoadLatest();
+				if (parsed.LastUpdated < DateTime.Today)
+					LoadLatest();
 				else
 					for (int i = 0; i < parsed.Rates.Length; i++)
 						Rates[i] = parsed.Rates[i];
 			}
 			else
 				LoadLatest();
-		
 		}
 
 		private async Task SaveCached()
@@ -111,19 +110,19 @@ namespace App.Data
 		{
 			try
 			{
-                HttpResponseMessage response = await _client.GetAsync(query);
-                if (!response.IsSuccessStatusCode)
-                    return null;
-                var ratesString = JsonSerializer.Deserialize<JsonDocument>(
-                    await response.Content.ReadAsStringAsync())
-                    .RootElement
-                    .GetProperty("rates")
+				HttpResponseMessage response = await _client.GetAsync(query);
+				if (!response.IsSuccessStatusCode)
+					return null;
+				var ratesString = JsonSerializer.Deserialize<JsonDocument>(
+					await response.Content.ReadAsStringAsync())
+					.RootElement
+					.GetProperty("rates")
 					.GetRawText();
 
-                LastUpdate = DateTime.Today;
+				LastUpdate = DateTime.Today;
 
-                return JsonSerializer.Deserialize<Dictionary<string, decimal>>(ratesString);
-            }
+				return JsonSerializer.Deserialize<Dictionary<string, decimal>>(ratesString);
+			}
 			catch (Exception) { }
 			return null;
 		}
