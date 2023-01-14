@@ -74,9 +74,8 @@ namespace App.Data
 						Rates[i] = parsed.Rates[i];
 			}
 			else
-			{
 				LoadLatest();
-			}
+		
 		}
 
 		private async Task SaveCached()

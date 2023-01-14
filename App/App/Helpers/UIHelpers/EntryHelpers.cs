@@ -12,14 +12,12 @@ namespace App.Helpers.UIHelpers
             var lastIndex = e.NewTextValue.Length - 1;
             if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == "," &&
                 e.NewTextValue[lastIndex] == '.')
-            {
-                entry.Text = e.OldTextValue + ",";
-            }
+                    entry.Text = e.OldTextValue + ",";
+            
             else if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == "." &&
                 e.NewTextValue[lastIndex] == ',')
-            {
-                entry.Text = e.OldTextValue + ".";
-            }
+                    entry.Text = e.OldTextValue + ".";
+            
         }
     }
 }
