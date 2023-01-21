@@ -83,7 +83,6 @@
 						Grid.ColumnSpan="2"
 						Margin="0, 20, 0, 5"
 						IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
-						ItemsSource="{x:Binding Subscriptions}"
 						SelectedItem="None">
 						<ListView.ItemTemplate>
 							<DataTemplate>

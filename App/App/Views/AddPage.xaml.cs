@@ -160,12 +160,13 @@ namespace App.Views
                 return false;
             }
 
-            var renewal = (RenewalType)RenewalPicker.SelectedItem;
+            var renewal = (RenewalType)RenewalPicker.SelectedIndex;
             var subscription = new Subscription(renewal, MovementDatePicker.Date)
             {
                 BudgetId = IndexToBudgetId[BudgetPicker.SelectedIndex],
                 Description = DescriptionEntry.Text,
                 ExpenseType = _viewModel.IsExpense ? (ExpenseType)ExpenseTypePicker.SelectedIndex : ExpenseType.Others,
+                NextRenewal = MovementDatePicker.Date,
                 Value = value,
             };
 
@@ -182,7 +183,7 @@ namespace App.Views
                 _database.SaveSubscriptionAsync(subscription),
                 _stats.AddSubscription(subscription));
 
-            var movement = SubscriptionHelper.CreateMovementFromSubscription(subscription);
+            var movement = await SubscriptionHelper.CreateMovementFromSubscription(subscription);
             if (!(movement is null))
             {
                 var result = movement.BudgetId == 0
