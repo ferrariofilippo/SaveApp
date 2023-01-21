@@ -18,6 +18,7 @@ namespace App.Views
 		{
 			InitializeComponent();
 			this.BindingContext = _viewModel;
+			SubscriptionsListView.ItemsSource = _viewModel.Subscriptions;
 		}
 
 		protected override void OnAppearing()

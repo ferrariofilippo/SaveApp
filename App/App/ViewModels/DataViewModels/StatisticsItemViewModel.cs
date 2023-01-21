@@ -29,9 +29,11 @@ namespace App.ViewModels.DataViewModels
         public StatisticsItemViewModel(string title, List<decimal> values, bool isExpense = true, bool isMonthly = false)
         {
             Title = title;
-            var entries = CreateEntries(values, isExpense, isMonthly);
+            ShowEmptyLabel = values.Count == 0;
+            if (ShowEmptyLabel)
+                return;
 
-            ShowEmptyLabel = entries.Length == 0;
+            var entries = CreateEntries(values, isExpense, isMonthly);
 
             StatChart = new DonutChart()
             {
@@ -46,9 +48,11 @@ namespace App.ViewModels.DataViewModels
         public StatisticsItemViewModel(string title, Dictionary<int, decimal> values, bool isExpense = true)
         {
             Title = title;
-            var entries = CreateEntries(values, isExpense);
+            ShowEmptyLabel = values.Count == 0;
+            if (ShowEmptyLabel)
+                return;
 
-            ShowEmptyLabel = entries.Length == 0;
+            var entries = CreateEntries(values, isExpense);
 
             StatChart = new PointChart()
             {

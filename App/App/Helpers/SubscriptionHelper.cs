@@ -21,7 +21,7 @@ namespace App.Helpers
 				return;
 			foreach (var item in subs)
 			{
-				var movement = CreateMovementFromSubscription(item);
+				var movement = await CreateMovementFromSubscription(item);
 				while (!(movement is null))
 				{
 					if (await BudgetHelper.AddMovementToBudget(movement) != Models.Enums.AddToBudgetResult.Succeded)
@@ -33,12 +33,12 @@ namespace App.Helpers
 					await Task.WhenAll(
 						_statistics.AddMovement(movement, true),
 						_database.SaveMovementAsync(movement));
-					movement = CreateMovementFromSubscription(item);
+					movement = await CreateMovementFromSubscription(item);
 				}
 			}
 		}
 
-		public static Movement CreateMovementFromSubscription(Subscription subscription)
+		public static async Task<Movement> CreateMovementFromSubscription(Subscription subscription)
 		{
 			var renewal = subscription.NextRenewal.Date;
 			if (renewal > DateTime.Today.Date)
@@ -57,6 +57,7 @@ namespace App.Helpers
 				Value = subscription.Value,
 			};
 			subscription.UpdateNextRenewal();
+			await _database.SaveSubscriptionAsync(subscription);
 			return movement;
 		}
 	}
