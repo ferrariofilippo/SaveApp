@@ -14,13 +14,23 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HistoryPage : ContentPage
 	{
+		private enum FilterDepth
+		{
+			Year,
+			Month,
+			Day
+		}
+
+		private const int CALENDAR_COLUMNS = 4;
+		private const int MAX_DAYS_IN_MONTH = 31;
+
 		private readonly HistoryViewModel _viewModel = new HistoryViewModel();
 
-		private readonly Guid[] _monthButtons = new Guid[12];
+		private readonly Guid[] _monthButtons = new Guid[Constants.MONTHS_IN_YEAR];
 
-		private byte _filterDepth;
+		private FilterDepth _filterDepth = FilterDepth.Year;
 
-		private int _lastMonthLength = 31;
+		private int _lastMonthLength = MAX_DAYS_IN_MONTH;
 
 		public HistoryPage()
 		{
@@ -43,7 +53,7 @@ namespace App.Views
 
 			MonthGrid.Children.Clear();
 
-			for (byte i = 0; i < 12; i++)
+			for (byte i = 0; i < Constants.MONTHS_IN_YEAR; i++)
 			{
 				var btn = new Button()
 				{
@@ -54,11 +64,11 @@ namespace App.Views
 				};
 				btn.Clicked += MonthClicked;
 				_monthButtons[i] = btn.Id;
-				MonthGrid.Children.Add(btn, i % 4, i / 4);
+				MonthGrid.Children.Add(btn, i % CALENDAR_COLUMNS, i / CALENDAR_COLUMNS);
 			}
 
 			DayGrid.Children.Clear();
-			for (byte i = 0; i < 31; i++)
+			for (byte i = 0; i < MAX_DAYS_IN_MONTH; i++)
 			{
 				var btn = new Button()
 				{
@@ -68,13 +78,13 @@ namespace App.Views
 					Visual = VisualMarker.Default
 				};
 				btn.Clicked += DayClicked;
-				DayGrid.Children.Add(btn, i % 7, i / 7);
+				DayGrid.Children.Add(btn, i % Constants.DAYS_IN_WEEK, i / Constants.DAYS_IN_WEEK);
 			}
 		}
 
 		private void MonthClicked(object sender, EventArgs e)
 		{
-			_filterDepth = 1;
+			_filterDepth = FilterDepth.Month;
 			var btn = (Button)sender;
 			FocusMonth(_monthButtons.IndexOf(btn.Id) + 1);
 			MonthGrid.IsVisible = false;
@@ -84,38 +94,38 @@ namespace App.Views
 
 		private void DayClicked(object sender, EventArgs e)
 		{
-			_filterDepth = 2;
+			_filterDepth = FilterDepth.Day;
 			var btn = (Button)sender;
 			FocusDay(int.Parse(btn.Text));
 		}
 
 		private void BackClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth == 0)
+			if (_filterDepth is FilterDepth.Year)
 				FocusYear(_viewModel.Year - 1);
-			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] > 1)
+			else if (_filterDepth is FilterDepth.Month && _viewModel.MonthAndDay[0] > 1)
 				FocusMonth(_viewModel.MonthAndDay[0] - 1);
-			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] > 1)
+			else if (_filterDepth is FilterDepth.Day && _viewModel.MonthAndDay[1] > 1)
 				FocusDay(_viewModel.MonthAndDay[1] - 1);
 		}
 
 		private void ForwardClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth == 0)
+			if (_filterDepth is FilterDepth.Year)
 				FocusYear(_viewModel.Year + 1);
-			else if (_filterDepth == 1 && _viewModel.MonthAndDay[0] < 12)
+			else if (_filterDepth is FilterDepth.Month && _viewModel.MonthAndDay[0] < 12)
 				FocusMonth(_viewModel.MonthAndDay[0] + 1);
-			else if (_filterDepth == 2 && _viewModel.MonthAndDay[1] < _lastMonthLength)
+			else if (_filterDepth is FilterDepth.Day && _viewModel.MonthAndDay[1] < _lastMonthLength)
 				FocusDay(_viewModel.MonthAndDay[1] + 1);
 		}
 
 		private void LatterClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth == 0)
+			if (_filterDepth is FilterDepth.Year)
 				return;
-			if (_filterDepth == 1)
+			if (_filterDepth == FilterDepth.Month)
 			{
-				_filterDepth--;
+				_filterDepth = FilterDepth.Year;
 				_viewModel.CalendarTitle = _viewModel.Year.ToString();
 				FocusYear(_viewModel.Year);
 				DayGrid.IsVisible = false;
@@ -124,7 +134,7 @@ namespace App.Views
 				return;
 			}
 
-			_filterDepth = 1;
+			_filterDepth = FilterDepth.Month;
 			FocusMonth(_viewModel.MonthAndDay[0]);
 		}
 
@@ -132,13 +142,13 @@ namespace App.Views
 		{
 			switch (_filterDepth)
 			{
-				case 0:
+				case FilterDepth.Year:
 					_viewModel.FilterByYear();
 					break;
-				case 1:
+				case FilterDepth.Month:
 					_viewModel.FilterByMonth();
 					break;
-				case 2:
+				case FilterDepth.Day:
 					_viewModel.FilterByDay();
 					break;
 			}

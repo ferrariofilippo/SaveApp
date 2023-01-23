@@ -39,7 +39,7 @@
 
 		<Style TargetType="ListView">
 			<Setter Property="RefreshControlColor" Value="{DynamicResource PrimaryColor}" />
-			<Setter Property="RowHeight" Value="{x:Static app:Constants.ListViewCellHeight}" />
+			<Setter Property="RowHeight" Value="{x:Static app:Constants.LIST_VIEW_CELL_HEIGHT}" />
 		</Style>
 
 		<Style TargetType="Picker">

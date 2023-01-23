@@ -13,18 +13,18 @@ namespace App.ViewModels.DataViewModels
 			public float BottomRightOffset;
 		}
 
-		private const float _expensesStartAngle = 50.0f;
-
-		private const float _backgroundStartAngle = 50.0f;
-
-		private const float _backgroundAngle = 80.0f;
+		private const float GRAPH_LINE_WIDTH = 20.0f;
+		private const float EXPENSES_START_ANGLE = 50.0f;
+		private const float BACKGROUND_START_ANGLE = 50.0f;
+		private const float BACKGROUND_ANGLE = 80.0f;
+		private const decimal MAX_ANGLE_WIDTH = 280.0m;
 
 		private readonly SKPaint _incomePaint = new SKPaint()
 		{
 			IsAntialias = true,
 			Color = SKColor.Parse(((Color)Application.Current.Resources["IncomeColor"]).ToHex()),
 			Style = SKPaintStyle.Stroke,
-			StrokeWidth = 20.0f
+			StrokeWidth = GRAPH_LINE_WIDTH
 		};
 		private readonly SKPaint _expensesPaint = new SKPaint()
 		{
@@ -32,14 +32,14 @@ namespace App.ViewModels.DataViewModels
 			IsAntialias = true,
 			Color = SKColor.Parse(((Color)Application.Current.Resources["ExpenseColor"]).ToHex()),
 			Style = SKPaintStyle.Stroke,
-			StrokeWidth = 20.0f
+			StrokeWidth = GRAPH_LINE_WIDTH
 		};
 		private readonly SKPaint _backgroundPaint = new SKPaint()
 		{
 			IsAntialias = true,
 			Color = SKColor.Parse(((Color)Application.Current.Resources["BackgroundMainColor"]).ToHex()),
 			Style = SKPaintStyle.Stroke,
-			StrokeWidth = 21.0f,
+			StrokeWidth = GRAPH_LINE_WIDTH + 1,
 		};
 
 		private CircleData _circle;
@@ -55,7 +55,7 @@ namespace App.ViewModels.DataViewModels
 		public void Draw(decimal expenses, decimal netWorth, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
 		{
 			var expensesAngle = -140.0f;
-			expensesAngle -= netWorth == 0.00m ? 0.00f : (float)(280.0m * ((expenses / netWorth) - 0.5m));
+			expensesAngle -= netWorth == 0.00m ? 0.00f : (float)(MAX_ANGLE_WIDTH * ((expenses / netWorth) - 0.5m));
 
 			var canvas = e.Surface.Canvas;
 			var rect = new SKRect(
@@ -73,12 +73,12 @@ namespace App.ViewModels.DataViewModels
 
 			using (var path = new SKPath())
 			{
-				path.AddArc(rect, _expensesStartAngle, expensesAngle);
+				path.AddArc(rect, EXPENSES_START_ANGLE, expensesAngle);
 				canvas.DrawPath(path, _expensesPaint);
 			}
 			using (var path = new SKPath())
 			{
-				path.AddArc(rect, _backgroundStartAngle, _backgroundAngle);
+				path.AddArc(rect, BACKGROUND_START_ANGLE, BACKGROUND_ANGLE);
 				canvas.DrawPath(path, _backgroundPaint);
 			}
 		}

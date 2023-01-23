@@ -15,9 +15,9 @@ namespace App.ViewModels
 {
 	public class HistoryViewModel : ObservableObject
 	{
-		private const string _ascendingIconSource = "ascending.png";
+		private const string ASCENDING_ICON_SOURCE = "ascending.png";
 
-		private const string _descendingIconSource = "descending.png";
+		private const string DESCENDING_ICON_SOURCE = "descending.png";
 
 		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
@@ -56,7 +56,7 @@ namespace App.ViewModels
 
 		public bool FirstLoad { get; set; } = true;
 
-		public string SortIconSource => SortOrder == SortOrder.Ascending ? _descendingIconSource : _ascendingIconSource;
+		public string SortIconSource => SortOrder == SortOrder.Ascending ? DESCENDING_ICON_SOURCE : ASCENDING_ICON_SOURCE;
 
 		private SortOrder _sortOrder;
 		public SortOrder SortOrder

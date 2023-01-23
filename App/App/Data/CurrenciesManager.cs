@@ -19,7 +19,7 @@ namespace App.Data
 
 		private readonly HttpClient _client = new HttpClient()
 		{
-			BaseAddress = new Uri(Constants.BaseCurrenciesUrl)
+			BaseAddress = new Uri(Constants.BASE_CURRENCIES_URL)
 		};
 
 		private readonly decimal[] _rates = new decimal[8];
@@ -33,7 +33,7 @@ namespace App.Data
 
 			_cachePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				Constants.CurrenciesCachePath);
+				Constants.CURRENCIES_CACHE_PATH);
 
 			if (File.Exists(_cachePath))
 				LoadCached();

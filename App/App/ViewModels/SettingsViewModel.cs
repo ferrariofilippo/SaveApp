@@ -8,9 +8,9 @@ namespace App.ViewModels
 {
 	public class SettingsViewModel : ObservableObject
 	{
-		private const string _chevronUpPath = "chevronUp.png";
+		private const string CHEVRON_UP_PATH = "chevronUp.png";
 
-		private const string _chevronDownPath = "chevronDown.png";
+		private const string CHEVRON_DOWN_PATH = "chevronDown.png";
 
 		private static CultureInfo culutre => CultureInfo.CurrentCulture;
 
@@ -36,7 +36,7 @@ namespace App.ViewModels
 		}
 
 		public string ToggleIconSource => IsDataSectionVisible
-			? _chevronUpPath
-			: _chevronDownPath;
+			? CHEVRON_UP_PATH
+			: CHEVRON_DOWN_PATH;
 	}
 }

@@ -84,7 +84,7 @@ namespace App.Helpers
 		{
 			var saver = DependencyService.Get<IFileSaver>();
 			var path = $"SaveApp_Template.csv";
-			await saver.SaveFile(path, Constants.MovementsFileHeader);
+			await saver.SaveFile(path, Constants.MOVEMENTS_FILE_HEADER);
 			NotificationHelper.SendNotification(
 				AppResource.FileDownloadedNotificationTitle,
 				AppResource.TemplateDownloadedMessage);
@@ -92,7 +92,7 @@ namespace App.Helpers
 
 		private static async Task SaveMovements(IAppDatabase database, IFileSaver saver)
 		{
-			var builder = new StringBuilder(Constants.MovementsFileHeader);
+			var builder = new StringBuilder(Constants.MOVEMENTS_FILE_HEADER);
 			var movements = await database.GetMovementsAsync();
 			var path = $"{AppResource.Movements}_{DateTime.Now:dd-MM-yyyy}.csv";
 
@@ -112,7 +112,7 @@ namespace App.Helpers
 
 		private static async Task SaveSubscriptionts(IAppDatabase database, IFileSaver saver)
 		{
-			var builder = new StringBuilder(Constants.SubscriptionsFileHeader);
+			var builder = new StringBuilder(Constants.SUBSCRIPTIONS_FILE_HEADER);
 			var subs = await database.GetSubscriptionsAsync();
 			var path = $"{AppResource.Subscriptions}_{DateTime.Now:dd-MM-yyyy}.csv";
 

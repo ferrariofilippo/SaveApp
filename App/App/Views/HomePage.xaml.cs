@@ -9,6 +9,9 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HomePage : ContentPage
 	{
+		private const int PAGE_MAX_WIDTH = 480;
+		private const double PAGE_PADDING = 30.0d;
+
 		private readonly HomeViewModel _viewModel = new HomeViewModel();
 
 		private readonly HomeGraphViewModel _graphViewModel = new HomeGraphViewModel();
@@ -23,7 +26,7 @@ namespace App.Views
 
 		private void HomePage_SizeChanged(object _, EventArgs e)
 		{
-			double pageWidth = this.Width > 480 ? 450.0d : this.Width - 30.0d;
+			var pageWidth = (this.Width > PAGE_MAX_WIDTH ? PAGE_MAX_WIDTH : this.Width) - PAGE_PADDING;
 
 			MovementsCanvas.HeightRequest = pageWidth;
 			MovementsCanvas.WidthRequest = pageWidth;
