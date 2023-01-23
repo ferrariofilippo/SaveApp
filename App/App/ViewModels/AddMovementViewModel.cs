@@ -8,16 +8,16 @@ namespace App.ViewModels
 {
 	public class AddMovementViewModel : ObservableObject
 	{
-		private static CultureInfo culture => CultureInfo.CurrentCulture;
+		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 
 		public readonly string[] MovementTypes = Enum.GetValues(typeof(ExpenseType))
 			.Cast<ExpenseType>()
-			.Select(x => App.ResourceManager.GetString(x.ToString(), culture))
+			.Select(x => App.ResourceManager.GetString(x.ToString(), Culture))
 			.ToArray();
 
 		public readonly string[] RenewalTypes = Enum.GetValues(typeof(RenewalType))
 			.Cast<RenewalType>()
-			.Select(x => App.ResourceManager.GetString(x.ToString(), culture))
+			.Select(x => App.ResourceManager.GetString(x.ToString(), Culture))
 			.ToArray();
 
 		public readonly string[] Currencies = Enum.GetValues(typeof(Currencies))

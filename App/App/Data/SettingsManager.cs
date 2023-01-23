@@ -17,7 +17,7 @@ namespace App.Data
 			_settingsPath = Path.Combine(
 				Environment.GetFolderPath(
 					Environment.SpecialFolder.LocalApplicationData),
-				Constants.SettingsPath);
+				Constants.SETTINGS_PATH);
 
 			if (File.Exists(_settingsPath))
 			{

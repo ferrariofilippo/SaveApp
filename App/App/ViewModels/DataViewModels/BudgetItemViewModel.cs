@@ -24,9 +24,9 @@ namespace App.ViewModels.DataViewModels
 
         public float UsedPercent => (float)(Budget.Used / Budget.MaxAmount);
 
-        public string DescriptionString => Budget.Name.Length > 20
-            ? Budget.Name.Substring(0, 20)
-            : Budget.Name.PadRight(20);
+        public string DescriptionString => Budget.Name.Length > Constants.STRING_LENGTH
+            ? Budget.Name.Substring(0, Constants.STRING_LENGTH)
+            : Budget.Name.PadRight(Constants.STRING_LENGTH);
 
         private Budget _budget;
         public Budget Budget

@@ -18,9 +18,9 @@ namespace App.ViewModels.DataViewModels
 
         public string DateString => Movement.CreationDate.ToString("dd/MM/yyyy");
 
-        public string DescriptionString => Movement.Description.Length > 20
-            ? Movement.Description.Substring(0, 20)
-            : Movement.Description.PadRight(20);
+        public string DescriptionString => Movement.Description.Length > Constants.STRING_LENGTH
+            ? Movement.Description.Substring(0, Constants.STRING_LENGTH)
+            : Movement.Description.PadRight(Constants.STRING_LENGTH);
 
         private Movement _movement;
         public Movement Movement

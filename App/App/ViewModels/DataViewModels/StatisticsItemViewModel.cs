@@ -14,7 +14,9 @@ namespace App.ViewModels.DataViewModels
 {
     public class StatisticsItemViewModel
     {
-        private static readonly SKColor _transparent = SKColor.Parse(Constants.TrasnparentHex);
+        private const int PAGE_PADDING = 30;
+
+        private static readonly SKColor _transparent = SKColor.Parse(Constants.TRANSPARENT);
 
         public string Title { get; set; }
 
@@ -22,7 +24,7 @@ namespace App.ViewModels.DataViewModels
 
         public ObservableCollection<StatisticItem> Items { get; } = new ObservableCollection<StatisticItem>();
 
-        public double ChartSize => Application.Current.MainPage.Width - 30;
+        public double ChartSize => Application.Current.MainPage.Width - PAGE_PADDING;
 
         public bool ShowEmptyLabel { get; set; }
 

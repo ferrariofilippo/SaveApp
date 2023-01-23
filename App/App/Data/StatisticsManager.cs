@@ -22,7 +22,7 @@ namespace App.Data
             _statsPath = Path.Combine(
                 Environment.GetFolderPath(
                     Environment.SpecialFolder.LocalApplicationData),
-                Constants.StatsPath);
+                Constants.STATS_PATH);
 
             if (File.Exists(_statsPath))
             {
@@ -150,15 +150,15 @@ namespace App.Data
             switch (renwal)
             {
                 case RenewalType.Weekly:
-                    return 52;
+                    return Constants.WEEKS_IN_YEAR;
                 case RenewalType.Monthly:
-                    return 12;
+                    return Constants.MONTHS_IN_YEAR;
                 case RenewalType.Bimonthly:
-                    return 6;
+                    return Constants.SIXTHS_IN_YEAR;
                 case RenewalType.Quarterly:
-                    return 4;
+                    return Constants.QUARTERS_IN_YEAR;
                 case RenewalType.Semiannual:
-                    return 2;
+                    return Constants.SEMESTERS_IN_YEAR;
                 default:
                     return 1;
             }

@@ -14,9 +14,9 @@ namespace App.ViewModels.DataViewModels
             set => SetProperty(ref _typeColor, value);
         }
 
-        public string DescriptionString => Subscription.Description.Length > 20
-            ? Subscription.Description.Substring(0, 20)
-            : Subscription.Description.PadRight(20);
+        public string DescriptionString => Subscription.Description.Length > Constants.STRING_LENGTH
+            ? Subscription.Description.Substring(0, Constants.STRING_LENGTH)
+            : Subscription.Description.PadRight(Constants.STRING_LENGTH);
 
         public string ValueString => Subscription.Value.ToCurrencyString();
 

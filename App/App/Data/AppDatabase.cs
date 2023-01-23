@@ -14,7 +14,7 @@ namespace App.Data
 
 		public AppDatabase()
 		{
-			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DbPath);
+			string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DB_PATH);
 			_database = new SQLiteAsyncConnection(path);
 			_database.CreateTableAsync<Movement>().Wait();
 			_database.CreateTableAsync<Subscription>().Wait();

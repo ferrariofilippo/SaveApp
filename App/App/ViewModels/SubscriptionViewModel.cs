@@ -18,7 +18,7 @@ namespace App.ViewModels
 
 		public string ExpenseYTD => _stats.Statistics.SubscriptionPaidYTD.ToCurrencyString();
 
-		public string MonthlyExpense => (_stats.Statistics.YearlySubscriptionExpense / 12.0m).ToCurrencyString();
+		public string MonthlyExpense => (_stats.Statistics.YearlySubscriptionExpense / Constants.MONTHS_IN_YEAR).ToCurrencyString();
 
 		public string YearlyExpense => _stats.Statistics.YearlySubscriptionExpense.ToCurrencyString();
 
