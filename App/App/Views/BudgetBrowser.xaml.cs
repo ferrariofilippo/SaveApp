@@ -1,9 +1,7 @@
-﻿using App.Extensions;
-using App.Resx;
+﻿using App.Resx;
 using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,16 +45,7 @@ namespace App.Views
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)
 		{
 			var budgetgDisplay = (BudgetItemViewModel)((SwipeItem)sender).Parent.BindingContext;
-
-			var message = new StringBuilder();
-			message.AppendLine($"{AppResource.Description}: {budgetgDisplay.Budget.Name,30}");
-			message.AppendLine($"{AppResource.Remaining}: {budgetgDisplay.RemainingString,30}");
-			message.AppendLine($"{AppResource.Used}: {budgetgDisplay.UsedString,30}");
-			message.AppendLine($"{AppResource.Total}: {budgetgDisplay.Budget.MaxAmount.ToCurrencyString(),30}");
-			message.AppendLine($"{AppResource.InitialDate}: {budgetgDisplay.InitialString,30}");
-			message.Append($"{AppResource.FinalDate}: {budgetgDisplay.EndingString,30}");
-
-			DisplayAlert(AppResource.Budget, message.ToString(), "Ok");
+			DisplayAlert(AppResource.Budget, budgetgDisplay.ToString(), "Ok");
 		}
 
 		private async void Add_Clicked(object sedenr, EventArgs e) 

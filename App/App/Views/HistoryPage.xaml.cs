@@ -1,10 +1,10 @@
 ﻿using App.Helpers;
+using App.Models.Enums;
 using App.Resx;
 using App.ViewModels;
 using App.ViewModels.DataViewModels;
 using System;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -14,13 +14,6 @@ namespace App.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HistoryPage : ContentPage
 	{
-		private enum FilterDepth
-		{
-			Year,
-			Month,
-			Day
-		}
-
 		private const int CALENDAR_COLUMNS = 4;
 		private const int MAX_DAYS_IN_MONTH = 31;
 
@@ -28,7 +21,7 @@ namespace App.Views
 
 		private readonly Guid[] _monthButtons = new Guid[Constants.MONTHS_IN_YEAR];
 
-		private FilterDepth _filterDepth = FilterDepth.Year;
+		private SearchDepth _filterDepth = SearchDepth.Year;
 
 		private int _lastMonthLength = MAX_DAYS_IN_MONTH;
 
@@ -41,6 +34,7 @@ namespace App.Views
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+			FilterByTypePicker.ItemsSource = _viewModel.Categories;
 			HistoryListView.ItemsSource = _viewModel.Movements;
 			CreateCalendar();
 			Refresh_ListView(MainView, EventArgs.Empty);
@@ -84,7 +78,7 @@ namespace App.Views
 
 		private void MonthClicked(object sender, EventArgs e)
 		{
-			_filterDepth = FilterDepth.Month;
+			_filterDepth = SearchDepth.Month;
 			var btn = (Button)sender;
 			FocusMonth(_monthButtons.IndexOf(btn.Id) + 1);
 			MonthGrid.IsVisible = false;
@@ -94,38 +88,38 @@ namespace App.Views
 
 		private void DayClicked(object sender, EventArgs e)
 		{
-			_filterDepth = FilterDepth.Day;
+			_filterDepth = SearchDepth.Day;
 			var btn = (Button)sender;
 			FocusDay(int.Parse(btn.Text));
 		}
 
 		private void BackClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth is FilterDepth.Year)
+			if (_filterDepth is SearchDepth.Year)
 				FocusYear(_viewModel.Year - 1);
-			else if (_filterDepth is FilterDepth.Month && _viewModel.MonthAndDay[0] > 1)
+			else if (_filterDepth is SearchDepth.Month && _viewModel.MonthAndDay[0] > 1)
 				FocusMonth(_viewModel.MonthAndDay[0] - 1);
-			else if (_filterDepth is FilterDepth.Day && _viewModel.MonthAndDay[1] > 1)
+			else if (_filterDepth is SearchDepth.Day && _viewModel.MonthAndDay[1] > 1)
 				FocusDay(_viewModel.MonthAndDay[1] - 1);
 		}
 
 		private void ForwardClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth is FilterDepth.Year)
+			if (_filterDepth is SearchDepth.Year)
 				FocusYear(_viewModel.Year + 1);
-			else if (_filterDepth is FilterDepth.Month && _viewModel.MonthAndDay[0] < 12)
+			else if (_filterDepth is SearchDepth.Month && _viewModel.MonthAndDay[0] < 12)
 				FocusMonth(_viewModel.MonthAndDay[0] + 1);
-			else if (_filterDepth is FilterDepth.Day && _viewModel.MonthAndDay[1] < _lastMonthLength)
+			else if (_filterDepth is SearchDepth.Day && _viewModel.MonthAndDay[1] < _lastMonthLength)
 				FocusDay(_viewModel.MonthAndDay[1] + 1);
 		}
 
 		private void LatterClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth is FilterDepth.Year)
+			if (_filterDepth is SearchDepth.Year)
 				return;
-			if (_filterDepth == FilterDepth.Month)
+			if (_filterDepth == SearchDepth.Month)
 			{
-				_filterDepth = FilterDepth.Year;
+				_filterDepth = SearchDepth.Year;
 				_viewModel.CalendarTitle = _viewModel.Year.ToString();
 				FocusYear(_viewModel.Year);
 				DayGrid.IsVisible = false;
@@ -134,7 +128,7 @@ namespace App.Views
 				return;
 			}
 
-			_filterDepth = FilterDepth.Month;
+			_filterDepth = SearchDepth.Month;
 			FocusMonth(_viewModel.MonthAndDay[0]);
 		}
 
@@ -142,13 +136,13 @@ namespace App.Views
 		{
 			switch (_filterDepth)
 			{
-				case FilterDepth.Year:
+				case SearchDepth.Year:
 					_viewModel.FilterByYear();
 					break;
-				case FilterDepth.Month:
+				case SearchDepth.Month:
 					_viewModel.FilterByMonth();
 					break;
-				case FilterDepth.Day:
+				case SearchDepth.Day:
 					_viewModel.FilterByDay();
 					break;
 			}
@@ -174,22 +168,15 @@ namespace App.Views
 		private void SwipeItem_InfoInvoked(object sender, EventArgs e)
 		{
 			var mvDisplay = (MovementItemViewModel)((SwipeItem)sender).Parent.BindingContext;
-
-			var message = new StringBuilder();
-			message.AppendLine($"{AppResource.Description}: {mvDisplay.Movement.Description,30}");
-			message.AppendLine($"{AppResource.Value}: {mvDisplay.ValueString,30}");
-			message.AppendLine($"{AppResource.Date}: {mvDisplay.DateString,30}");
-			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(mvDisplay.Movement.ExpenseType.ToString()),30}");
-
-			DisplayAlert(AppResource.Movement, message.ToString(), "Ok");
+			DisplayAlert(AppResource.Movement, mvDisplay.ToString(), "Ok");
 		}
 
 		private async void ChangeSortingOrder_Clicked(object sender, EventArgs e)
 		{
-			if (_viewModel.SortOrder == Models.Enums.SortOrder.Ascending)
-				_viewModel.SortOrder = Models.Enums.SortOrder.Descending;
+			if (_viewModel.SortOrder == SortOrder.Ascending)
+				_viewModel.SortOrder = SortOrder.Descending;
 			else
-				_viewModel.SortOrder = Models.Enums.SortOrder.Ascending;
+				_viewModel.SortOrder = SortOrder.Ascending;
 			await _viewModel.OrderHistory();
 		}
 
@@ -226,6 +213,20 @@ namespace App.Views
 		{
 			_viewModel.Year = year;
 			_viewModel.FilterByYear();
+		}
+
+		private void ChangeFilter_Clicked(object sender, EventArgs e)
+			=> FilterByTypePicker.Focus();
+
+		private void FilterByTypePicker_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var filterSelected = FilterByTypePicker.SelectedIndex != 12;
+			_viewModel.IsFilterButtonEnabled = false;
+			_viewModel.IsFilteringByType = filterSelected;
+			_viewModel.TypeFilter = filterSelected 
+				? (ExpenseType)FilterByTypePicker.SelectedIndex 
+				: ExpenseType.Bets;
+			Refresh_ListView(null, null);
 		}
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using App.Extensions;
 using App.Models;
+using App.Resx;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text;
 using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
@@ -44,5 +46,15 @@ namespace App.ViewModels.DataViewModels
                 ? ReadOnlies.MovementTypeColors[(int)m.ExpenseType] 
                 : (Color)Application.Current.Resources["IncomeColor"];
         }
-    }
+
+		public override string ToString()
+		{
+			var message = new StringBuilder();
+			message.AppendLine($"{AppResource.Description}: {Movement.Description,30}");
+			message.AppendLine($"{AppResource.Value}: {ValueString,30}");
+			message.AppendLine($"{AppResource.Date}: {DateString,30}");
+			message.Append($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(Movement.ExpenseType.ToString()),30}");
+            return message.ToString();
+		}
+	}
 }
