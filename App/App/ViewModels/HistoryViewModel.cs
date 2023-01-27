@@ -3,12 +3,13 @@ using App.Helpers;
 using App.Helpers.Notifications;
 using App.Models;
 using App.Models.Enums;
+using App.Resx;
 using App.ViewModels.DataViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -17,12 +18,19 @@ namespace App.ViewModels
 	public class HistoryViewModel : ObservableObject
 	{
 		private const string ASCENDING_ICON_SOURCE = "ascending.png";
-
 		private const string DESCENDING_ICON_SOURCE = "descending.png";
+
+		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 
 		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 
 		private readonly StatisticsManager _stats = DependencyService.Get<StatisticsManager>();
+
+		public readonly string[] Categories = Enum.GetValues(typeof(ExpenseType))
+			.Cast<ExpenseType>()
+			.Select(x => App.ResourceManager.GetString(x.ToString(), Culture))
+			.Union(new string[] { AppResource.None })
+			.ToArray();
 
 		public readonly int[] MonthAndDay = { DateTime.Now.Month, DateTime.Now.Day };
 
@@ -33,6 +41,8 @@ namespace App.ViewModels
 		public bool FirstLoad { get; set; } = true;
 
 		public string SortIconSource => SortOrder == SortOrder.Ascending ? DESCENDING_ICON_SOURCE : ASCENDING_ICON_SOURCE;
+
+		public Color FilterCategoryColor => IsFilteringByType ? ReadOnlies.MovementTypeColors[(int)TypeFilter] : Color.Transparent;
 
 		private int _year;
 		public int Year
@@ -70,11 +80,40 @@ namespace App.ViewModels
 			}
 		}
 
+		private ExpenseType _typeFilter;
+		public ExpenseType TypeFilter
+		{
+			get => _typeFilter;
+			set
+			{
+				if (SetProperty(ref _typeFilter, value))
+					OnPropertyChanged(nameof(FilterCategoryColor));
+			}
+		}
+
+		private bool _isFilteringByType;
+		public bool IsFilteringByType
+		{
+			get => _isFilteringByType;
+			set
+			{
+				if (SetProperty(ref _isFilteringByType, value))
+					OnPropertyChanged(nameof(FilterCategoryColor));
+			}
+		}
+
 		private bool _isSortButtonEnabled = true;
 		public bool IsSortButtonEnabled
 		{
 			get => _isSortButtonEnabled;
 			set => SetProperty(ref _isSortButtonEnabled, value);
+		}
+
+		private bool _isFilterButtonEnabled = true;
+		public bool IsFilterButtonEnabled
+		{
+			get => _isFilterButtonEnabled;
+			set => SetProperty(ref _isFilterButtonEnabled, value);
 		}
 
 		public HistoryViewModel()
@@ -137,6 +176,9 @@ namespace App.ViewModels
 				if (data.Length == 0)
 					return;
 
+				if (IsFilteringByType)
+					data = data.Where(mv => mv.ExpenseType == TypeFilter).ToArray();
+
 				var index = FilterHelpers.GetStartingIndex(data, date, depth);
 				if (index == -1)
 					return;
@@ -152,6 +194,7 @@ namespace App.ViewModels
 			}
 			finally
 			{
+				IsFilterButtonEnabled = true;
 				OnPropertyChanged(nameof(ShowEmptyLabel));
 			}
 		}

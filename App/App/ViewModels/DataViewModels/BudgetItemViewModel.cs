@@ -1,6 +1,8 @@
 ﻿using App.Extensions;
 using App.Models;
+using App.Resx;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text;
 using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
@@ -51,5 +53,17 @@ namespace App.ViewModels.DataViewModels
             Budget = budget;
             TypeColor = ReadOnlies.MovementTypeColors[(int)budget.MovementType];
         }
-    }
+
+		public override string ToString()
+		{
+			var message = new StringBuilder();
+			message.AppendLine($"{AppResource.Description}: {Budget.Name,30}");
+			message.AppendLine($"{AppResource.Remaining}: {RemainingString,30}");
+			message.AppendLine($"{AppResource.Used}: {UsedString,30}");
+			message.AppendLine($"{AppResource.Total}: {Budget.MaxAmount.ToCurrencyString(),30}");
+			message.AppendLine($"{AppResource.InitialDate}: {InitialString,30}");
+			message.Append($"{AppResource.FinalDate}: {EndingString,30}");
+            return message.ToString();
+		}
+	}
 }

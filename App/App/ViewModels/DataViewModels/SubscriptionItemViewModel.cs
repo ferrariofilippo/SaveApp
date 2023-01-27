@@ -1,6 +1,9 @@
 ﻿using App.Extensions;
 using App.Models;
+using App.Resx;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Globalization;
+using System.Text;
 using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
@@ -41,5 +44,18 @@ namespace App.ViewModels.DataViewModels
             Subscription = sub;
             TypeColor = ReadOnlies.MovementTypeColors[(int)sub.ExpenseType];
         }
-    }
+
+		public override string ToString()
+		{
+			var currentCulture = CultureInfo.CurrentCulture;
+			var message = new StringBuilder();
+			message.AppendLine($"{AppResource.Description}: {Subscription.Description,30}");
+			message.AppendLine($"{AppResource.Value}: {ValueString,30}");
+			message.AppendLine($"{AppResource.ExpenseType}: {App.ResourceManager.GetString(Subscription.ExpenseType.ToString(), currentCulture),30}");
+			message.AppendLine($"{AppResource.RenewalType}: {App.ResourceManager.GetString(Subscription.RenewalType.ToString(), currentCulture),30}");
+			message.AppendLine($"{AppResource.NextRenewal}: {NextRenewalString,30}");
+			message.Append($"{AppResource.LastRenewal}: {Subscription.LastPaid,30:dd/MM/yyyy}");
+            return message.ToString();
+		}
+	}
 }
