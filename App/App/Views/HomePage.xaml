@@ -93,8 +93,14 @@
 			<ImageButton 
 				AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
-				Source="plus.png" 
-				Clicked="OpenAdd_Clicked" />
+				Clicked="OpenAdd_Clicked">
+				<ImageButton.Source>
+					<FontImageSource 
+						FontFamily="Material"
+						Color="White"
+						Glyph="&#xe145;" />
+				</ImageButton.Source>
+			</ImageButton>
 		</AbsoluteLayout>
 	</ContentPage.Content>
 </ContentPage>

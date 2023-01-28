@@ -8,9 +8,8 @@ namespace App.ViewModels
 {
 	public class SettingsViewModel : ObservableObject
 	{
-		private const string CHEVRON_UP_PATH = "chevronUp.png";
-
-		private const string CHEVRON_DOWN_PATH = "chevronDown.png";
+		private const string CHEVRON_UP_GLYPH = "\ue5ce";
+		private const string CHEVRON_DOWN_GLYPH = "\ue5cf";
 
 		private static CultureInfo culutre => CultureInfo.CurrentCulture;
 
@@ -35,8 +34,6 @@ namespace App.ViewModels
 			}
 		}
 
-		public string ToggleIconSource => IsDataSectionVisible
-			? CHEVRON_UP_PATH
-			: CHEVRON_DOWN_PATH;
+		public string ToggleIconSource => IsDataSectionVisible ? CHEVRON_UP_GLYPH : CHEVRON_DOWN_GLYPH;
 	}
 }

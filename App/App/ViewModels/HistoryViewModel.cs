@@ -29,12 +29,6 @@ namespace App.ViewModels
 
 	public class HistoryViewModel : ObservableObject
 	{
-		private const string ASCENDING_ICON_SOURCE = "ascending.png";
-		private const string DESCENDING_ICON_SOURCE = "descending.png";
-
-		private const string DESCRIPTION_FILTER_SOURCE = "filterDescription.png";
-		private const string REMOVE_FILTER_SOURCE = "clearFilter.png";
-
 		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 
 		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
@@ -56,10 +50,6 @@ namespace App.ViewModels
 		public string DescriptionFilterString { get; set; }
 
 		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
-
-		public string FilterDescriptionSource => IsFilteringByDescription ? REMOVE_FILTER_SOURCE : DESCRIPTION_FILTER_SOURCE;
-
-		public string SortIconSource => SortOrder is SortOrder.Ascending ? DESCENDING_ICON_SOURCE : ASCENDING_ICON_SOURCE;
 
 		public Color FilterCategoryColor => IsFilteringByType ? ReadOnlies.MovementTypeColors[(int)TypeFilter] : Color.Transparent;
 
@@ -92,11 +82,7 @@ namespace App.ViewModels
 		public SortOrder SortOrder
 		{
 			get => _sortOrder;
-			set
-			{
-				if (SetProperty(ref _sortOrder, value))
-					OnPropertyChanged(nameof(SortIconSource));
-			}
+			set => SetProperty(ref _sortOrder, value);
 		}
 
 		private ExpenseType _typeFilter;
@@ -125,11 +111,7 @@ namespace App.ViewModels
 		public bool IsFilteringByDescription
 		{
 			get => _isFilteringByDescription;
-			set
-			{
-				if (SetProperty(ref _isFilteringByDescription, value))
-					OnPropertyChanged(nameof(FilterDescriptionSource));
-			}
+			set => SetProperty(ref _isFilteringByDescription, value);
 		}
 
 		private bool _areFilterButtonsEnabled = true;

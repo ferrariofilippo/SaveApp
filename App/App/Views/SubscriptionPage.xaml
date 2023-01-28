@@ -91,23 +91,41 @@
 										<SwipeView.LeftItems>
 											<SwipeItem 
 												BackgroundColor="{DynamicResource ExpenseColor}"
-												IconImageSource="delete.png" 
 												Invoked="SwipeItem_DeleteInvoked"
-												Text="{x:Static resources:AppResource.Delete}" />
+												Text="{x:Static resources:AppResource.Delete}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe872;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 										</SwipeView.LeftItems>
 
 										<SwipeView.RightItems>
 											<SwipeItem 
 												BackgroundColor="{DynamicResource IncomeColor}"
-												IconImageSource="delete.png"
 												Invoked="SwipeItem_EditInvoked"
-												Text="{x:Static resources:AppResource.Edit}" />
+												Text="{x:Static resources:AppResource.Edit}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe3c9;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 
 											<SwipeItem 
 												BackgroundColor="{DynamicResource AccentColor}"
-												IconImageSource="info.png"
 												Invoked="SwipeItem_InfoClicked"
-												Text="{x:Static resources:AppResource.Info}" />
+												Text="{x:Static resources:AppResource.Info}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe88e;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 										</SwipeView.RightItems>
 
 										<Grid

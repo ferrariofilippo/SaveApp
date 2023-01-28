@@ -72,13 +72,27 @@
 			<Button
 				Grid.Row="3"
 				Clicked="Credits_Clicked"
-				Text="{x:Static resources:AppResource.Credits}" />
+				Text="{x:Static resources:AppResource.Credits}">
+				<Button.ImageSource>
+					<FontImageSource
+						FontFamily="Material"
+						Color="White"
+						Glyph="&#xefd1;" />
+				</Button.ImageSource>
+			</Button>
 
 			<Button
 				Grid.Column="1"
 				Grid.Row="3"
 				Clicked="ReportBug_Clicked"
-				Text="{x:Static resources:AppResource.ReportBug}" />
+				Text="{x:Static resources:AppResource.ReportBug}">
+				<Button.ImageSource>
+					<FontImageSource
+						FontFamily="Material"
+						Color="White"
+						Glyph="&#xe868;" />
+				</Button.ImageSource>
+			</Button>
 
 			<Button
 				Grid.ColumnSpan="2"
@@ -96,34 +110,58 @@
 				<Button
 					Clicked="ToggleMovementSection_Clicked"
 					ContentLayout="Left,10"
-					ImageSource="{Binding ToggleIconSource}"
 					Padding="3"
-					Text="{x:Static resources:AppResource.ManageData}" />
+					Text="{x:Static resources:AppResource.ManageData}">
+					<Button.ImageSource>
+						<FontImageSource
+							FontFamily="Material"
+							Color="White"
+							Glyph="{Binding ToggleIconSource}" />
+					</Button.ImageSource>
+				</Button>
 
 				<StackLayout IsVisible="{Binding IsDataSectionVisible}" Padding="5, 3, 5, 3">
 					<Button
 						BackgroundColor="{x:DynamicResource AccentColor}"
 						ContentLayout="Left,10"
 						Clicked="DownloadData_Clicked"
-						ImageSource="download.png"
 						Padding="3"
-						Text="{x:Static resources:AppResource.DownloadData}" />
+						Text="{x:Static resources:AppResource.DownloadData}">
+						<Button.ImageSource>
+							<FontImageSource
+								FontFamily="Material"
+								Color="White"
+								Glyph="&#xe2c4;" />
+						</Button.ImageSource>
+					</Button>
 
 					<Button
 						BackgroundColor="{x:DynamicResource AccentColor}"
 						ContentLayout="Left,10"					
 						Clicked="DownloadTemplate_Clicked"
-						ImageSource="template.png"
 						Padding="3"
-						Text="{x:Static resources:AppResource.DownloadTemplate}" />
+						Text="{x:Static resources:AppResource.DownloadTemplate}">
+						<Button.ImageSource>
+							<FontImageSource
+								FontFamily="Material"
+								Color="White"
+								Glyph="&#xe873;" />
+						</Button.ImageSource>
+					</Button>
 
 					<Button
 						BackgroundColor="{x:DynamicResource AccentColor}"
 						ContentLayout="Left,10"
 						Clicked="ImportMovements_Clicked"
-						ImageSource="importIcon.png"
 						Padding="3"
-						Text="{x:Static resources:AppResource.ImportMovements}" />
+						Text="{x:Static resources:AppResource.ImportMovements}">
+						<Button.ImageSource>
+							<FontImageSource
+								FontFamily="Material"
+								Color="White"
+								Glyph="&#xe2c6;" />
+						</Button.ImageSource>
+					</Button>
 				</StackLayout>
 			</StackLayout>
 		</Grid>
