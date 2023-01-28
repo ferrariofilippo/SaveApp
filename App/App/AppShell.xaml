@@ -27,33 +27,63 @@
 	<TabBar x:Name="MainTabBar">
 		<ShellContent
 			Title="Budget" 
-			Icon="money.png" 
 			Route="BudgetBrowser" 
-			ContentTemplate="{DataTemplate local:BudgetBrowser}" />
+			ContentTemplate="{DataTemplate local:BudgetBrowser}">
+			<ShellContent.Icon>
+				<FontImageSource
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe8a1;" />
+			</ShellContent.Icon>
+		</ShellContent>
 
 		<ShellContent
 			Title="{x:Static resources:AppResource.History}" 
-			Icon="history.png" 
 			Route="HistoryPage" 
-			ContentTemplate="{DataTemplate local:HistoryPage}" />
+			ContentTemplate="{DataTemplate local:HistoryPage}">
+			<ShellContent.Icon>
+				<FontImageSource
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe889;" />
+			</ShellContent.Icon>
+		</ShellContent>
 
 		<ShellContent 
 			x:Name="HomeTab" 
 			Title="Home" 
-			Icon="home.png" 
 			Route="HomePage" 
-			ContentTemplate="{DataTemplate local:HomePage}" />
-		
+			ContentTemplate="{DataTemplate local:HomePage}">
+			<ShellContent.Icon>
+				<FontImageSource
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe88a;" />
+			</ShellContent.Icon>
+		</ShellContent>
+
 		<ShellContent 
 			Title="Stats" 
-			Icon="graph.png" 
 			Route="StatsPage" 
-			ContentTemplate="{DataTemplate local:StatsPage}" />
+			ContentTemplate="{DataTemplate local:StatsPage}">
+			<ShellContent.Icon>
+				<FontImageSource
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe4fc;" />
+			</ShellContent.Icon>
+		</ShellContent>
 
 		<ShellContent
 			Title="{x:Static resources:AppResource.Settings}"
-			Icon="settings.png" 
 			Route="SettingsPage" 
-			ContentTemplate="{DataTemplate local:SettingsPage}" />
+			ContentTemplate="{DataTemplate local:SettingsPage}">
+			<ShellContent.Icon>
+				<FontImageSource
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe8b8;" />
+			</ShellContent.Icon>
+		</ShellContent>
 	</TabBar>
 </Shell>

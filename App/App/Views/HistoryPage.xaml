@@ -33,18 +33,36 @@
 	<ContentPage.ToolbarItems>
 		<ToolbarItem
 			Clicked="DescriptionFilter_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}" 
-			IconImageSource="{Binding FilterDescriptionSource}" />
+			IsEnabled="{Binding AreFilterButtonsEnabled}">
+			<ToolbarItem.IconImageSource>
+				<FontImageSource 
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe8b6;" />
+			</ToolbarItem.IconImageSource>
+		</ToolbarItem>
 
 		<ToolbarItem
 			Clicked="ChangeFilter_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}"
-			IconImageSource="filter.png" />
+			IsEnabled="{Binding AreFilterButtonsEnabled}">
+			<ToolbarItem.IconImageSource>
+				<FontImageSource 
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xef4f;" />
+			</ToolbarItem.IconImageSource>
+		</ToolbarItem>
 
 		<ToolbarItem 
 			Clicked="ChangeSortingOrder_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}"
-			IconImageSource="{Binding SortIconSource}" />
+			IsEnabled="{Binding AreFilterButtonsEnabled}">
+			<ToolbarItem.IconImageSource>
+				<FontImageSource 
+					FontFamily="Material"
+					Color="White"
+					Glyph="&#xe164;" />
+			</ToolbarItem.IconImageSource>
+		</ToolbarItem>
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Content>
@@ -86,8 +104,14 @@
 
 						<ImageButton 
 							Grid.Column="0"
-						    Clicked="BackClicked"
-							Source="back.png" />
+						    Clicked="BackClicked">
+							<ImageButton.Source>
+								<FontImageSource
+									FontFamily="Material"
+									Color="White"
+									Glyph="&#xe5c4;" />
+							</ImageButton.Source>
+						</ImageButton>
 
 						<Button
 							x:Name="TimeButton"
@@ -101,8 +125,14 @@
 
 						<ImageButton 
 						    Grid.Column="2"
-							Clicked="ForwardClicked"
-							Source="forward.png" />
+							Clicked="ForwardClicked">
+							<ImageButton.Source>
+								<FontImageSource
+									FontFamily="Material"
+									Color="White"
+									Glyph="&#xe5c8;" />
+							</ImageButton.Source>
+						</ImageButton>
 					</Grid>
 
 					<Grid
@@ -174,23 +204,41 @@
 										<SwipeView.LeftItems>
 											<SwipeItem 
 												BackgroundColor="{DynamicResource ExpenseColor}"
-												IconImageSource="delete.png"
 												Invoked="SwipeItem_DeleteInvoked"
-												Text="{x:Static resources:AppResource.Delete}" />
+												Text="{x:Static resources:AppResource.Delete}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe872;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 										</SwipeView.LeftItems>
 
 										<SwipeView.RightItems>
 											<SwipeItem 
 												BackgroundColor="{DynamicResource IncomeColor}"
-												IconImageSource="edit.png"
 												Invoked="SwipeItem_EditInvoked"
-												Text="{x:Static resources:AppResource.Edit}" />
+												Text="{x:Static resources:AppResource.Edit}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe3c9;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 
 											<SwipeItem 
 												BackgroundColor="{DynamicResource AccentColor}"
-												IconImageSource="info.png"
 												Invoked="SwipeItem_InfoInvoked"
-												Text="{x:Static resources:AppResource.Info}" />
+												Text="{x:Static resources:AppResource.Info}">
+												<SwipeItem.IconImageSource>
+													<FontImageSource
+														FontFamily="Material"
+														Color="White"
+														Glyph="&#xe88e;" />
+												</SwipeItem.IconImageSource>
+											</SwipeItem>
 										</SwipeView.RightItems>
 
 										<Grid

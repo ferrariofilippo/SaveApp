@@ -46,17 +46,29 @@
 									<SwipeView.LeftItems>
 										<SwipeItem 
 											BackgroundColor="{DynamicResource ExpenseColor}"
-											IconImageSource="delete.png"
 											Invoked="SwipeItem_DeleteInvoked"
-											Text="{x:Static resources:AppResource.Delete}" />
+											Text="{x:Static resources:AppResource.Delete}">
+											<SwipeItem.IconImageSource>
+												<FontImageSource 
+													FontFamily="Material"
+													Color="White"
+													Glyph="&#xe872;" />
+											</SwipeItem.IconImageSource>
+										</SwipeItem>
 									</SwipeView.LeftItems>
 
 									<SwipeView.RightItems>
 										<SwipeItem 
 											BackgroundColor="{DynamicResource AccentColor}"
-											IconImageSource="info.png"
 											Invoked="SwipeItem_InfoInvoked"
-											Text="{x:Static resources:AppResource.Info}" />
+											Text="{x:Static resources:AppResource.Info}">
+											<SwipeItem.IconImageSource>
+												<FontImageSource 
+													FontFamily="Material"
+													Color="White"
+													Glyph="&#xe88e;" />
+											</SwipeItem.IconImageSource>
+										</SwipeItem>
 									</SwipeView.RightItems>
 
 									<Grid
@@ -98,12 +110,18 @@
 					</ListView.ItemTemplate>
 				</ListView>
 			</Grid>
-			
+
 			<ImageButton 
 				AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
-				Clicked="Add_Clicked"
-				Source="plus.png" />
+				Clicked="Add_Clicked">
+				<ImageButton.Source>
+					<FontImageSource 
+						FontFamily="Material"
+						Color="White"
+						Glyph="&#xe145;" />
+				</ImageButton.Source>
+			</ImageButton>
 		</AbsoluteLayout>
 	</ContentPage.Content>
 </ContentPage>
