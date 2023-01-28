@@ -1,12 +1,12 @@
 ﻿using App.Data;
 using App.Helpers.Notifications;
 using App.Models;
+using App.Models.Enums;
 using App.Resx;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -101,8 +101,8 @@ namespace App.Helpers
 				foreach (var item in movements)
 				{
 					builder.AppendLine(
-						$"{item.Id},{item.Value},{item.IsExpense},{item.Description}," +
-						$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")}," +
+						$"{item.Id};{item.Value};{item.IsExpense};{item.Description};" +
+						$"{(item.IsExpense ? item.ExpenseType.ToString() : "null")};" +
 						$"{item.CreationDate.Date}");
 				}
 			}
@@ -121,8 +121,8 @@ namespace App.Helpers
 				foreach (var item in subs)
 				{
 					builder.AppendLine(
-						$"{item.Id},{item.Value},{item.Description},{item.ExpenseType}" +
-						$"{item.RenewalType},{item.LastPaid.Date},{item.NextRenewal.Date}" +
+						$"{item.Id};{item.Value};{item.Description};{item.ExpenseType};" +
+						$"{item.RenewalType};{item.LastPaid.Date};{item.NextRenewal.Date};" +
 						$"{item.CreationDate.Date}");
 				}
 			}
@@ -141,14 +141,43 @@ namespace App.Helpers
 			if (selectedFile is null)
 				return null;
 
-			List<Movement> movements = null;
+			List<Movement> movements = new List<Movement>();
 			using (var reader = new StreamReader(await selectedFile.OpenReadAsync()))
 			{
 				var fileContent = await reader.ReadToEndAsync();
-				if (!string.IsNullOrWhiteSpace(fileContent))
-					movements = JsonSerializer.Deserialize<List<Movement>>(fileContent);
+				if (string.IsNullOrWhiteSpace(fileContent))
+					return movements;
+
+				var lines = fileContent.Split('\n');
+				for (int i = 1; i < lines.Length; i++)
+					if (TryParseMovement(lines[i], out var mvm))
+						movements.Add(mvm);
 			}
 			return movements;
+		}
+
+		private static bool TryParseMovement(string line, out Movement movement)
+		{
+			var fields = line.Split(';');
+			movement = new Movement();
+			if (!int.TryParse(fields[0], out var id))
+				return false;
+			if (!decimal.TryParse(fields[1], out var value))
+				return false;
+			if (!bool.TryParse(fields[2], out var isExpense))
+				return false;
+			if (!EnumHelpers.TryParseExpenseType(fields[4], out var type))
+				return false;
+			if (!DateTime.TryParse(fields[5], out var date))
+				return false;
+
+			movement.Id = id;
+			movement.Value = value;
+			movement.IsExpense = isExpense;
+			movement.Description = fields[3];
+			movement.ExpenseType = type;
+			movement.CreationDate = date;
+			return true;
 		}
 	}
 }

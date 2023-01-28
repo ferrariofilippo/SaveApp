@@ -1024,15 +1024,6 @@ namespace App.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cultura.
-        /// </summary>
-        internal static string UserCulture {
-            get {
-                return ResourceManager.GetString("UserCulture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Importo.
         /// </summary>
         internal static string Value {

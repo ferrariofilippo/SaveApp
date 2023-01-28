@@ -162,6 +162,9 @@
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Culture</value>
+  </data>
   <data name="Currency" xml:space="preserve">
     <value>Currency</value>
   </data>
@@ -437,9 +440,6 @@
   </data>
   <data name="Used" xml:space="preserve">
     <value>Used</value>
-  </data>
-  <data name="UserCulture" xml:space="preserve">
-    <value>Culture</value>
   </data>
   <data name="ValueEnteredNotValid" xml:space="preserve">
     <value>Entered value is not valid</value>
