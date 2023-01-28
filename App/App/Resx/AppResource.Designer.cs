@@ -862,6 +862,24 @@ namespace App.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cerca.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ristorante messicano.
+        /// </summary>
+        internal static string SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Semestrale.
         /// </summary>
         internal static string Semiannual {

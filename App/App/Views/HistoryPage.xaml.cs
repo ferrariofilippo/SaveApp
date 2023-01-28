@@ -78,8 +78,8 @@ namespace App.Views
 
 		private void MonthClicked(object sender, EventArgs e)
 		{
-			_filterDepth = SearchDepth.Month;
 			var btn = (Button)sender;
+			_filterDepth = SearchDepth.Month;
 			FocusMonth(_monthButtons.IndexOf(btn.Id) + 1);
 			MonthGrid.IsVisible = false;
 			DayGrid.IsVisible = true;
@@ -88,8 +88,8 @@ namespace App.Views
 
 		private void DayClicked(object sender, EventArgs e)
 		{
-			_filterDepth = SearchDepth.Day;
 			var btn = (Button)sender;
+			_filterDepth = SearchDepth.Day;
 			FocusDay(int.Parse(btn.Text));
 		}
 
@@ -97,26 +97,24 @@ namespace App.Views
 		{
 			if (_filterDepth is SearchDepth.Year)
 				FocusYear(_viewModel.Year - 1);
-			else if (_filterDepth is SearchDepth.Month && _viewModel.MonthAndDay[0] > 1)
-				FocusMonth(_viewModel.MonthAndDay[0] - 1);
-			else if (_filterDepth is SearchDepth.Day && _viewModel.MonthAndDay[1] > 1)
-				FocusDay(_viewModel.MonthAndDay[1] - 1);
+			else if (_filterDepth is SearchDepth.Month && _viewModel.Date.Month > 1)
+				FocusMonth(_viewModel.Date.Month - 1);
+			else if (_filterDepth is SearchDepth.Day && _viewModel.Date.Day > 1)
+				FocusDay(_viewModel.Date.Day - 1);
 		}
 
 		private void ForwardClicked(object sender, EventArgs e)
 		{
 			if (_filterDepth is SearchDepth.Year)
 				FocusYear(_viewModel.Year + 1);
-			else if (_filterDepth is SearchDepth.Month && _viewModel.MonthAndDay[0] < 12)
-				FocusMonth(_viewModel.MonthAndDay[0] + 1);
-			else if (_filterDepth is SearchDepth.Day && _viewModel.MonthAndDay[1] < _lastMonthLength)
-				FocusDay(_viewModel.MonthAndDay[1] + 1);
+			else if (_filterDepth is SearchDepth.Month && _viewModel.Date.Month < 12)
+				FocusMonth(_viewModel.Date.Month + 1);
+			else if (_filterDepth is SearchDepth.Day && _viewModel.Date.Day < _lastMonthLength)
+				FocusDay(_viewModel.Date.Day + 1);
 		}
 
 		private void LatterClicked(object sender, EventArgs e)
 		{
-			if (_filterDepth is SearchDepth.Year)
-				return;
 			if (_filterDepth == SearchDepth.Month)
 			{
 				_filterDepth = SearchDepth.Year;
@@ -127,9 +125,11 @@ namespace App.Views
 				OnPropertyChanged(nameof(MonthGrid));
 				return;
 			}
-
-			_filterDepth = SearchDepth.Month;
-			FocusMonth(_viewModel.MonthAndDay[0]);
+			else if (_filterDepth == SearchDepth.Day)
+			{
+				_filterDepth = SearchDepth.Month;
+				FocusMonth(_viewModel.Date.Month);
+			}
 		}
 
 		private void Refresh_ListView(object sender, EventArgs e)
@@ -173,27 +173,24 @@ namespace App.Views
 
 		private async void ChangeSortingOrder_Clicked(object sender, EventArgs e)
 		{
-			if (_viewModel.SortOrder == SortOrder.Ascending)
-				_viewModel.SortOrder = SortOrder.Descending;
-			else
-				_viewModel.SortOrder = SortOrder.Ascending;
+			_viewModel.SortOrder = _viewModel.SortOrder is SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
 			await _viewModel.OrderHistory();
 		}
 
 		private void FocusDay(int day)
 		{
-			_viewModel.MonthAndDay[1] = day;
-			_viewModel.CalendarTitle = $"{_viewModel.MonthAndDay[1]} {App.ResourceManager.GetString(ReadOnlies.Months[_viewModel.MonthAndDay[0] - 1])}";
+			_viewModel.Date.Day = day;
+			_viewModel.CalendarTitle = $"{_viewModel.Date.Day} {App.ResourceManager.GetString(ReadOnlies.Months[_viewModel.Date.Month - 1])}";
 			_viewModel.FilterByDay();
 		}
 
 		private void FocusMonth(int month)
 		{
-			_viewModel.MonthAndDay[0] = month;
+			_viewModel.Date.Month = month;
 			_viewModel.CalendarTitle = App.ResourceManager.GetString(
 				ReadOnlies.Months[month - 1]);
 
-            var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.MonthAndDay[0]);
+			var monthLength = DateTime.DaysInMonth(_viewModel.Year, _viewModel.Date.Month);
 			if (monthLength == _lastMonthLength)
 				return;
 
@@ -221,11 +218,33 @@ namespace App.Views
 		private void FilterByTypePicker_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var filterSelected = FilterByTypePicker.SelectedIndex != 12;
-			_viewModel.IsFilterButtonEnabled = false;
+			_viewModel.AreFilterButtonsEnabled = false;
 			_viewModel.IsFilteringByType = filterSelected;
-			_viewModel.TypeFilter = filterSelected 
-				? (ExpenseType)FilterByTypePicker.SelectedIndex 
-				: ExpenseType.Bets;
+			if (filterSelected)
+				_viewModel.TypeFilter = (ExpenseType)FilterByTypePicker.SelectedIndex;
+
+			Refresh_ListView(null, null);
+		}
+
+		private async void DescriptionFilter_Clicked(object sender, EventArgs e)
+		{
+			if (_viewModel.IsFilteringByDescription)
+				_viewModel.IsFilteringByDescription = false;
+			else
+			{
+				var query = await DisplayPromptAsync(
+					AppResource.Search,
+					" ".PadRight(40, ' '),
+					cancel: AppResource.Cancel,
+					placeholder: AppResource.SearchPlaceholder,
+					maxLength: 20);
+
+				if (string.IsNullOrWhiteSpace(query) || query.ToLower() == _viewModel.DescriptionFilterString)
+					return;
+
+				_viewModel.IsFilteringByDescription = true;
+				_viewModel.DescriptionFilterString = query.ToLower();
+			}
 			Refresh_ListView(null, null);
 		}
 	}
