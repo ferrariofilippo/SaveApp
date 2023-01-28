@@ -32,13 +32,18 @@
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem
+			Clicked="DescriptionFilter_Clicked"
+			IsEnabled="{Binding AreFilterButtonsEnabled}" 
+			IconImageSource="{Binding FilterDescriptionSource}" />
+
+		<ToolbarItem
 			Clicked="ChangeFilter_Clicked"
-			IsEnabled="{Binding IsFilterButtonEnabled}"
+			IsEnabled="{Binding AreFilterButtonsEnabled}"
 			IconImageSource="filter.png" />
 
 		<ToolbarItem 
 			Clicked="ChangeSortingOrder_Clicked"
-			IsEnabled="{Binding IsSortButtonEnabled}"
+			IsEnabled="{Binding AreFilterButtonsEnabled}"
 			IconImageSource="{Binding SortIconSource}" />
 	</ContentPage.ToolbarItems>
 

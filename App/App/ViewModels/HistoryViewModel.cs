@@ -15,10 +15,25 @@ using Xamarin.Forms;
 
 namespace App.ViewModels
 {
+	public struct MonthAndDay
+	{
+		public int Month { get; set; }
+		public int Day { get; set; }
+
+		public MonthAndDay(int month, int day)
+		{
+			Month = month;
+			Day = day;
+		}
+	}
+
 	public class HistoryViewModel : ObservableObject
 	{
 		private const string ASCENDING_ICON_SOURCE = "ascending.png";
 		private const string DESCENDING_ICON_SOURCE = "descending.png";
+
+		private const string DESCRIPTION_FILTER_SOURCE = "filterDescription.png";
+		private const string REMOVE_FILTER_SOURCE = "clearFilter.png";
 
 		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 
@@ -32,15 +47,19 @@ namespace App.ViewModels
 			.Union(new string[] { AppResource.None })
 			.ToArray();
 
-		public readonly int[] MonthAndDay = { DateTime.Now.Month, DateTime.Now.Day };
+		public MonthAndDay Date = new MonthAndDay(DateTime.Now.Month, DateTime.Now.Day);
 
 		public ObservableCollection<MovementItemViewModel> Movements = new ObservableCollection<MovementItemViewModel>();
 
-		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
-
 		public bool FirstLoad { get; set; } = true;
 
-		public string SortIconSource => SortOrder == SortOrder.Ascending ? DESCENDING_ICON_SOURCE : ASCENDING_ICON_SOURCE;
+		public string DescriptionFilterString { get; set; }
+
+		public bool ShowEmptyLabel => Movements.Count == 0 && !FirstLoad;
+
+		public string FilterDescriptionSource => IsFilteringByDescription ? REMOVE_FILTER_SOURCE : DESCRIPTION_FILTER_SOURCE;
+
+		public string SortIconSource => SortOrder is SortOrder.Ascending ? DESCENDING_ICON_SOURCE : ASCENDING_ICON_SOURCE;
 
 		public Color FilterCategoryColor => IsFilteringByType ? ReadOnlies.MovementTypeColors[(int)TypeFilter] : Color.Transparent;
 
@@ -102,18 +121,22 @@ namespace App.ViewModels
 			}
 		}
 
-		private bool _isSortButtonEnabled = true;
-		public bool IsSortButtonEnabled
+		private bool _isFilteringByDescription;
+		public bool IsFilteringByDescription
 		{
-			get => _isSortButtonEnabled;
-			set => SetProperty(ref _isSortButtonEnabled, value);
+			get => _isFilteringByDescription;
+			set
+			{
+				if (SetProperty(ref _isFilteringByDescription, value))
+					OnPropertyChanged(nameof(FilterDescriptionSource));
+			}
 		}
 
-		private bool _isFilterButtonEnabled = true;
-		public bool IsFilterButtonEnabled
+		private bool _areFilterButtonsEnabled = true;
+		public bool AreFilterButtonsEnabled
 		{
-			get => _isFilterButtonEnabled;
-			set => SetProperty(ref _isFilterButtonEnabled, value);
+			get => _areFilterButtonsEnabled;
+			set => SetProperty(ref _areFilterButtonsEnabled, value);
 		}
 
 		public HistoryViewModel()
@@ -123,12 +146,12 @@ namespace App.ViewModels
 
 		public Task OrderHistory()
 		{
-			IsSortButtonEnabled = false;
+			AreFilterButtonsEnabled = false;
 			var sortedMovements = Movements.Reverse().ToArray();
 			Movements.Clear();
 			foreach (var item in sortedMovements)
 				Movements.Add(item);
-			IsSortButtonEnabled = true;
+			AreFilterButtonsEnabled = true;
 			return Task.CompletedTask;
 		}
 
@@ -150,14 +173,14 @@ namespace App.ViewModels
 		public async void FilterByMonth()
 		{
 			await Filter(
-				new DateTime(_year, MonthAndDay[0], 1),
-				m => m.CreationDate.Year == _year && m.CreationDate.Month == MonthAndDay[0],
+				new DateTime(_year, Date.Month, 1),
+				m => m.CreationDate.Year == _year && m.CreationDate.Month == Date.Month,
 				SearchDepth.Month).ConfigureAwait(false);
 		}
 
 		public async void FilterByDay()
 		{
-			var date = new DateTime(_year, MonthAndDay[0], MonthAndDay[1]);
+			var date = new DateTime(_year, Date.Month, Date.Day);
 			await Filter(
 				date,
 				m => m.CreationDate.Date == date.Date,
@@ -173,11 +196,8 @@ namespace App.ViewModels
 					.OrderBy(x => x.CreationDate)
 					.ToArray();
 
-				if (data.Length == 0)
+				if (!data.Any())
 					return;
-
-				if (IsFilteringByType)
-					data = data.Where(mv => mv.ExpenseType == TypeFilter).ToArray();
 
 				var index = FilterHelpers.GetStartingIndex(data, date, depth);
 				if (index == -1)
@@ -194,7 +214,7 @@ namespace App.ViewModels
 			}
 			finally
 			{
-				IsFilterButtonEnabled = true;
+				AreFilterButtonsEnabled = true;
 				OnPropertyChanged(nameof(ShowEmptyLabel));
 			}
 		}
@@ -204,7 +224,11 @@ namespace App.ViewModels
 			for (; index < movementsToAdd.Length; index++)
 			{
 				if (condition(movementsToAdd[index]))
-					Movements.Add(new MovementItemViewModel(movementsToAdd[index]));
+				{
+					if ((!IsFilteringByType || movementsToAdd[index].ExpenseType == TypeFilter) &&
+						(!IsFilteringByDescription || movementsToAdd[index].Description.ToLower().Contains(DescriptionFilterString)))
+						Movements.Add(new MovementItemViewModel(movementsToAdd[index]));
+				}
 				else
 					return;
 			}
@@ -215,7 +239,11 @@ namespace App.ViewModels
 			for (; index < movementsToAdd.Length; index++)
 			{
 				if (condition(movementsToAdd[index]))
-					Movements.Insert(0, new MovementItemViewModel(movementsToAdd[index]));
+				{
+					if ((!IsFilteringByType || movementsToAdd[index].ExpenseType == TypeFilter) &&
+						(!IsFilteringByDescription || movementsToAdd[index].Description.ToLower().Contains(DescriptionFilterString)))
+						Movements.Insert(0, new MovementItemViewModel(movementsToAdd[index]));
+				}
 				else
 					return;
 			}

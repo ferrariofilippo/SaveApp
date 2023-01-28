@@ -459,4 +459,10 @@
   <data name="YearlyIncome" xml:space="preserve">
     <value>Entrate annuali</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Cerca</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Ristorante messicano</value>
+  </data>
 </root>
