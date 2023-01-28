@@ -17,7 +17,7 @@ SaveApp is a Xamarin.Forms application for Android that helps keep track of expe
 
 
 ## Credits & Third-Party Licenses
-<a href="https://fonts.google.com/icons?icon.set=Material+Icons">Material Icons</a>
+<a href="https://fonts.google.com/icons?icon.set=Material+Icons">Material Icons</a><br />
 Graphs are created using <a href="https://github.com/microcharts-dotnet/Microcharts">microcharts library</a>.<br/>
 You can find Nord Theme palette <a href="https://www.nordtheme.com/">here</a>.<br/>
 
