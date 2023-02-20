@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="App.Views.StatsPage"
-			 Title="{x:Static resources:AppResource.Statistics}"
-			 BackgroundColor="{StaticResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.StatsPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+	Title="{x:Static resources:AppResource.Statistics}"
+	BackgroundColor="{StaticResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:StatsViewModel />
@@ -30,37 +31,35 @@
 				<DataTemplate>
 					<ScrollView>
 						<StackLayout Padding="20">
-							<Label 
-								FontSize="Title"
+							<Label
 								FontAttributes="Bold"
+								FontSize="Title"
 								Text="{Binding Title}"
 								TextColor="{DynamicResource PrimaryColor}" />
 
-							<microcharts:ChartView 
+							<microcharts:ChartView
 								Chart="{Binding StatChart}"
+								HeightRequest="{Binding ChartSize}"
 								IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
-								HeightRequest="{Binding ChartSize}" 
 								WidthRequest="{Binding ChartSize}" />
 
-							<Label 
+							<Label
 								FontSize="Large"
-								IsVisible="{Binding ShowEmptyLabel}"
-								HorizontalTextAlignment="Center"
 								HorizontalOptions="Center"
-								VerticalOptions="Center"
-								Text="{x:Static resources:AppResource.EmptyLabel}" />
+								HorizontalTextAlignment="Center"
+								IsVisible="{Binding ShowEmptyLabel}"
+								Text="{x:Static resources:AppResource.EmptyLabel}"
+								VerticalOptions="Center" />
 
 							<ListView
 								IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
 								ItemsSource="{Binding Items}"
-								VerticalScrollBarVisibility="Never"
-								SelectionMode="None">
+								SelectionMode="None"
+								VerticalScrollBarVisibility="Never">
 								<ListView.ItemTemplate>
 									<DataTemplate>
 										<ViewCell>
-											<Grid 
-												BackgroundColor="{StaticResource BackgroundMainColor}"
-												Padding="8">
+											<Grid Padding="8" BackgroundColor="{StaticResource BackgroundMainColor}">
 												<Grid.RowDefinitions>
 													<RowDefinition />
 													<RowDefinition Height="Auto" />
@@ -72,17 +71,17 @@
 													<ColumnDefinition Width="Auto" />
 												</Grid.ColumnDefinitions>
 
-												<Label 
+												<Label
 													Grid.ColumnSpan="2"
 													FontSize="Medium"
 													Text="{Binding Name}" />
 
-												<Label 
+												<Label
 													Grid.Row="1"
 													FontSize="Small"
 													Text="{Binding ValueString}" />
 
-												<Label 
+												<Label
 													Grid.Column="1"
 													FontSize="Medium"
 													Text="{Binding Percentage}" />
@@ -91,8 +90,8 @@
 													Grid.RowSpan="2"
 													Grid.Column="2"
 													Fill="{Binding TypeColor}"
-													VerticalOptions="Center"
 													HeightRequest="34"
+													VerticalOptions="Center"
 													WidthRequest="34" />
 											</Grid>
 										</ViewCell>

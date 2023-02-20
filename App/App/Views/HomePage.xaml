@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:sk="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             x:Class="App.Views.HomePage"
-			 Title="{x:Static resources:AppResource.Movements}"
-			 BackgroundColor="{DynamicResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.HomePage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:sk="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	Title="{x:Static resources:AppResource.Movements}"
+	BackgroundColor="{DynamicResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:HomeViewModel />
@@ -15,7 +16,7 @@
 
 	<ContentPage.Content>
 		<AbsoluteLayout Padding="15">
-			<RefreshView 
+			<RefreshView
 				x:Name="Refresh"
 				AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
 				AbsoluteLayout.LayoutFlags="SizeProportional"
@@ -25,34 +26,34 @@
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition />
-							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto" />
 							<RowDefinition />
 							<RowDefinition Height="Auto" />
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<sk:SKCanvasView 
+						<sk:SKCanvasView
 							x:Name="MovementsCanvas"
 							Grid.Row="1"
 							HorizontalOptions="Center"
-							VerticalOptions="Center"
+							IgnorePixelScaling="True"
 							PaintSurface="MovementsCanvas_PaintSurface"
-							IgnorePixelScaling="True" />
+							VerticalOptions="Center" />
 
-						<Label 
+						<Label
 							x:Name="NetWorthLabel"
 							Grid.Row="1"
 							FontSize="Title"
 							HorizontalOptions="Center"
 							HorizontalTextAlignment="Center"
-							VerticalOptions="Center"
 							Text="{x:Binding NetWorthString}"
-							TextColor="{x:Binding NetWorthColor}" />
+							TextColor="{x:Binding NetWorthColor}"
+							VerticalOptions="Center" />
 
 						<Grid
 							x:Name="InfoGrid"
 							Grid.Row="3"
-							Padding="15, 0"
+							Padding="15,0"
 							RowSpacing="20">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
@@ -64,41 +65,41 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<Label 
+							<Label
 								Grid.Row="0"
-								Text="{x:Static resources:AppResource.Income}" 
-								FontSize="Title" />
-							<Label 
+								FontSize="Title"
+								Text="{x:Static resources:AppResource.Income}" />
+							<Label
 								Grid.Row="0"
 								Grid.Column="1"
 								FontSize="Title"
-								TextColor="{DynamicResource IncomeColor}"
-								Text="{x:Binding IncomeString}" />
+								Text="{x:Binding IncomeString}"
+								TextColor="{DynamicResource IncomeColor}" />
 
-							<Label 
+							<Label
 								Grid.Row="1"
-								Text="{x:Static resources:AppResource.Expenses}" 
-								FontSize="Title" />
-							<Label 
+								FontSize="Title"
+								Text="{x:Static resources:AppResource.Expenses}" />
+							<Label
 								Grid.Row="1"
 								Grid.Column="1"
 								FontSize="Title"
-								TextColor="{DynamicResource ExpenseColor}" 
-								Text="{x:Binding ExpensesString}" />
+								Text="{x:Binding ExpensesString}"
+								TextColor="{DynamicResource ExpenseColor}" />
 						</Grid>
 
 					</Grid>
 				</ScrollView>
 			</RefreshView>
-			<ImageButton 
-				AbsoluteLayout.LayoutFlags="PositionProportional"
+			<ImageButton
 				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
 				Clicked="OpenAdd_Clicked">
 				<ImageButton.Source>
-					<FontImageSource 
+					<FontImageSource
 						FontFamily="Material"
-						Color="White"
-						Glyph="&#xe145;" />
+						Glyph="&#xe145;"
+						Color="White" />
 				</ImageButton.Source>
 			</ImageButton>
 		</AbsoluteLayout>

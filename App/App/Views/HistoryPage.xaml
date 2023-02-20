@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="App.Views.HistoryPage"
-			 Title="{x:Static resources:AppResource.History}"
-			 BackgroundColor="{DynamicResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.HistoryPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+	Title="{x:Static resources:AppResource.History}"
+	BackgroundColor="{DynamicResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:HistoryViewModel />
@@ -31,48 +32,42 @@
 	</ContentPage.Resources>
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem
-			Clicked="DescriptionFilter_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}">
+		<ToolbarItem Clicked="DescriptionFilter_Clicked" IsEnabled="{Binding AreFilterButtonsEnabled}">
 			<ToolbarItem.IconImageSource>
-				<FontImageSource 
+				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe8b6;" />
+					Glyph="&#xe8b6;"
+					Color="White" />
 			</ToolbarItem.IconImageSource>
 		</ToolbarItem>
 
-		<ToolbarItem
-			Clicked="ChangeFilter_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}">
+		<ToolbarItem Clicked="ChangeFilter_Clicked" IsEnabled="{Binding AreFilterButtonsEnabled}">
 			<ToolbarItem.IconImageSource>
-				<FontImageSource 
+				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xef4f;" />
+					Glyph="&#xef4f;"
+					Color="White" />
 			</ToolbarItem.IconImageSource>
 		</ToolbarItem>
 
-		<ToolbarItem 
-			Clicked="ChangeSortingOrder_Clicked"
-			IsEnabled="{Binding AreFilterButtonsEnabled}">
+		<ToolbarItem Clicked="ChangeSortingOrder_Clicked" IsEnabled="{Binding AreFilterButtonsEnabled}">
 			<ToolbarItem.IconImageSource>
-				<FontImageSource 
+				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe164;" />
+					Glyph="&#xe164;"
+					Color="White" />
 			</ToolbarItem.IconImageSource>
 		</ToolbarItem>
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Content>
-		<RefreshView 
+		<RefreshView
 			x:Name="MainView"
-			IsRefreshing="{x:Binding IsRefreshing, Mode=TwoWay}"
+			IsRefreshing="{x:Binding IsRefreshing,
+									 Mode=TwoWay}"
 			Refreshing="Refresh_ListView">
 			<ScrollView>
-				<Grid Padding="0, 0, 0, 20"
-					  RowSpacing="0">
+				<Grid Padding="0,0,0,20" RowSpacing="0">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="5" />
 						<RowDefinition Height="15" />
@@ -83,54 +78,50 @@
 
 					<Picker
 						x:Name="FilterByTypePicker"
-						SelectedIndexChanged="FilterByTypePicker_SelectedIndexChanged"
-						IsVisible="False" />
-					
-					<Line 
+						IsVisible="False"
+						SelectedIndexChanged="FilterByTypePicker_SelectedIndexChanged" />
+
+					<Line
 						BackgroundColor="{Binding FilterCategoryColor}"
 						HeightRequest="5"
 						HorizontalOptions="Fill" />
 
-					<Grid 
+					<Grid
 						Grid.Row="2"
-						BackgroundColor="{DynamicResource PrimaryColor}"
-						Margin="20, 0"
-				        Padding="5, 1, 5, 1">
+						Margin="20,0"
+						Padding="5,1,5,1"
+						BackgroundColor="{DynamicResource PrimaryColor}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<ImageButton 
-							Grid.Column="0"
-						    Clicked="BackClicked">
+						<ImageButton Grid.Column="0" Clicked="BackClicked">
 							<ImageButton.Source>
 								<FontImageSource
 									FontFamily="Material"
-									Color="White"
-									Glyph="&#xe5c4;" />
+									Glyph="&#xe5c4;"
+									Color="White" />
 							</ImageButton.Source>
 						</ImageButton>
 
 						<Button
 							x:Name="TimeButton"
-			                Grid.Column="1"
-				            BackgroundColor="Transparent"
-					        Clicked="LatterClicked"
-						    FontSize="Medium"
-		                    HorizontalOptions="Fill"
-		                    Text="{x:Binding CalendarTitle}"
+							Grid.Column="1"
+							BackgroundColor="Transparent"
+							Clicked="LatterClicked"
+							FontSize="Medium"
+							HorizontalOptions="Fill"
+							Text="{x:Binding CalendarTitle}"
 							Visual="Default" />
 
-						<ImageButton 
-						    Grid.Column="2"
-							Clicked="ForwardClicked">
+						<ImageButton Grid.Column="2" Clicked="ForwardClicked">
 							<ImageButton.Source>
 								<FontImageSource
 									FontFamily="Material"
-									Color="White"
-									Glyph="&#xe5c8;" />
+									Glyph="&#xe5c8;"
+									Color="White" />
 							</ImageButton.Source>
 						</ImageButton>
 					</Grid>
@@ -138,9 +129,9 @@
 					<Grid
 						x:Name="MonthGrid"
 						Grid.Row="3"
-						BackgroundColor="{DynamicResource CalendarColor}"
-						Margin="20, 0"
-		                Padding="5, 1, 5, 1">
+						Margin="20,0"
+						Padding="5,1,5,1"
+						BackgroundColor="{DynamicResource CalendarColor}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
@@ -155,13 +146,13 @@
 						</Grid.ColumnDefinitions>
 					</Grid>
 
-					<Grid 
-		                x:Name="DayGrid"
+					<Grid
+						x:Name="DayGrid"
 						Grid.Row="3"
+						Margin="20,0"
+						Padding="5,1,5,1"
 						BackgroundColor="{DynamicResource CalendarColor}"
-		                IsVisible="False"
-						Margin="20, 0"
-						Padding="5, 1, 5, 1">
+						IsVisible="False">
 						<Grid.RowDefinitions>
 							<RowDefinition />
 							<RowDefinition />
@@ -181,69 +172,69 @@
 						</Grid.ColumnDefinitions>
 					</Grid>
 
-					<Label 
+					<Label
 						Grid.Row="4"
 						FontSize="Large"
 						HorizontalOptions="Center"
-						VerticalOptions="Center"
+						HorizontalTextAlignment="Center"
 						IsVisible="{Binding ShowEmptyLabel}"
 						Text="{x:Static resources:AppResource.EmptyLabel}"
-						HorizontalTextAlignment="Center" />
+						VerticalOptions="Center" />
 
 					<ListView
 						x:Name="HistoryListView"
 						Grid.Row="4"
+						Margin="20,20,20,5"
 						IsVisible="{Binding ShowEmptyLabel, Converter={StaticResource BoolNegationConverter}}"
-						Margin="20, 20, 20, 5"
-						VerticalScrollBarVisibility="Never"
-						SelectionMode="None">
+						SelectionMode="None"
+						VerticalScrollBarVisibility="Never">
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<ViewCell>
 									<SwipeView>
 										<SwipeView.LeftItems>
-											<SwipeItem 
+											<SwipeItem
 												BackgroundColor="{DynamicResource ExpenseColor}"
 												Invoked="SwipeItem_DeleteInvoked"
 												Text="{x:Static resources:AppResource.Delete}">
 												<SwipeItem.IconImageSource>
 													<FontImageSource
 														FontFamily="Material"
-														Color="White"
-														Glyph="&#xe872;" />
+														Glyph="&#xe872;"
+														Color="White" />
 												</SwipeItem.IconImageSource>
 											</SwipeItem>
 										</SwipeView.LeftItems>
 
 										<SwipeView.RightItems>
-											<SwipeItem 
+											<SwipeItem
 												BackgroundColor="{DynamicResource IncomeColor}"
 												Invoked="SwipeItem_EditInvoked"
 												Text="{x:Static resources:AppResource.Edit}">
 												<SwipeItem.IconImageSource>
 													<FontImageSource
 														FontFamily="Material"
-														Color="White"
-														Glyph="&#xe3c9;" />
+														Glyph="&#xe3c9;"
+														Color="White" />
 												</SwipeItem.IconImageSource>
 											</SwipeItem>
 
-											<SwipeItem 
+											<SwipeItem
 												BackgroundColor="{DynamicResource AccentColor}"
 												Invoked="SwipeItem_InfoInvoked"
 												Text="{x:Static resources:AppResource.Info}">
 												<SwipeItem.IconImageSource>
 													<FontImageSource
 														FontFamily="Material"
-														Color="White"
-														Glyph="&#xe88e;" />
+														Glyph="&#xe88e;"
+														Color="White" />
 												</SwipeItem.IconImageSource>
 											</SwipeItem>
 										</SwipeView.RightItems>
 
 										<Grid
-											BackgroundColor="{DynamicResource BackgroundMainColor}"
 											Padding="8"
+											BackgroundColor="{DynamicResource BackgroundMainColor}"
 											ColumnSpacing="10">
 											<Grid.RowDefinitions>
 												<RowDefinition />
@@ -251,29 +242,27 @@
 											</Grid.RowDefinitions>
 
 											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="120"/>
+												<ColumnDefinition Width="120" />
 												<ColumnDefinition Width="*" />
 												<ColumnDefinition Width="Auto" />
 											</Grid.ColumnDefinitions>
 
-											<Label
-												FontSize="Medium"
-												Text="{Binding DescriptionString}" />
+											<Label FontSize="Medium" Text="{Binding DescriptionString}" />
 
-											<Label 
+											<Label
 												Grid.Column="1"
 												FontSize="Medium"
 												Text="{Binding ValueString}" />
 
-											<Ellipse 
+											<Ellipse
 												Grid.RowSpan="2"
-												Grid.Column="2" 
+												Grid.Column="2"
 												Fill="{Binding BackgroundColor}"
-												VerticalOptions="Center"
 												HeightRequest="34"
+												VerticalOptions="Center"
 												WidthRequest="34" />
 
-											<Label 
+											<Label
 												Grid.Row="1"
 												FontSize="Small"
 												Text="{Binding DateString}"

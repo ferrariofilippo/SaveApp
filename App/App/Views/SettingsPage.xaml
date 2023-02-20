@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App.Views.SettingsPage"
-			 Title="{x:Static resources:AppResource.Settings}"
-			 BackgroundColor="{DynamicResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.SettingsPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	Title="{x:Static resources:AppResource.Settings}"
+	BackgroundColor="{DynamicResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:SettingsViewModel />
@@ -30,10 +31,10 @@
 
 			<Picker
 				x:Name="ThemePicker"
+				Title="{x:Static resources:AppResource.Theme}"
 				Grid.ColumnSpan="2"
 				IsVisible="False"
 				SelectedIndexChanged="ThemePicker_SelectedIndexChanged"
-				Title="{x:Static resources:AppResource.Theme}"
 				Unfocused="ThemePicker_Unfocused" />
 
 			<Entry
@@ -44,29 +45,29 @@
 
 			<Picker
 				x:Name="CurrencyPicker"
-				Grid.ColumnSpan="2"
+				Title="{x:Static resources:AppResource.Currency}"
 				Grid.Row="1"
+				Grid.ColumnSpan="2"
 				IsVisible="False"
 				SelectedIndexChanged="CurrencyPicker_SelectedIndexChanged"
-				Title="{x:Static resources:AppResource.Currency}"
-				Unfocused="CurrencyPicker_Unfocused"/>
+				Unfocused="CurrencyPicker_Unfocused" />
 
 			<Entry
 				x:Name="CurrencyLabel"
-				Grid.ColumnSpan="2"
 				Grid.Row="1"
+				Grid.ColumnSpan="2"
 				Focused="CurrencyLabel_Focused"
 				Placeholder="{x:Static resources:AppResource.Currency}" />
 
 			<Label
-				Grid.ColumnSpan="2"
 				Grid.Row="2"
-				Padding="0, 0, 0, 20"
-				FontSize="Small"
+				Grid.ColumnSpan="2"
+				Padding="0,0,0,20"
 				FontAttributes="Italic"
+				FontSize="Small"
 				HorizontalTextAlignment="Center"
-				TextColor="{DynamicResource ItemDescriptionColor}"
 				Text="{x:Static resources:AppResource.CurrencyConversionWarning}"
+				TextColor="{DynamicResource ItemDescriptionColor}"
 				VerticalTextAlignment="Start" />
 
 			<Button
@@ -76,27 +77,27 @@
 				<Button.ImageSource>
 					<FontImageSource
 						FontFamily="Material"
-						Color="White"
-						Glyph="&#xefd1;" />
+						Glyph="&#xefd1;"
+						Color="White" />
 				</Button.ImageSource>
 			</Button>
 
 			<Button
-				Grid.Column="1"
 				Grid.Row="3"
+				Grid.Column="1"
 				Clicked="ReportBug_Clicked"
 				Text="{x:Static resources:AppResource.ReportBug}">
 				<Button.ImageSource>
 					<FontImageSource
 						FontFamily="Material"
-						Color="White"
-						Glyph="&#xe868;" />
+						Glyph="&#xe868;"
+						Color="White" />
 				</Button.ImageSource>
 			</Button>
 
 			<Button
-				Grid.ColumnSpan="2"
 				Grid.Row="5"
+				Grid.ColumnSpan="2"
 				BackgroundColor="Transparent"
 				BorderColor="DarkSlateGray"
 				BorderWidth="1"
@@ -104,62 +105,60 @@
 				Text="{x:Static resources:AppResource.ManageSubs}"
 				TextColor="{DynamicResource ForegroundMainColor}" />
 
-			<StackLayout
-				Grid.ColumnSpan="2"
-				Grid.Row="6">
+			<StackLayout Grid.Row="6" Grid.ColumnSpan="2">
 				<Button
+					Padding="3"
 					Clicked="ToggleMovementSection_Clicked"
 					ContentLayout="Left,10"
-					Padding="3"
 					Text="{x:Static resources:AppResource.ManageData}">
 					<Button.ImageSource>
 						<FontImageSource
 							FontFamily="Material"
-							Color="White"
-							Glyph="{Binding ToggleIconSource}" />
+							Glyph="{Binding ToggleIconSource}"
+							Color="White" />
 					</Button.ImageSource>
 				</Button>
 
-				<StackLayout IsVisible="{Binding IsDataSectionVisible}" Padding="5, 3, 5, 3">
+				<StackLayout Padding="5,3,5,3" IsVisible="{Binding IsDataSectionVisible}">
 					<Button
-						BackgroundColor="{x:DynamicResource AccentColor}"
-						ContentLayout="Left,10"
-						Clicked="DownloadData_Clicked"
 						Padding="3"
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						Clicked="DownloadData_Clicked"
+						ContentLayout="Left,10"
 						Text="{x:Static resources:AppResource.DownloadData}">
 						<Button.ImageSource>
 							<FontImageSource
 								FontFamily="Material"
-								Color="White"
-								Glyph="&#xe2c4;" />
+								Glyph="&#xe2c4;"
+								Color="White" />
 						</Button.ImageSource>
 					</Button>
 
 					<Button
-						BackgroundColor="{x:DynamicResource AccentColor}"
-						ContentLayout="Left,10"					
-						Clicked="DownloadTemplate_Clicked"
 						Padding="3"
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						Clicked="DownloadTemplate_Clicked"
+						ContentLayout="Left,10"
 						Text="{x:Static resources:AppResource.DownloadTemplate}">
 						<Button.ImageSource>
 							<FontImageSource
 								FontFamily="Material"
-								Color="White"
-								Glyph="&#xe873;" />
+								Glyph="&#xe873;"
+								Color="White" />
 						</Button.ImageSource>
 					</Button>
 
 					<Button
-						BackgroundColor="{x:DynamicResource AccentColor}"
-						ContentLayout="Left,10"
-						Clicked="ImportMovements_Clicked"
 						Padding="3"
+						BackgroundColor="{x:DynamicResource AccentColor}"
+						Clicked="ImportMovements_Clicked"
+						ContentLayout="Left,10"
 						Text="{x:Static resources:AppResource.ImportMovements}">
 						<Button.ImageSource>
 							<FontImageSource
 								FontFamily="Material"
-								Color="White"
-								Glyph="&#xe2c6;" />
+								Glyph="&#xe2c6;"
+								Color="White" />
 						</Button.ImageSource>
 					</Button>
 				</StackLayout>

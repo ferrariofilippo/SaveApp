@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="App.Views.BudgetBrowser"
-			 Title="{x:Static resources:AppResource.Budget}"
-			 BackgroundColor="{DynamicResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.BudgetBrowser"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+	Title="{x:Static resources:AppResource.Budget}"
+	BackgroundColor="{DynamicResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:BudgetBrowserViewModel />
@@ -21,16 +22,14 @@
 
 	<ContentPage.Content>
 		<AbsoluteLayout Padding="15">
-			<Grid
-				AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-				AbsoluteLayout.LayoutFlags="SizeProportional">
-				<Label 
+			<Grid AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional">
+				<Label
 					FontSize="Large"
 					HorizontalOptions="Center"
-					VerticalOptions="Center"
-					IsVisible="{Binding ShowEmptyLabel}"
 					HorizontalTextAlignment="Center"
-					Text="{x:Static resources:AppResource.EmptyLabel}" />
+					IsVisible="{Binding ShowEmptyLabel}"
+					Text="{x:Static resources:AppResource.EmptyLabel}"
+					VerticalOptions="Center" />
 
 				<ListView
 					x:Name="BudgetListView"
@@ -44,36 +43,36 @@
 							<ViewCell>
 								<SwipeView>
 									<SwipeView.LeftItems>
-										<SwipeItem 
+										<SwipeItem
 											BackgroundColor="{DynamicResource ExpenseColor}"
 											Invoked="SwipeItem_DeleteInvoked"
 											Text="{x:Static resources:AppResource.Delete}">
 											<SwipeItem.IconImageSource>
-												<FontImageSource 
+												<FontImageSource
 													FontFamily="Material"
-													Color="White"
-													Glyph="&#xe872;" />
+													Glyph="&#xe872;"
+													Color="White" />
 											</SwipeItem.IconImageSource>
 										</SwipeItem>
 									</SwipeView.LeftItems>
 
 									<SwipeView.RightItems>
-										<SwipeItem 
+										<SwipeItem
 											BackgroundColor="{DynamicResource AccentColor}"
 											Invoked="SwipeItem_InfoInvoked"
 											Text="{x:Static resources:AppResource.Info}">
 											<SwipeItem.IconImageSource>
-												<FontImageSource 
+												<FontImageSource
 													FontFamily="Material"
-													Color="White"
-													Glyph="&#xe88e;" />
+													Glyph="&#xe88e;"
+													Color="White" />
 											</SwipeItem.IconImageSource>
 										</SwipeItem>
 									</SwipeView.RightItems>
 
 									<Grid
-										BackgroundColor="{DynamicResource BackgroundMainColor}"
 										Padding="8"
+										BackgroundColor="{DynamicResource BackgroundMainColor}"
 										ColumnSpacing="10">
 										<Grid.RowDefinitions>
 											<RowDefinition />
@@ -85,19 +84,19 @@
 											<ColumnDefinition />
 										</Grid.ColumnDefinitions>
 
-										<Label 
+										<Label
 											FontAttributes="Bold"
-											FontSize="Medium" 
-											Text="{Binding DescriptionString}" 
+											FontSize="Medium"
+											Text="{Binding DescriptionString}"
 											TextColor="{DynamicResource ForegroundMainColor}" />
 
-										<Label 
+										<Label
 											Grid.Column="1"
-											FontSize="Medium" 
+											FontSize="Medium"
 											Text="{Binding EndingString}"
 											TextColor="{DynamicResource ExpenseColor}" />
 
-										<ProgressBar 
+										<ProgressBar
 											Grid.Row="1"
 											Grid.ColumnSpan="2"
 											HeightRequest="8"
@@ -111,15 +110,15 @@
 				</ListView>
 			</Grid>
 
-			<ImageButton 
-				AbsoluteLayout.LayoutFlags="PositionProportional"
+			<ImageButton
 				AbsoluteLayout.LayoutBounds="1, 1, 50, 50"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
 				Clicked="Add_Clicked">
 				<ImageButton.Source>
-					<FontImageSource 
+					<FontImageSource
 						FontFamily="Material"
-						Color="White"
-						Glyph="&#xe145;" />
+						Glyph="&#xe145;"
+						Color="White" />
 				</ImageButton.Source>
 			</ImageButton>
 		</AbsoluteLayout>

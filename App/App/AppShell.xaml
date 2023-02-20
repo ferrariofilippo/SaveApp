@@ -1,88 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
-	   xmlns:resources="clr-namespace:App.Resx"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:App.Views"
-       Title="App"
-       x:Class="App.AppShell">
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+	x:Class="App.AppShell"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:App.Views"
+	xmlns:resources="clr-namespace:App.Resx"
+	Title="App">
 
 	<Shell.Resources>
-        <ResourceDictionary>
-            <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{DynamicResource PrimaryColor}" />
-                <Setter Property="Shell.ForegroundColor" Value="{DynamicResource ButtonForeColor}" />
+		<ResourceDictionary>
+			<Style x:Key="BaseStyle" TargetType="Element">
+				<Setter Property="Shell.BackgroundColor" Value="{DynamicResource PrimaryColor}" />
+				<Setter Property="Shell.ForegroundColor" Value="{DynamicResource ButtonForeColor}" />
 				<Setter Property="Shell.TitleColor" Value="White" />
 				<Setter Property="Shell.DisabledColor" Value="#95FFFFFF" />
 				<Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource PrimaryColor}" />
-				<Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-				<Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-				<Setter Property="Shell.TabBarTitleColor" Value="White"/>
-            </Style>
-            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-        </ResourceDictionary>
-    </Shell.Resources>
-    
+				<Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource PrimaryColor}" />
+				<Setter Property="Shell.TabBarForegroundColor" Value="White" />
+				<Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF" />
+				<Setter Property="Shell.TabBarTitleColor" Value="White" />
+			</Style>
+			<Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
+			<Style BasedOn="{StaticResource BaseStyle}" TargetType="FlyoutItem" />
+		</ResourceDictionary>
+	</Shell.Resources>
+
 	<TabBar x:Name="MainTabBar">
 		<ShellContent
-			Title="Budget" 
-			Route="BudgetBrowser" 
-			ContentTemplate="{DataTemplate local:BudgetBrowser}">
+			Title="Budget"
+			ContentTemplate="{DataTemplate local:BudgetBrowser}"
+			Route="BudgetBrowser">
 			<ShellContent.Icon>
 				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe8a1;" />
+					Glyph="&#xe8a1;"
+					Color="White" />
 			</ShellContent.Icon>
 		</ShellContent>
 
 		<ShellContent
-			Title="{x:Static resources:AppResource.History}" 
-			Route="HistoryPage" 
-			ContentTemplate="{DataTemplate local:HistoryPage}">
+			Title="{x:Static resources:AppResource.History}"
+			ContentTemplate="{DataTemplate local:HistoryPage}"
+			Route="HistoryPage">
 			<ShellContent.Icon>
 				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe889;" />
+					Glyph="&#xe889;"
+					Color="White" />
 			</ShellContent.Icon>
 		</ShellContent>
 
-		<ShellContent 
-			x:Name="HomeTab" 
-			Title="Home" 
-			Route="HomePage" 
-			ContentTemplate="{DataTemplate local:HomePage}">
+		<ShellContent
+			x:Name="HomeTab"
+			Title="Home"
+			ContentTemplate="{DataTemplate local:HomePage}"
+			Route="HomePage">
 			<ShellContent.Icon>
 				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe88a;" />
+					Glyph="&#xe88a;"
+					Color="White" />
 			</ShellContent.Icon>
 		</ShellContent>
 
-		<ShellContent 
-			Title="Stats" 
-			Route="StatsPage" 
-			ContentTemplate="{DataTemplate local:StatsPage}">
+		<ShellContent
+			Title="Stats"
+			ContentTemplate="{DataTemplate local:StatsPage}"
+			Route="StatsPage">
 			<ShellContent.Icon>
 				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe4fc;" />
+					Glyph="&#xe4fc;"
+					Color="White" />
 			</ShellContent.Icon>
 		</ShellContent>
 
 		<ShellContent
 			Title="{x:Static resources:AppResource.Settings}"
-			Route="SettingsPage" 
-			ContentTemplate="{DataTemplate local:SettingsPage}">
+			ContentTemplate="{DataTemplate local:SettingsPage}"
+			Route="SettingsPage">
 			<ShellContent.Icon>
 				<FontImageSource
 					FontFamily="Material"
-					Color="White"
-					Glyph="&#xe8b8;" />
+					Glyph="&#xe8b8;"
+					Color="White" />
 			</ShellContent.Icon>
 		</ShellContent>
 	</TabBar>
