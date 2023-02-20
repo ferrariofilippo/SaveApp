@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
 {
-    public class BudgetItemViewModel : ObservableObject
+    public sealed class BudgetItemViewModel : ObservableObject
     {
         private Color _typeColor;
         public Color TypeColor

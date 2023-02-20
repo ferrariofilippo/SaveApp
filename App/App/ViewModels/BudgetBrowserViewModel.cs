@@ -9,7 +9,7 @@ using Xamarin.Forms.Internals;
 
 namespace App.ViewModels
 {
-    public class BudgetBrowserViewModel : ObservableObject
+    public sealed class BudgetBrowserViewModel : ObservableObject
 	{
 		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 		

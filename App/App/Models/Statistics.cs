@@ -2,7 +2,7 @@
 
 namespace App.Models
 {
-	public class Statistics
+	public sealed class Statistics
 	{
 		public decimal TotalIncome { get; set; } = 0.0m;
 

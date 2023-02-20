@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
 {
-    public class MovementItemViewModel : ObservableObject
+    public sealed class MovementItemViewModel : ObservableObject
     {
         private Color _backgroundColor;
         public Color BackgroundColor

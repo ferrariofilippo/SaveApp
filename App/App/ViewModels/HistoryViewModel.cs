@@ -27,7 +27,7 @@ namespace App.ViewModels
 		}
 	}
 
-	public class HistoryViewModel : ObservableObject
+	public sealed class HistoryViewModel : ObservableObject
 	{
 		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 

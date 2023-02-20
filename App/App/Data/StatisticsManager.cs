@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Data
 {
-    public class StatisticsManager
+    public sealed class StatisticsManager
     {
         private readonly string _statsPath;
 
@@ -122,10 +122,10 @@ namespace App.Data
         public async Task EmptyPreviousYear()
         {
             for (int i = 0; i < Statistics.ExpensesByType.Count; i++)
-            {
                 Statistics.ExpensesByType[i] = 0.0m;
-                Statistics.ExpensesByMonth[i] = 0.0m;
-            }
+			for (int i = 0; i < Statistics.ExpensesByMonth.Count; i++)
+				Statistics.ExpensesByMonth[i] = 0.0m;
+
             Statistics.SubscriptionPaidYTD = 0.0m;
             await SaveStats();
         }

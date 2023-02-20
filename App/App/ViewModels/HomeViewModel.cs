@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels
 {
-	public class HomeViewModel : ObservableObject
+	public sealed class HomeViewModel : ObservableObject
 	{
 		public readonly StatisticsManager Stats = DependencyService.Get<StatisticsManager>();
 

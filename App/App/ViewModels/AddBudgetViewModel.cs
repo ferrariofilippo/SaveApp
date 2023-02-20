@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace App.ViewModels
 {
-	public class AddBudgetViewModel : ObservableObject
+	public sealed class AddBudgetViewModel : ObservableObject
 	{
 		public readonly string[] MovementTypes = Enum.GetValues(typeof(ExpenseType))
 			.Cast<ExpenseType>()

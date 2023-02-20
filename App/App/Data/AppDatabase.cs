@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Data
 {
-	public class AppDatabase : IAppDatabase
+	public sealed class AppDatabase : IAppDatabase
 	{
 		private readonly SQLiteAsyncConnection _database;
 

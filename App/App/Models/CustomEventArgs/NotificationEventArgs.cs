@@ -2,7 +2,7 @@
 
 namespace App.Models.CustomEventArgs
 {
-	public class NotificationEventArgs : EventArgs
+	public sealed class NotificationEventArgs : EventArgs
 	{
 		public string Title { get; set; }
 		public string Message { get; set; }
