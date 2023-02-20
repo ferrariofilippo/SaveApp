@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Models
 {
-	public class Movement
+	public sealed class Movement
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }

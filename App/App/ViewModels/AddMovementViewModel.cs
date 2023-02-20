@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace App.ViewModels
 {
-	public class AddMovementViewModel : ObservableObject
+	public sealed class AddMovementViewModel : ObservableObject
 	{
 		private static CultureInfo Culture => CultureInfo.CurrentCulture;
 

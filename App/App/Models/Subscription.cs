@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Models
 {
-	public class Subscription
+	public sealed class Subscription
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }

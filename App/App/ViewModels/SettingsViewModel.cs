@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace App.ViewModels
 {
-	public class SettingsViewModel : ObservableObject
+	public sealed class SettingsViewModel : ObservableObject
 	{
 		private const string CHEVRON_UP_GLYPH = "\ue5ce";
 		private const string CHEVRON_DOWN_GLYPH = "\ue5cf";

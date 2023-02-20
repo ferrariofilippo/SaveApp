@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
 {
-    public class HomeGraphViewModel
+    public sealed class HomeGraphViewModel
     {
 		private struct CircleData
 		{

@@ -4,7 +4,7 @@ using System;
 
 namespace App.Models
 {
-	public class Budget
+	public sealed class Budget
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }

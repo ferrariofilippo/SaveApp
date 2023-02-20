@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
 {
-    public class SubscriptionItemViewModel : ObservableObject
+    public sealed class SubscriptionItemViewModel : ObservableObject
     {
         private Color _typeColor;
         public Color TypeColor

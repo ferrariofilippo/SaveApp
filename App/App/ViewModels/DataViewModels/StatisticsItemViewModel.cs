@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels.DataViewModels
 {
-    public class StatisticsItemViewModel
+    public sealed class StatisticsItemViewModel
     {
         private const int PAGE_PADDING = 30;
 

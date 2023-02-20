@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-
-	<style name="MainBaseTheme" parent="MainTheme.Base">
-		<!-- colorPrimary is used for the default action bar background -->
+	
+	<style name="MainBaseTheme" parent="Theme.AppCompat.Light">
 		<item name="colorPrimary">#42B379</item>
-		<!-- colorPrimaryDark is used for the status bar -->
 		<item name="colorPrimaryDark">#00824D</item>
-		<!-- colorAccent is used as the default value for colorControlActivated
-         which is used to tint widgets -->
 		<item name="colorAccent">#77E6A8</item>
 		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
 		<item name="alertDialogTheme">@style/AppCompatDialogStyle</item>

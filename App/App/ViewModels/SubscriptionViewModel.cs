@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace App.ViewModels
 {
-    public class SubscriptionViewModel : ObservableObject
+    public sealed class SubscriptionViewModel : ObservableObject
 	{
 		private readonly IAppDatabase _database = DependencyService.Get<IAppDatabase>();
 

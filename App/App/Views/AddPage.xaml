@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:resources="clr-namespace:App.Resx"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:vm="clr-namespace:App.ViewModels"
-             x:Class="App.Views.AddPage"
-			 Title="{x:Static resources:AppResource.AddMovement}"
-			 BackgroundColor="{DynamicResource BackgroundMainColor}"
-			 Visual="Material">
+<ContentPage
+	x:Class="App.Views.AddPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:resources="clr-namespace:App.Resx"
+	xmlns:vm="clr-namespace:App.ViewModels"
+	Title="{x:Static resources:AppResource.AddMovement}"
+	BackgroundColor="{DynamicResource BackgroundMainColor}"
+	Visual="Material">
 
 	<ContentPage.BindingContext>
 		<vm:AddMovementViewModel />
@@ -31,65 +32,65 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<Entry 
+					<Entry
 						x:Name="ValueEntry"
-						MaxLength="14" 
+						MaxLength="14"
 						Placeholder="{x:Static resources:AppResource.Value}"
 						TextChanged="ValueEntry_TextChanged" />
 
 					<Picker
-						x:Name="CurrencyPicker" 
+						x:Name="CurrencyPicker"
+						Title="{x:Static resources:AppResource.Currency}"
 						Grid.Column="1"
 						IsVisible="False"
 						SelectedIndexChanged="CurrencyPicker_SelectedIndexChanged"
-						Title="{x:Static resources:AppResource.Currency}"
 						Unfocused="CurrencyPicker_Unfocused" />
 
-					<Entry 
+					<Entry
 						x:Name="CurrencyLabel"
 						Grid.Column="1"
 						Focused="CurrencyLabel_Focused"
 						Placeholder="{x:Static resources:AppResource.Currency}" />
 				</Grid>
 
-				<Entry 
-					x:Name="DescriptionEntry" 
+				<Entry
+					x:Name="DescriptionEntry"
 					MaxLength="64"
 					Placeholder="{x:Static resources:AppResource.Description}" />
 
 				<StackLayout
-					Orientation="Horizontal"
+					Padding="3,3,3,12"
 					HorizontalOptions="FillAndExpand"
-					VerticalOptions="Center"
-					Padding="3, 3, 3, 12">
-					<Label 
+					Orientation="Horizontal"
+					VerticalOptions="Center">
+					<Label
 						Margin="3"
 						Text="{x:Static resources:AppResource.IsExpense}"
 						VerticalTextAlignment="Center" />
 					<Switch IsToggled="{x:Binding IsExpense}" Toggled="Switch_Toggled" />
 				</StackLayout>
-				
-				<Picker 
-					x:Name="BudgetPicker" 
-					IsVisible="False"
-					SelectedIndexChanged="BudgetPicker_SelectedIndexChanged" 
+
+				<Picker
+					x:Name="BudgetPicker"
 					Title="{x:Static resources:AppResource.Budget}"
+					IsVisible="False"
+					SelectedIndexChanged="BudgetPicker_SelectedIndexChanged"
 					Unfocused="BudgetPicker_Unfocused" />
 
-				<Entry 
+				<Entry
 					x:Name="BudgetLabel"
 					Focused="BudgetLabel_Focused"
-					IsVisible="{x:Binding IsExpense}" 
+					IsVisible="{x:Binding IsExpense}"
 					Placeholder="{x:Static resources:AppResource.Budget}" />
-				
+
 				<Picker
 					x:Name="ExpenseTypePicker"
+					Title="{x:Static resources:AppResource.ExpenseType}"
 					IsVisible="False"
 					SelectedIndexChanged="ExpenseTypePicker_SelectedIndexChanged"
-					Title="{x:Static resources:AppResource.ExpenseType}"
 					Unfocused="ExpensePicker_Unfocused" />
 
-				<Entry 
+				<Entry
 					x:Name="ExpenseTypeLabel"
 					Focused="ExpenseTypeLabel_Focused"
 					IsVisible="{x:Binding ShowExpenseTypePicker}"
@@ -97,59 +98,61 @@
 
 				<DatePicker
 					x:Name="MovementDatePicker"
-					IsVisible="False"
 					DateSelected="MovementDatePicker_DateSelected"
-					MinimumDate="{x:Binding MinDate, Mode=OneTime}"
-					MaximumDate="{x:Binding MaxDate, Mode=OneTime}"
+					IsVisible="False"
+					MaximumDate="{x:Binding MaxDate,
+											Mode=OneTime}"
+					MinimumDate="{x:Binding MinDate,
+											Mode=OneTime}"
 					Unfocused="DatePicker_Unfocused" />
 
-				<Entry 
+				<Entry
 					x:Name="MovementDateLabel"
 					Focused="MovementDateLabel_Focused"
 					Placeholder="{x:Static resources:AppResource.Date}" />
 
 				<StackLayout
 					x:Name="SubscriptionSwitch"
-					Orientation="Horizontal"
 					HorizontalOptions="FillAndExpand"
+					Orientation="Horizontal"
 					VerticalOptions="Center">
-					<Label 
+					<Label
 						Margin="3"
-						Text="{x:Static resources:AppResource.IsSubscription}" 
+						Text="{x:Static resources:AppResource.IsSubscription}"
 						VerticalTextAlignment="Center" />
 					<Switch IsToggled="{x:Binding IsSubscription}" />
 				</StackLayout>
 
 				<Picker
 					x:Name="RenewalPicker"
+					Title="{x:Static resources:AppResource.RenewalType}"
 					IsVisible="False"
 					SelectedIndexChanged="RenewalPicker_SelectedIndexChanged"
-					Title="{x:Static resources:AppResource.RenewalType}"
 					Unfocused="RenewalPicker_Unfocused" />
 
-				<Entry 
+				<Entry
 					x:Name="RenewalLabel"
 					Focused="RenewalLabel_Focused"
-					IsVisible="{x:Binding IsSubscription}" 
+					IsVisible="{x:Binding IsSubscription}"
 					Placeholder="{x:Static resources:AppResource.RenewalType}" />
 
-				<Grid HeightRequest="50" Padding="0, 30, 0, 0">
+				<Grid Padding="0,30,0,0" HeightRequest="50">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<Button 
+					<Button
 						Grid.Column="1"
-						Text="{x:Static resources:AppResource.Cancel}"
 						BackgroundColor="{DynamicResource AccentColor}"
-						Clicked="Cancel_Clicked" />
+						Clicked="Cancel_Clicked"
+						Text="{x:Static resources:AppResource.Cancel}" />
 
 					<Button
 						Grid.Column="2"
-						Text="{x:Static resources:AppResource.Save}"
-						Clicked="Save_Clicked" />
+						Clicked="Save_Clicked"
+						Text="{x:Static resources:AppResource.Save}" />
 				</Grid>
 			</StackLayout>
 		</ScrollView>

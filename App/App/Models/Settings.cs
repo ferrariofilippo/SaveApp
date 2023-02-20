@@ -1,6 +1,6 @@
 ﻿namespace App.Models
 {
-	public class Settings
+	public sealed class Settings
 	{
 		public byte Theme { get; set; }
 

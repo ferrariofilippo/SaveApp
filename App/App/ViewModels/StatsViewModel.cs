@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace App.ViewModels
 {
-    public class StatsViewModel
+    public sealed class StatsViewModel
 	{
 		public ObservableCollection<StatisticsItemViewModel> Displays { get; } = new ObservableCollection<StatisticsItemViewModel>();
 	}

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace App.Data
 {
-	public class CurrenciesManager : ICurrenciesManager, IDisposable
+	public sealed class CurrenciesManager : ICurrenciesManager, IDisposable
 	{
 		private readonly ISettingsManager _settings = DependencyService.Get<ISettingsManager>();
 
