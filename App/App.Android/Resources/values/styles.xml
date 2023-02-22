@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 	
-	<style name="MainBaseTheme" parent="Theme.AppCompat.Light">
+	<style name="MainBaseTheme" parent="MainTheme.Base">
 		<item name="colorPrimary">#42B379</item>
 		<item name="colorPrimaryDark">#00824D</item>
 		<item name="colorAccent">#77E6A8</item>
