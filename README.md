@@ -5,7 +5,7 @@ SaveApp is a Xamarin.Forms application for Android that helps keep track of expe
 - Difference between income and expenses
 - Graph showing the last year's movements divided by type
 - Graph showing the last year's movements divided by month
-- Viewing the history of movements and filtering them by date
+- View the history of movements and filter them by date, type or description
 - Add a budget and get a notification when you finish it
 - View total expenses for the past year 
 - Add an expense/income
