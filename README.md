@@ -1,5 +1,7 @@
 # SaveApp
 
+*This repository is an archive. SaveApp was moved <a href="https://github.com/ferrariofilippo/SaveApp_Kotlin">here</a>*
+
 SaveApp is a Xamarin.Forms application for Android that helps keep track of expenses and income.<br/>
 ### Features:
 - Difference between income and expenses
